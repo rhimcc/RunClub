@@ -5,9 +5,6 @@
 //  Created by Rhianna McCormack on 14/10/2024.
 //
 
-// hi
-// hello
-
 import SwiftUI
 import SwiftData
 import FirebaseCore
