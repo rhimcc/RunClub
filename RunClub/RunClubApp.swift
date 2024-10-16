@@ -7,14 +7,20 @@
 
 import SwiftUI
 import SwiftData
+import FirebaseCore
 
 @main
-struct RunClubApp: App {
-
-    var body: some Scene {
-        WindowGroup {
-//            ContentView()
-            MainView()
-        }
+struct YourApp: App {
+  // register app delegate for Firebase setup
+    init() {
+        FirebaseApp.configure()
     }
+
+  var body: some Scene {
+    WindowGroup {
+      NavigationView {
+        ContentView()
+      }
+    }
+  }
 }
