@@ -57,6 +57,10 @@
 		99DE58C52CBF5BC6003A615B /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 99DE58C42CBF5BC6003A615B /* FirebaseStorage */; };
 		99DE58C72CBF5BC6003A615B /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 99DE58C62CBF5BC6003A615B /* FirebaseStorageCombine-Community */; };
 		99DE58C92CBF5BC6003A615B /* FirebaseVertexAI-Preview in Frameworks */ = {isa = PBXBuildFile; productRef = 99DE58C82CBF5BC6003A615B /* FirebaseVertexAI-Preview */; };
+		99DE58CB2CBF7B3E003A615B /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE58CA2CBF7B3E003A615B /* UserModel.swift */; };
+		99DE58CD2CBF7D02003A615B /* ClubModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE58CC2CBF7D02003A615B /* ClubModel.swift */; };
+		99DE58CF2CBF7DF9003A615B /* EventModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE58CE2CBF7DF9003A615B /* EventModel.swift */; };
+		99DE58D12CBF7EE5003A615B /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE58D02CBF7EE5003A615B /* PostModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,6 +111,10 @@
 		99DE58922CBF45B6003A615B /* EventRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventRow.swift; sourceTree = "<group>"; };
 		99DE58942CBF47AB003A615B /* MemberRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberRow.swift; sourceTree = "<group>"; };
 		99DE58982CBF5B4F003A615B /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		99DE58CA2CBF7B3E003A615B /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		99DE58CC2CBF7D02003A615B /* ClubModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubModel.swift; sourceTree = "<group>"; };
+		99DE58CE2CBF7DF9003A615B /* EventModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventModel.swift; sourceTree = "<group>"; };
+		99DE58D02CBF7EE5003A615B /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,7 +169,6 @@
 		99DE58322CBD3111003A615B = {
 			isa = PBXGroup;
 			children = (
-				99DE58982CBF5B4F003A615B /* GoogleService-Info.plist */,
 				99DE583D2CBD3111003A615B /* RunClub */,
 				99DE58502CBD3113003A615B /* RunClubTests */,
 				99DE585A2CBD3113003A615B /* RunClubUITests */,
@@ -183,6 +190,8 @@
 			isa = PBXGroup;
 			children = (
 				99DE583E2CBD3111003A615B /* RunClubApp.swift */,
+				99DE58D22CBF7F97003A615B /* Models */,
+				99DE58982CBF5B4F003A615B /* GoogleService-Info.plist */,
 				99DE586E2CBE8833003A615B /* Views */,
 				99DE58442CBD3113003A615B /* Assets.xcassets */,
 				99DE58462CBD3113003A615B /* Preview Content */,
@@ -280,6 +289,17 @@
 				99DE58942CBF47AB003A615B /* MemberRow.swift */,
 			);
 			path = Clubs;
+			sourceTree = "<group>";
+		};
+		99DE58D22CBF7F97003A615B /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				99DE58CA2CBF7B3E003A615B /* UserModel.swift */,
+				99DE58CC2CBF7D02003A615B /* ClubModel.swift */,
+				99DE58CE2CBF7DF9003A615B /* EventModel.swift */,
+				99DE58D02CBF7EE5003A615B /* PostModel.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -451,16 +471,20 @@
 				99DE58932CBF45B6003A615B /* EventRow.swift in Sources */,
 				99DE58782CBE8C7B003A615B /* ClubList.swift in Sources */,
 				99DE586B2CBD324C003A615B /* SignInView.swift in Sources */,
+				99DE58CB2CBF7B3E003A615B /* UserModel.swift in Sources */,
 				99DE587E2CBF2D40003A615B /* SearchViewModel.swift in Sources */,
 				99DE58702CBE8842003A615B /* MainView.swift in Sources */,
 				99DE58952CBF47AB003A615B /* MemberRow.swift in Sources */,
 				99DE58822CBF2E31003A615B /* SearchResultsView.swift in Sources */,
 				99DE588B2CBF32C5003A615B /* ClubView.swift in Sources */,
 				99DE58762CBE8C74003A615B /* HomeView.swift in Sources */,
+				99DE58CD2CBF7D02003A615B /* ClubModel.swift in Sources */,
 				99DE58742CBE8C26003A615B /* Line.swift in Sources */,
 				99DE583F2CBD3111003A615B /* RunClubApp.swift in Sources */,
 				99DE58842CBF2EC1003A615B /* PostView.swift in Sources */,
+				99DE58D12CBF7EE5003A615B /* PostModel.swift in Sources */,
 				99DE587C2CBF2D0F003A615B /* SearchView.swift in Sources */,
+				99DE58CF2CBF7DF9003A615B /* EventModel.swift in Sources */,
 				99DE58912CBF3C3E003A615B /* MembersView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
