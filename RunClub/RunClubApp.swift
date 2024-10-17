@@ -8,18 +8,25 @@
 import SwiftUI
 import SwiftData
 import FirebaseCore
+import FirebaseAuth
 
 @main
 struct YourApp: App {
   // register app delegate for Firebase setup
+    let authViewModel: AuthViewModel
     init() {
         FirebaseApp.configure()
+        authViewModel = AuthViewModel()
     }
 
-  var body: some Scene {
+    var body: some Scene {
     WindowGroup {
       NavigationView {
-        ContentView()
+          if (authViewModel.isSignedIn) {
+              MainView()
+          } else {
+              ContentView(authViewModel: authViewModel)
+          }
       }
     }
   }

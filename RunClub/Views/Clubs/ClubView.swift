@@ -15,7 +15,7 @@ struct ClubView: View {
                 HStack {
                     Spacer()
                     Circle()
-                        .fill(.mossGreen)
+                        .fill(.lightGreen)
                         .frame(width: 120)
                     
                     VStack {
@@ -30,12 +30,12 @@ struct ClubView: View {
                             Spacer()
                             ZStack {
                                 RoundedRectangle(cornerRadius: 15)
-                                    .fill(.mossGreen)
+                                    .fill(.lightGreen)
                                 Text("100 members")
                             }
                             ZStack {
                                 RoundedRectangle(cornerRadius: 15)
-                                    .fill(.mossGreen)
+                                    .fill(.lightGreen)
                                 Text("Join/Joined")
                             }
                             Spacer()

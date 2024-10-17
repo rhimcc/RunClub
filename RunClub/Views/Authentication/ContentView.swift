@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-
+    @ObservedObject var authViewModel: AuthViewModel
     var body: some View {
         NavigationStack {
             Spacer()
@@ -20,7 +20,7 @@ struct ContentView: View {
             Spacer()
             
             NavigationLink {
-                SignInView()
+                SignInView(authViewModel: authViewModel)
             } label : {
                 Text("SIGN IN")
                     .bold()
@@ -29,7 +29,7 @@ struct ContentView: View {
                 .tint(.black)
 
             NavigationLink {
-                SignUpView()
+                SignUpView(authViewModel: authViewModel)
             } label : {
                 Text("SIGN UP")
                     .bold()
@@ -46,5 +46,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    ContentView(authViewModel: AuthViewModel())
 }

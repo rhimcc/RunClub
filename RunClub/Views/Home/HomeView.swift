@@ -25,6 +25,7 @@ struct HomeView: View {
                             
                             Image(systemName: "magnifyingglass")
                                 .foregroundStyle(.white)
+                                .bold()
                             
                         }
                     }
@@ -38,6 +39,7 @@ struct HomeView: View {
                             
                             Image(systemName: "message")
                                 .foregroundStyle(.white)
+                                .bold()
                         }
                     }
                 }.padding()
