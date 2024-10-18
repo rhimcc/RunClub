@@ -12,13 +12,15 @@ struct MemberRow: View {
         HStack {
             Circle()
                 .frame(width: 40)
+            
             Text("Member Name")
                 .font(.title)
-            Text("Been a member since: date")
+            Spacer()
+            Text("Member since: date")
                 .font(.headline)
         }.padding(.vertical, 20)
             .padding(.horizontal, 10)
-            .background(RoundedRectangle(cornerRadius: 20).stroke())
+            .background(RoundedRectangle(cornerRadius: 20).stroke(.gray, lineWidth: 3))
     }
 }
 

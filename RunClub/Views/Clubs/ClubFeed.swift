@@ -10,9 +10,14 @@ import SwiftUI
 struct ClubFeed: View {
     var body: some View {
         ScrollView {
-            PostView()
-            PostView()
-            PostView()
+            VStack {
+                PostView()
+                PostView()
+                PostView()
+                PostView()
+                PostView()
+                PostView()
+            }.padding()
         }
     }
 }

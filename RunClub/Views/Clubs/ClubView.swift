@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ClubView: View {
+    var club: Club
     @State var clubTab: Int = 0
     var body: some View {
         ScrollView {
@@ -80,5 +81,5 @@ struct ClubView: View {
 }
 
 #Preview {
-    ClubView()
+    ClubView(club: Club(name: "", ownerId: User.getCurrentUserId(), memberIds: [], eventIds: [], postIds: []))
 }

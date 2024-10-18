@@ -28,12 +28,12 @@ struct PostView: View {
                         Spacer()
                     }
                 }
-                    
+                
             }.padding(10)
             
             Text("Message content")
                 .padding()
-        }.frame(width: UIScreen.main.bounds.width - 60)
+        }
         .background(RoundedRectangle(cornerRadius: 20).stroke(.gray, lineWidth: 3))
     }
 }
