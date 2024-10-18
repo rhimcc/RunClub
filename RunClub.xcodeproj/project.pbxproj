@@ -70,6 +70,8 @@
 		99DE58CD2CBF7D02003A615B /* ClubModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE58CC2CBF7D02003A615B /* ClubModel.swift */; };
 		99DE58CF2CBF7DF9003A615B /* EventModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE58CE2CBF7DF9003A615B /* EventModel.swift */; };
 		99DE58D12CBF7EE5003A615B /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE58D02CBF7EE5003A615B /* PostModel.swift */; };
+		99F8DFA82CC26361002FD982 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F8DFA72CC26361002FD982 /* SettingsView.swift */; };
+		99F8DFAA2CC27443002FD982 /* ClubOwnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F8DFA92CC27443002FD982 /* ClubOwnerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -126,6 +128,8 @@
 		99DE58CC2CBF7D02003A615B /* ClubModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubModel.swift; sourceTree = "<group>"; };
 		99DE58CE2CBF7DF9003A615B /* EventModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventModel.swift; sourceTree = "<group>"; };
 		99DE58D02CBF7EE5003A615B /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
+		99F8DFA72CC26361002FD982 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		99F8DFA92CC27443002FD982 /* ClubOwnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubOwnerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -255,6 +259,7 @@
 				99DE58862CBF2EEB003A615B /* Search */,
 				99DE58892CBF2F25003A615B /* Clubs */,
 				99DE587D2CBF2D40003A615B /* SearchViewModel.swift */,
+				99F8DFA72CC26361002FD982 /* SettingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -302,6 +307,7 @@
 			children = (
 				99DE58772CBE8C7B003A615B /* ClubList.swift */,
 				99DE588A2CBF32C5003A615B /* ClubView.swift */,
+				99F8DFA92CC27443002FD982 /* ClubOwnerView.swift */,
 				99DE588C2CBF3BF8003A615B /* ClubFeed.swift */,
 				99DE588E2CBF3C37003A615B /* EventView.swift */,
 				99DE58922CBF45B6003A615B /* EventRow.swift */,
@@ -499,6 +505,7 @@
 				99DE58CB2CBF7B3E003A615B /* UserModel.swift in Sources */,
 				99DE587E2CBF2D40003A615B /* SearchViewModel.swift in Sources */,
 				99DE58702CBE8842003A615B /* MainView.swift in Sources */,
+				99F8DFAA2CC27443002FD982 /* ClubOwnerView.swift in Sources */,
 				99DE58952CBF47AB003A615B /* MemberRow.swift in Sources */,
 				99DE58822CBF2E31003A615B /* SearchResultsView.swift in Sources */,
 				99DE588B2CBF32C5003A615B /* ClubView.swift in Sources */,
@@ -506,6 +513,7 @@
 				99DE58CD2CBF7D02003A615B /* ClubModel.swift in Sources */,
 				99DE58742CBE8C26003A615B /* Line.swift in Sources */,
 				99DE583F2CBD3111003A615B /* RunClubApp.swift in Sources */,
+				99F8DFA82CC26361002FD982 /* SettingsView.swift in Sources */,
 				99DE58842CBF2EC1003A615B /* PostView.swift in Sources */,
 				99DE58D12CBF7EE5003A615B /* PostModel.swift in Sources */,
 				99DE587C2CBF2D0F003A615B /* SearchView.swift in Sources */,
