@@ -12,22 +12,20 @@ import FirebaseAuth
 
 @main
 struct YourApp: App {
-  // register app delegate for Firebase setup
+    // register app delegate for Firebase setup
     let authViewModel: AuthViewModel
     init() {
         FirebaseApp.configure()
         authViewModel = AuthViewModel()
     }
-
+    
     var body: some Scene {
-    WindowGroup {
-      NavigationView {
-          if (authViewModel.isSignedIn) {
-              MainView()
-          } else {
-              ContentView(authViewModel: authViewModel)
-          }
-      }
+        WindowGroup {
+            if (authViewModel.isSignedIn) {
+                MainView(authViewModel: authViewModel)
+            } else {
+                ContentView(authViewModel: authViewModel)
+            }
+        }
     }
-  }
 }
