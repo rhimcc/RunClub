@@ -12,11 +12,13 @@ struct SignInView: View {
     @State private var password: String = ""
     @Environment(\.dismiss) var dismiss
     @State private var showSignUp: Bool = false
-    @ObservedObject var authViewModel: AuthViewModel
+    @StateObject var authViewModel: AuthViewModel
 
     var body: some View {
         if (authViewModel.isSignedIn) {
-            MainView()
+            MainView(authViewModel: authViewModel)
+                .navigationBarBackButtonHidden(true)
+
         } else {
             VStack {
                 Spacer()
@@ -36,7 +38,7 @@ struct SignInView: View {
                         VStack {
                             TextField("Email", text: $email)
                                 .textFieldStyle(.roundedBorder)
-                            TextField("Password", text: $password)
+                            SecureField("Password", text: $password)
                                 .textFieldStyle(.roundedBorder)
                         }
                     }

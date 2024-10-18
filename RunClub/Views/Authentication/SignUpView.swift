@@ -13,12 +13,13 @@ struct SignUpView: View {
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var confirmPassword: String = ""
-    @Environment(\.dismiss) var dismiss
-    @ObservedObject var authViewModel: AuthViewModel
+    @StateObject var authViewModel: AuthViewModel
 
     var body: some View {
         if (authViewModel.isSignedIn) {
-            MainView()
+            MainView(authViewModel: authViewModel)
+                .navigationBarBackButtonHidden(true)
+
         } else {
             VStack {
                 Spacer()
@@ -63,7 +64,8 @@ struct SignUpView: View {
                 }
                 
                 Button {
-                    authViewModel.createAccount(withEmail: email, password: password)
+                    authViewModel.createAccount(withEmail: email, password: password, firstName: firstName, lastName: lastName)
+                  
                 } label : {
                     Text("SIGN UP")
                         .bold()
