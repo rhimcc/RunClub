@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ClubView: View {
+    var club: Club
     @State var clubTab: Int = 0
     var body: some View {
         ScrollView {
@@ -15,7 +16,7 @@ struct ClubView: View {
                 HStack {
                     Spacer()
                     Circle()
-                        .fill(.mossGreen)
+                        .fill(.lightGreen)
                         .frame(width: 120)
                     
                     VStack {
@@ -30,12 +31,12 @@ struct ClubView: View {
                             Spacer()
                             ZStack {
                                 RoundedRectangle(cornerRadius: 15)
-                                    .fill(.mossGreen)
+                                    .fill(.lightGreen)
                                 Text("100 members")
                             }
                             ZStack {
                                 RoundedRectangle(cornerRadius: 15)
-                                    .fill(.mossGreen)
+                                    .fill(.lightGreen)
                                 Text("Join/Joined")
                             }
                             Spacer()
@@ -80,5 +81,5 @@ struct ClubView: View {
 }
 
 #Preview {
-    ClubView()
+    ClubView(club: Club(name: "", ownerId: User.getCurrentUserId(), memberIds: [], eventIds: [], postIds: []))
 }

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MainView: View {
     @State var tabSelection: Int = 1
+    @ObservedObject var authViewModel: AuthViewModel
     var body: some View {
         NavigationStack {
             TabView(selection: $tabSelection){
@@ -19,7 +20,7 @@ struct MainView: View {
                             Text("Your stats")
                         }
                     }.tag(0)
-                HomeView()
+                HomeView(authViewModel: authViewModel)
                     .tabItem {
                         VStack {
                             Image(systemName: "house")
@@ -40,5 +41,5 @@ struct MainView: View {
 }
 
 #Preview {
-    MainView()
+    MainView(authViewModel: AuthViewModel())
 }

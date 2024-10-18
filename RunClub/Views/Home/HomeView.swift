@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct HomeView: View {
+    @ObservedObject var authViewModel: AuthViewModel
     var body: some View {
         NavigationStack {
             VStack {
@@ -15,6 +16,20 @@ struct HomeView: View {
                     Text("Run Club")
                         .font(.title)
                     Spacer()
+                    NavigationLink {
+                        SettingsView(authViewModel: authViewModel)
+                    } label: {
+                        ZStack {
+                            Circle()
+                                .fill(.lightGreen)
+                                .frame(width: 40, height: 40)
+                            
+                            Image(systemName: "gearshape")
+                                .foregroundStyle(.white)
+                                .bold()
+                            
+                        }
+                    }
                     NavigationLink {
                         SearchView()
                     } label: {
@@ -25,6 +40,7 @@ struct HomeView: View {
                             
                             Image(systemName: "magnifyingglass")
                                 .foregroundStyle(.white)
+                                .bold()
                             
                         }
                     }
@@ -38,6 +54,7 @@ struct HomeView: View {
                             
                             Image(systemName: "message")
                                 .foregroundStyle(.white)
+                                .bold()
                         }
                     }
                 }.padding()
@@ -50,5 +67,5 @@ struct HomeView: View {
 }
 
 #Preview {
-    HomeView()
+    HomeView(authViewModel: AuthViewModel())
 }

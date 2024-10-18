@@ -24,7 +24,7 @@ struct EventRow: View {
             
         }.padding(.vertical, 20)
         .padding(.horizontal, 10)
-        .background(RoundedRectangle(cornerRadius: 20).stroke())
+        .background(RoundedRectangle(cornerRadius: 20).stroke(.gray, lineWidth: 3))
     }
 }
 

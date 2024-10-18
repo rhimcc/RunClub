@@ -10,10 +10,12 @@ import SwiftUI
 struct EventView: View {
     var body: some View {
         ScrollView {
-            EventRow()
-            EventRow()
-            EventRow()
-            EventRow()
+            VStack {
+                EventRow()
+                EventRow()
+                EventRow()
+                EventRow()
+            }.padding()
         }
 
         // Event row

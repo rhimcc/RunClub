@@ -10,10 +10,12 @@ import SwiftUI
 struct MembersView: View {
     var body: some View {
         ScrollView {
-            MemberRow()
-            MemberRow()
-            MemberRow()
-            MemberRow()
+            VStack {
+                MemberRow()
+                MemberRow()
+                MemberRow()
+                MemberRow()
+            }.padding()
         }
     }
 }

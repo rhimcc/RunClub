@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		995F847A2CC0BBB20031F804 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 995F84792CC0BBB20031F804 /* GoogleService-Info.plist */; };
+		995F847B2CC0BBB20031F804 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 995F84792CC0BBB20031F804 /* GoogleService-Info.plist */; };
+		995F847C2CC0BBB20031F804 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 995F84792CC0BBB20031F804 /* GoogleService-Info.plist */; };
+		995F847F2CC0BD6A0031F804 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995F847E2CC0BD6A0031F804 /* AuthViewModel.swift */; };
+		995F84802CC0BD6A0031F804 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995F847E2CC0BD6A0031F804 /* AuthViewModel.swift */; };
+		995F84812CC0BD6A0031F804 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995F847E2CC0BD6A0031F804 /* AuthViewModel.swift */; };
+		995F84832CC0E8A70031F804 /* Firestore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995F84822CC0E8A70031F804 /* Firestore.swift */; };
+		995F84842CC0E8A70031F804 /* Firestore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995F84822CC0E8A70031F804 /* Firestore.swift */; };
+		995F84852CC0E8A70031F804 /* Firestore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995F84822CC0E8A70031F804 /* Firestore.swift */; };
 		99DE583F2CBD3111003A615B /* RunClubApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE583E2CBD3111003A615B /* RunClubApp.swift */; };
 		99DE58412CBD3111003A615B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE58402CBD3111003A615B /* ContentView.swift */; };
 		99DE58452CBD3113003A615B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 99DE58442CBD3113003A615B /* Assets.xcassets */; };
@@ -61,6 +70,8 @@
 		99DE58CD2CBF7D02003A615B /* ClubModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE58CC2CBF7D02003A615B /* ClubModel.swift */; };
 		99DE58CF2CBF7DF9003A615B /* EventModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE58CE2CBF7DF9003A615B /* EventModel.swift */; };
 		99DE58D12CBF7EE5003A615B /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE58D02CBF7EE5003A615B /* PostModel.swift */; };
+		99F8DFA82CC26361002FD982 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F8DFA72CC26361002FD982 /* SettingsView.swift */; };
+		99F8DFAA2CC27443002FD982 /* ClubOwnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F8DFA92CC27443002FD982 /* ClubOwnerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +92,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		995F84792CC0BBB20031F804 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../GoogleService-Info.plist"; sourceTree = "<group>"; };
+		995F847E2CC0BD6A0031F804 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+		995F84822CC0E8A70031F804 /* Firestore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Firestore.swift; sourceTree = "<group>"; };
 		99DE583B2CBD3111003A615B /* RunClub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RunClub.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		99DE583E2CBD3111003A615B /* RunClubApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunClubApp.swift; sourceTree = "<group>"; };
 		99DE58402CBD3111003A615B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -110,11 +124,12 @@
 		99DE58902CBF3C3E003A615B /* MembersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembersView.swift; sourceTree = "<group>"; };
 		99DE58922CBF45B6003A615B /* EventRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventRow.swift; sourceTree = "<group>"; };
 		99DE58942CBF47AB003A615B /* MemberRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberRow.swift; sourceTree = "<group>"; };
-		99DE58982CBF5B4F003A615B /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		99DE58CA2CBF7B3E003A615B /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		99DE58CC2CBF7D02003A615B /* ClubModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubModel.swift; sourceTree = "<group>"; };
 		99DE58CE2CBF7DF9003A615B /* EventModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventModel.swift; sourceTree = "<group>"; };
 		99DE58D02CBF7EE5003A615B /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
+		99F8DFA72CC26361002FD982 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		99F8DFA92CC27443002FD982 /* ClubOwnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubOwnerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,6 +181,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		995F847D2CC0BD590031F804 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				995F847E2CC0BD6A0031F804 /* AuthViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		99DE58322CBD3111003A615B = {
 			isa = PBXGroup;
 			children = (
@@ -189,9 +212,10 @@
 		99DE583D2CBD3111003A615B /* RunClub */ = {
 			isa = PBXGroup;
 			children = (
+				995F84792CC0BBB20031F804 /* GoogleService-Info.plist */,
 				99DE583E2CBD3111003A615B /* RunClubApp.swift */,
+				995F847D2CC0BD590031F804 /* ViewModels */,
 				99DE58D22CBF7F97003A615B /* Models */,
-				99DE58982CBF5B4F003A615B /* GoogleService-Info.plist */,
 				99DE586E2CBE8833003A615B /* Views */,
 				99DE58442CBD3113003A615B /* Assets.xcassets */,
 				99DE58462CBD3113003A615B /* Preview Content */,
@@ -235,6 +259,7 @@
 				99DE58862CBF2EEB003A615B /* Search */,
 				99DE58892CBF2F25003A615B /* Clubs */,
 				99DE587D2CBF2D40003A615B /* SearchViewModel.swift */,
+				99F8DFA72CC26361002FD982 /* SettingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -282,6 +307,7 @@
 			children = (
 				99DE58772CBE8C7B003A615B /* ClubList.swift */,
 				99DE588A2CBF32C5003A615B /* ClubView.swift */,
+				99F8DFA92CC27443002FD982 /* ClubOwnerView.swift */,
 				99DE588C2CBF3BF8003A615B /* ClubFeed.swift */,
 				99DE588E2CBF3C37003A615B /* EventView.swift */,
 				99DE58922CBF45B6003A615B /* EventRow.swift */,
@@ -298,6 +324,7 @@
 				99DE58CC2CBF7D02003A615B /* ClubModel.swift */,
 				99DE58CE2CBF7DF9003A615B /* EventModel.swift */,
 				99DE58D02CBF7EE5003A615B /* PostModel.swift */,
+				995F84822CC0E8A70031F804 /* Firestore.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -437,6 +464,7 @@
 			files = (
 				99DE58482CBD3113003A615B /* Preview Assets.xcassets in Resources */,
 				99DE58452CBD3113003A615B /* Assets.xcassets in Resources */,
+				995F847A2CC0BBB20031F804 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -444,6 +472,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				995F847B2CC0BBB20031F804 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -451,6 +480,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				995F847C2CC0BBB20031F804 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -466,6 +496,7 @@
 				99DE58412CBD3111003A615B /* ContentView.swift in Sources */,
 				99DE588F2CBF3C37003A615B /* EventView.swift in Sources */,
 				99DE586D2CBD3255003A615B /* SignUpView.swift in Sources */,
+				995F84832CC0E8A70031F804 /* Firestore.swift in Sources */,
 				99DE588D2CBF3BF8003A615B /* ClubFeed.swift in Sources */,
 				99DE587A2CBF2AC0003A615B /* RunCard.swift in Sources */,
 				99DE58932CBF45B6003A615B /* EventRow.swift in Sources */,
@@ -474,6 +505,7 @@
 				99DE58CB2CBF7B3E003A615B /* UserModel.swift in Sources */,
 				99DE587E2CBF2D40003A615B /* SearchViewModel.swift in Sources */,
 				99DE58702CBE8842003A615B /* MainView.swift in Sources */,
+				99F8DFAA2CC27443002FD982 /* ClubOwnerView.swift in Sources */,
 				99DE58952CBF47AB003A615B /* MemberRow.swift in Sources */,
 				99DE58822CBF2E31003A615B /* SearchResultsView.swift in Sources */,
 				99DE588B2CBF32C5003A615B /* ClubView.swift in Sources */,
@@ -481,10 +513,12 @@
 				99DE58CD2CBF7D02003A615B /* ClubModel.swift in Sources */,
 				99DE58742CBE8C26003A615B /* Line.swift in Sources */,
 				99DE583F2CBD3111003A615B /* RunClubApp.swift in Sources */,
+				99F8DFA82CC26361002FD982 /* SettingsView.swift in Sources */,
 				99DE58842CBF2EC1003A615B /* PostView.swift in Sources */,
 				99DE58D12CBF7EE5003A615B /* PostModel.swift in Sources */,
 				99DE587C2CBF2D0F003A615B /* SearchView.swift in Sources */,
 				99DE58CF2CBF7DF9003A615B /* EventModel.swift in Sources */,
+				995F847F2CC0BD6A0031F804 /* AuthViewModel.swift in Sources */,
 				99DE58912CBF3C3E003A615B /* MembersView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -493,7 +527,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				995F84802CC0BD6A0031F804 /* AuthViewModel.swift in Sources */,
 				99DE58522CBD3113003A615B /* RunClubTests.swift in Sources */,
+				995F84842CC0E8A70031F804 /* Firestore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -502,7 +538,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				99DE585E2CBD3113003A615B /* RunClubUITestsLaunchTests.swift in Sources */,
+				995F84852CC0E8A70031F804 /* Firestore.swift in Sources */,
 				99DE585C2CBD3113003A615B /* RunClubUITests.swift in Sources */,
+				995F84812CC0BD6A0031F804 /* AuthViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

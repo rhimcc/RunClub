@@ -15,8 +15,10 @@ struct PersonalView: View {
                 .font(.title)
                 .bold()
                 
-            RunCard()
-                .frame(width: UIScreen.main.bounds.width - 60)
+            ScrollView(.horizontal) {
+                RunCard()
+                    .frame(width: UIScreen.main.bounds.width - 60)
+            }
             //ForEach run: Run Card
             Line()
             Spacer()
