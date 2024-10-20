@@ -9,12 +9,13 @@ import SwiftUI
 
 struct ClubOwnerView: View {
     let firestore = FirestoreService()
-    var club: Club
+    @State var club: Club
     @State var editMode: Bool
     @State var clubName: String = ""
     @State var clubTab: Int = 0
     @State private var owner: User? = nil
     @FocusState private var textFieldFocused: Bool
+//    @ObservedObject var clubViewModel: ClubViewModel
     var body: some View {
         VStack {
             HStack {
@@ -35,8 +36,10 @@ struct ClubOwnerView: View {
                                 .font(.title)
                                 .focused($textFieldFocused)
                                 .padding(.vertical, 3)
+                
                             Button("Save") {
-                                // save the club name in the firestore
+                                club.name = clubName
+                                firestore.createClub(club: club)
                                 textFieldFocused = false
                                 editMode = false
                             }.foregroundStyle(.mossGreen)
@@ -44,7 +47,7 @@ struct ClubOwnerView: View {
                         
                     } else {
                         HStack {
-                            Text(clubName)
+                            Text(club.name)
                                 .font(.title)
                                 .padding(.vertical, 8)
                             Button {
@@ -91,7 +94,7 @@ struct ClubOwnerView: View {
                 }
             }
             TabView (selection: $clubTab){
-                ClubFeed()
+                ClubFeed(club: club)
                     .tabItem {
                         Text("Feed")
                     }.tag(0)
@@ -106,10 +109,21 @@ struct ClubOwnerView: View {
             }
              .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
         }
-            .onAppear {
-                textFieldFocused = true
+        .onAppear {
+            textFieldFocused = true
+        }
+        
+        Button("Delete Club") {
+            Task {
+                let success = await firestore.deleteClub(club: club)
+                    if success {
+                        print("Club deleted successfully")
+                    } else {
+                    print("Failed to delete club")
+                }
             }
         }
+    }
        
 
     
@@ -123,6 +137,7 @@ struct ClubOwnerView: View {
             }
         }
     }
+    
 }
 
 #Preview {
