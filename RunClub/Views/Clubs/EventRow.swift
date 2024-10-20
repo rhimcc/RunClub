@@ -8,26 +8,28 @@
 import SwiftUI
 
 struct EventRow: View {
+    var event: Event
     var body: some View {
         HStack {
-            Text("In 3 \ndays")
+            Text("In \(event.getDaysUntilEvent()) \ndays")
                 .font(.title)
                 .bold()
                 .multilineTextAlignment(.center)
             Spacer()
-            Text("Event name")
+            Text(event.name)
             Spacer()
             HStack {
                 Image(systemName: "mappin.and.ellipse")
                 Text("Location")
             }
             
-        }.padding(.vertical, 20)
+        }
+        .padding(.vertical, 20)
         .padding(.horizontal, 10)
         .background(RoundedRectangle(cornerRadius: 20).stroke(.gray, lineWidth: 3))
     }
 }
 
-#Preview {
-    EventRow()
-}
+//#Preview {
+//    EventRow()
+//}

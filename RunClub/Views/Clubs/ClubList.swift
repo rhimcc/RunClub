@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ClubList: View {
+    let firestore = FirestoreService()
+    @State var clubs: [Club] = []
     var body: some View {
         VStack {
             HStack {
@@ -24,14 +26,33 @@ struct ClubList: View {
             
             
             ScrollView {
-                NavigationLink {
-                    ClubView(club: Club(name: "Club name", ownerId: "123", memberIds: [], eventIds: [], postIds: []))
-                } label: {
-                    Text("Club")
+                ForEach(clubs) { club in
+                    NavigationLink {
+                        if (club.ownerId == User.getCurrentUserId()) {
+                            ClubOwnerView(club: club, editMode: false)
+                        } else {
+                            ClubView(club: club)
+                        }
+                    } label: {
+                        Text("Club")
+                    }
                 }
             }
         }.padding(.horizontal, 10)
+            .onAppear {
+                loadClubs()
+            }
     }
+    
+    func loadClubs() {
+        firestore.getClubs() { clubs in
+            DispatchQueue.main.async {
+                self.clubs = clubs
+            }
+        }
+    }
+    
+ 
 }
 
 

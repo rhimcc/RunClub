@@ -61,11 +61,11 @@ struct ClubView: View {
                     }
                 }
                 TabView (selection: $clubTab){
-                    ClubFeed()
+                    ClubFeed(club: club)
                         .tabItem {
                             Text("Feed")
                         }.tag(0)
-                    EventView()
+                    EventView(club: club)
                         .tabItem {
                             Text("Events")
                         }.tag(1)

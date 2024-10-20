@@ -16,7 +16,7 @@ class User: Codable {
     var email: String
     var friendIds: [String]?
     
-    init(id: String, firstName: String, lastName: String, email: String, friendIds: [String]?) {
+    init(id: String? = nil, firstName: String, lastName: String, email: String, friendIds: [String]?) {
         self.id = id
         self.firstName = firstName
         self.lastName = lastName
@@ -25,7 +25,6 @@ class User: Codable {
     }
     
     enum CodingKeys: CodingKey {
-        case id
         case firstName
         case lastName
         case email
@@ -34,16 +33,14 @@ class User: Codable {
     
     func encode(to encoder: any Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(id, forKey: .id)
         try container.encode(firstName, forKey: .firstName)
         try container.encode(lastName, forKey: .lastName)
         try container.encode(email, forKey: .email)
-        try container.encode(friendIds, forKey: .firstName)
+        try container.encode(friendIds, forKey: .friendIds)
     }
     
     required init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self._id = try container.decode(DocumentID<String>.self, forKey: .id)
         self.firstName = try container.decodeIfPresent(String.self, forKey: .firstName)
         self.lastName = try container.decodeIfPresent(String.self, forKey: .lastName)
         self.email = try container.decode(String.self, forKey: .email)

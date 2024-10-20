@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct PostView: View {
+    var post: Post
+    let firestore = FirestoreService()
+    @State var user: User? = nil
+    var club: Club?
     var body: some View {
         VStack {
             HStack {
@@ -19,25 +23,43 @@ struct PostView: View {
                 }
                 VStack {
                     HStack {
-                        Text("Username")
+                        if let user = user, let firstName = user.firstName, let lastName = user.lastName {
+                            Text(firstName)
+                            Text(lastName)
+                        }
+
                         Spacer()
                         Text("time")
                     }
-                    HStack {
-                        Text("Club name")
-                        Spacer()
+                    if let club = club {
+                        HStack {
+                            Text(club.name)
+                            Spacer()
+                        }
                     }
                 }
                 
             }.padding(10)
             
-            Text("Message content")
+            Text(post.messageContent)
                 .padding()
+        }.onAppear {
+            getPoster()
         }
+    
         .background(RoundedRectangle(cornerRadius: 20).stroke(.gray, lineWidth: 3))
+    }
+    
+    func getPoster() {
+        firestore.getUserByID(id: post.posterId) { fetchedUser in
+            DispatchQueue.main.async {
+                self.user = fetchedUser
+            }
+            
+        }
     }
 }
 
 #Preview {
-    PostView()
+    PostView(post: Post(id: "123", messageContent: "fewhuij", posterId: "32rtgre", clubId: "t4grf"))
 }
