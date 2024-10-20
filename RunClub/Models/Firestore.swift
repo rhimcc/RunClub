@@ -119,7 +119,7 @@ final class FirestoreService {
     }
     
     func getEventById(id: String, completion: @escaping (Event?) -> Void) {
-        let docRef = db.collection("posts").document(id) // gets the document which has the userId, if it exists
+        let docRef = db.collection("events").document(id) // gets the document which has the userId, if it exists
         docRef.getDocument { (document, error) in
             if let error = error {
                 print("Error getting document: \(error)")
@@ -140,6 +140,27 @@ final class FirestoreService {
                   print("Error decoding document: \(error)") // handle the decoding error
                   completion(nil)
               }
+        }
+    }
+    
+    
+    func storeEvent(event: Event) {
+        do {
+            let jsonData = try JSONEncoder().encode(event) // creates data from the user
+            let jsonDict = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] // creates a dict from the data
+            let docID = self.db.collection("events").document().documentID
+            db.collection("events").document(docID).setData(jsonDict ?? [:]){ error in // sets the data for the user id with the dict
+                if let error = error {
+                    print("Error adding event: \(error.localizedDescription)")
+                } else {
+                    print("event successfully added")
+                }
+                
+                self.updateClubEventIds(clubId: event.clubId, eventId: docID)
+            }
+            
+            } catch {
+            print("Error encoding event: \(error.localizedDescription)")
         }
     }
     
@@ -190,6 +211,36 @@ final class FirestoreService {
                     print("Error updating club postIds: \(error.localizedDescription)")
                 } else {
                     print("Club postIds successfully updated")
+                }
+            }
+        }
+    }
+    private func updateClubEventIds(clubId: String, eventId: String) {
+        let clubRef = db.collection("clubs").document(clubId)
+
+        clubRef.getDocument { (document, error) in
+            if let error = error {
+                print("Error getting club document: \(error.localizedDescription)")
+                return
+            }
+
+            guard let document = document, document.exists else {
+                print("Club document does not exist")
+                return
+            }
+
+            // Retrieve the current postIds, if they exist
+            var eventIds = document.data()?["eventIds"] as? [String] ?? []
+
+            // Add the new postId to the array
+            eventIds.append(eventId)
+
+            // Update the club document with the new postIds
+            clubRef.updateData(["eventIds": eventIds]) { error in
+                if let error = error {
+                    print("Error updating club eventIds: \(error.localizedDescription)")
+                } else {
+                    print("Club eventIds successfully updated")
                 }
             }
         }

@@ -72,6 +72,8 @@
 		99DE58D12CBF7EE5003A615B /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE58D02CBF7EE5003A615B /* PostModel.swift */; };
 		99F8DFA82CC26361002FD982 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F8DFA72CC26361002FD982 /* SettingsView.swift */; };
 		99F8DFAA2CC27443002FD982 /* ClubOwnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F8DFA92CC27443002FD982 /* ClubOwnerView.swift */; };
+		99F8DFAE2CC4E135002FD982 /* AddEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F8DFAD2CC4E135002FD982 /* AddEventView.swift */; };
+		99F8DFB02CC4ED2E002FD982 /* ClubViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F8DFAF2CC4ED2E002FD982 /* ClubViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -130,6 +132,8 @@
 		99DE58D02CBF7EE5003A615B /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
 		99F8DFA72CC26361002FD982 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		99F8DFA92CC27443002FD982 /* ClubOwnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubOwnerView.swift; sourceTree = "<group>"; };
+		99F8DFAD2CC4E135002FD982 /* AddEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventView.swift; sourceTree = "<group>"; };
+		99F8DFAF2CC4ED2E002FD982 /* ClubViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,6 +189,7 @@
 			isa = PBXGroup;
 			children = (
 				995F847E2CC0BD6A0031F804 /* AuthViewModel.swift */,
+				99F8DFAF2CC4ED2E002FD982 /* ClubViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -310,6 +315,7 @@
 				99F8DFA92CC27443002FD982 /* ClubOwnerView.swift */,
 				99DE588C2CBF3BF8003A615B /* ClubFeed.swift */,
 				99DE588E2CBF3C37003A615B /* EventView.swift */,
+				99F8DFAD2CC4E135002FD982 /* AddEventView.swift */,
 				99DE58922CBF45B6003A615B /* EventRow.swift */,
 				99DE58902CBF3C3E003A615B /* MembersView.swift */,
 				99DE58942CBF47AB003A615B /* MemberRow.swift */,
@@ -499,6 +505,7 @@
 				995F84832CC0E8A70031F804 /* Firestore.swift in Sources */,
 				99DE588D2CBF3BF8003A615B /* ClubFeed.swift in Sources */,
 				99DE587A2CBF2AC0003A615B /* RunCard.swift in Sources */,
+				99F8DFB02CC4ED2E002FD982 /* ClubViewModel.swift in Sources */,
 				99DE58932CBF45B6003A615B /* EventRow.swift in Sources */,
 				99DE58782CBE8C7B003A615B /* ClubList.swift in Sources */,
 				99DE586B2CBD324C003A615B /* SignInView.swift in Sources */,
@@ -516,6 +523,7 @@
 				99F8DFA82CC26361002FD982 /* SettingsView.swift in Sources */,
 				99DE58842CBF2EC1003A615B /* PostView.swift in Sources */,
 				99DE58D12CBF7EE5003A615B /* PostModel.swift in Sources */,
+				99F8DFAE2CC4E135002FD982 /* AddEventView.swift in Sources */,
 				99DE587C2CBF2D0F003A615B /* SearchView.swift in Sources */,
 				99DE58CF2CBF7DF9003A615B /* EventModel.swift in Sources */,
 				995F847F2CC0BD6A0031F804 /* AuthViewModel.swift in Sources */,

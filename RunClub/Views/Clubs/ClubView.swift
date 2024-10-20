@@ -65,7 +65,7 @@ struct ClubView: View {
                         .tabItem {
                             Text("Feed")
                         }.tag(0)
-                    EventView()
+                    EventView(club: club)
                         .tabItem {
                             Text("Events")
                         }.tag(1)
