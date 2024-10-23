@@ -9,22 +9,29 @@ import SwiftUI
 
 struct PersonalView: View {
     var body: some View {
-        VStack(spacing: 30) {
-            Text("Personal Stats")
-                .padding(.top, 10)
-                .font(.title)
-                .bold()
+        NavigationStack {
+            VStack(spacing: 30) {
+                Text("Personal Stats")
+                    .padding(.top, 10)
+                    .font(.title)
+                    .bold()
                 
-            ScrollView(.horizontal) {
-                RunCard()
-                    .frame(width: UIScreen.main.bounds.width - 60)
+                ScrollView(.horizontal) {
+                    RunCard()
+                        .frame(width: UIScreen.main.bounds.width - 60)
+                }
+                //ForEach run: Run Card
+                Line()
+                Spacer()
+                // Graph
+                
+                NavigationLink {
+                    RecordRunView()
+                } label: {
+                    Text("record run")
+                }
+                
             }
-            //ForEach run: Run Card
-            Line()
-            Spacer()
-            // Graph
-                
-            
         }
     }
 }
