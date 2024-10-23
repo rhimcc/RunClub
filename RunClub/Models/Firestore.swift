@@ -248,28 +248,28 @@ class FirestoreService {
         }
     }
     
-    func getClubs(completion: @escaping ([Club]) -> Void) {
-        db.collection("clubs").getDocuments { (snapshot, error) in // gets the club documents from the specified collection
-            if let error = error {
-                print("Error loading clubs: \(error.localizedDescription)")
-                completion([])
-                return
-            }
-            
-            var clubs: [Club] = [] // initialising array to store clubs
-            for document in snapshot!.documents { // iterates through the array to get each individual club document
-                do {
-                    
-                    let club = try document.data(as: Club.self)
-                    clubs.append(club)
-                    
-                } catch let error {
-                    print("Error decoding club: \(error.localizedDescription)")
-                }
-            }
-            completion(clubs) // returns the clubs on completion
-        }
-    }
+//    func loadAllClubs(completion: @escaping ([Club]) -> Void) {
+//        db.collection("clubs").getDocuments { (snapshot, error) in // gets the club documents from the specified collection
+//            if let error = error {
+//                print("Error loading clubs: \(error.localizedDescription)")
+//                completion([])
+//                return
+//            }
+//            
+//            var clubs: [Club] = [] // initialising array to store clubs
+//            for document in snapshot!.documents { // iterates through the array to get each individual club document
+//                do {
+//                    
+//                    let club = try document.data(as: Club.self)
+//                    clubs.append(club)
+//                    
+//                } catch let error {
+//                    print("Error decoding club: \(error.localizedDescription)")
+//                }
+//            }
+//            completion(clubs) // returns the clubs on completion
+//        }
+//    }
     
     func getAllPostsForClub(clubId: String, completion: @escaping ([Post]?, Error?) -> Void) {
         db.collection("posts")
@@ -575,6 +575,59 @@ class FirestoreService {
             userRef.updateData(["clubIds" : clubIds])
         }
 
+    }
+    
+    func loadAllClubs(completion: @escaping ([Club]?, Error?) -> Void) {
+        db.collection("clubs").getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error fetching clubs: \(error)")
+                completion(nil, error)
+                return
+            }
+            
+            let fetchedClubs = querySnapshot?.documents.compactMap { document -> Club? in
+                do {
+                    var club = try document.data(as: Club.self)
+                    club.id = document.documentID
+                    return club
+                } catch {
+                    print("Error decoding club: \(error)")
+                    return nil
+                }
+            } ?? []
+            
+            DispatchQueue.main.async {
+                completion(fetchedClubs, nil)
+            }
+            
+        }
+    }
+    
+    func getUsersClubs(userId: String, completion: @escaping ([Club]?, Error?) -> Void) {
+        db.collection("clubs")
+            .whereField("userId", isEqualTo: userId)
+            .getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    print("Error fetching clubs: \(error)")
+                    completion(nil, error)
+                    return
+                }
+                
+                let fetchedClubs = querySnapshot?.documents.compactMap { document -> Club? in
+                    do {
+                        var club = try document.data(as: Club.self)
+                        club.id = document.documentID
+                        return club
+                    } catch {
+                        print("Error decoding club: \(error)")
+                        return nil
+                    }
+                } ?? []
+                
+                DispatchQueue.main.async {
+                    completion(fetchedClubs, nil)
+                }
+            }
     }
 }
         

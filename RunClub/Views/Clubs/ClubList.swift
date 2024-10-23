@@ -10,12 +10,28 @@ import SwiftUI
 struct ClubList: View {
     let firestore = FirestoreService()
     @State var clubs: [Club] = []
+    @State var usersClubs: [Club] = []
+
     var body: some View {
         VStack {
             HStack {
                 Text("Your Clubs")
                     .font(.title)
                 Spacer()
+                NavigationLink {
+                    AddClubView()
+                } label: {
+                    ZStack {
+                        Circle()
+                            .fill(.lightGreen)
+                            .frame(width: 40, height: 40)
+                        
+                        Image(systemName: "magnifyingglass")
+                            .foregroundStyle(.white)
+                            .bold()
+                        
+                    }
+                }
                 NavigationLink {
                     ClubView(club: Club(name: "", ownerId: User.getCurrentUserId(), memberIds: [], eventIds: [], postIds: []), editMode: true)
                 } label: {
@@ -26,7 +42,7 @@ struct ClubList: View {
             
             
             ScrollView {
-                ForEach(clubs) { club in
+                ForEach(usersClubs) { club in
                     NavigationLink {
                         ClubView(club: club, editMode: false)
                     } label: {
@@ -36,14 +52,27 @@ struct ClubList: View {
             }
         }.padding(.horizontal, 10)
             .onAppear {
+                loadClubsOfUser()
                 loadClubs()
             }
     }
     
     func loadClubs() {
-        firestore.getClubs() { clubs in
+        firestore.loadAllClubs() { clubs, error in
             DispatchQueue.main.async {
-                self.clubs = clubs
+                if let clubs = clubs {
+                    self.clubs = clubs
+                }
+            }
+        }
+    }
+    
+    func loadClubsOfUser() {
+        firestore.getUsersClubs(userId: User.getCurrentUserId()) { clubs, error in
+            DispatchQueue.main.async {
+                if let clubs = clubs {
+                    self.usersClubs = clubs
+                }
             }
         }
     }
