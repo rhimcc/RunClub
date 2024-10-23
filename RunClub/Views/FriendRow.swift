@@ -13,7 +13,7 @@ struct FriendRow: View {
         HStack {
             Circle()
                 .fill(.gray)
-                .frame(width: 60)
+                .frame(width: 60, height: 60)
             VStack {
                 Text(user.firstName ?? "" + " " + (user.lastName ?? ""))
                     .bold()

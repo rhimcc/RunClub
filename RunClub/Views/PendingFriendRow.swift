@@ -15,6 +15,7 @@ struct PendingFriendRow: View {
         HStack {
             Circle()
                 .fill(.mossGreen)
+                .frame(width: 60)
             if let firstName = user.firstName, let lastName = user.lastName {
                 Text(firstName + " " + lastName)
             }
@@ -30,12 +31,12 @@ struct PendingFriendRow: View {
                 Image(systemName: "x.circle")
             }
             
-        }.frame(height: 200)
-            .background {
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(.white)
-                    .shadow(color: .black.opacity(0.2), radius: 5)
-            }.padding()
+        }.padding()
+        .background (
+            RoundedRectangle(cornerRadius: 20)
+                .fill(.white)
+                .shadow(color: .black.opacity(0.2), radius: 5)
+        )
     }
     
     func acceptFriend() {

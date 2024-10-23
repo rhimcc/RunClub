@@ -9,7 +9,11 @@ import Foundation
 import FirebaseFirestore
 import FirebaseAuth
 
-class User: Codable, Identifiable {
+class User: Codable, Identifiable, Equatable {
+    static func == (lhs: User, rhs: User) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
     @DocumentID var id: String?
     var firstName: String?
     var lastName: String?

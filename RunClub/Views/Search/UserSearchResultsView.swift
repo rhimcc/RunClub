@@ -17,7 +17,8 @@ struct UserSearchResultsView: View {
             ForEach(users.filter {$0.username.contains(searchViewModel.searchQuery) && $0.id != User.getCurrentUserId()}) { user in
                 AddFriendRow(user: user)
             }
-        }.onAppear {
+        }.padding(.top, 20)
+        .onAppear {
             loadUsers()
         }
     }
