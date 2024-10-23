@@ -19,8 +19,11 @@ struct ClubFeed: View {
                 TextField("Message", text: $text)
                 Button ("Post"){
                     if let clubId = club.id {
-                        firestore.storePost(post: Post(messageContent: text, posterId: User.getCurrentUserId(), clubId: clubId))
+                        let post = Post(messageContent: text, posterId: User.getCurrentUserId(), clubId: clubId)
+                        firestore.storePost(post: post)
+//                        posts.append(post)
                     }
+                    
                 }
             }
             VStack {
@@ -28,34 +31,39 @@ struct ClubFeed: View {
                     PostView(post: post)
                 }
             }.padding()
-        }.onAppear {
+        }.refreshable {
+            print("fetching posts")
+            fetchPosts()
+            print(posts.count)
+        }
+        .onAppear {
             fetchPosts()
         }
     
     }
     
     private func fetchPosts() {
-            // Assuming the club has postIds that you want to use to fetch posts
-            let postIDs = club.postIds
-            
-            let group = DispatchGroup() // To manage multiple fetch requests
-            var fetchedPosts: [Post] = []
-            
-            for postId in postIDs {
-                group.enter() // Enter the group for each fetch
-                firestore.getPostByID(id: postId) { post in
-                    if let post = post {
-                        fetchedPosts.append(post)
-                    }
-                    group.leave() // Leave the group after the fetch completes
+        // Assuming the club has postIds that you want to use to fetch posts
+        let postIDs = club.postIds
+        
+        let group = DispatchGroup() // To manage multiple fetch requests
+//        var fetchedPosts: [Post] = []
+        
+        if let clubId = club.id {
+//            group.enter() // Enter the group for each fetch
+            firestore.getAllPostsForClub(clubId: clubId) { fetchedPosts, error in
+                if let posts = fetchedPosts {
+                    self.posts = posts
                 }
+//                group.leave() // Leave the group after the fetch completes
             }
-            
-            group.notify(queue: .main) { // Notify when all fetch requests are done
-                self.posts = fetchedPosts
-                self.isLoading = false
-            }
+//            group.notify(queue: .main) { // Notify when all fetch requests are done
+//                self.posts = fetchedPosts
+//                self.isLoading = false
+//            }
         }
+
+    }
     
     
 }
