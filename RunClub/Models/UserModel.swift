@@ -15,13 +15,21 @@ class User: Codable {
     var lastName: String?
     var email: String
     var friendIds: [String]?
+    var clubIds: [String]?
+    var phoneNumber: String
+    var username: String
+    var runIds: [String]?
     
-    init(id: String? = nil, firstName: String, lastName: String, email: String, friendIds: [String]?) {
+    init(id: String? = nil, firstName: String, lastName: String, email: String, friendIds: [String]?, clubIds: [String]?, phoneNumber: String, username: String, runIds: [String]?) {
         self.id = id
         self.firstName = firstName
         self.lastName = lastName
         self.email = email
         self.friendIds = friendIds
+        self.clubIds = clubIds
+        self.phoneNumber = phoneNumber
+        self.username = username
+        self.runIds = runIds
     }
     
     enum CodingKeys: CodingKey {
@@ -29,6 +37,10 @@ class User: Codable {
         case lastName
         case email
         case friendIds
+        case clubIds
+        case phoneNumber
+        case username
+        case runIds
     }
     
     func encode(to encoder: any Encoder) throws {
@@ -37,6 +49,10 @@ class User: Codable {
         try container.encode(lastName, forKey: .lastName)
         try container.encode(email, forKey: .email)
         try container.encode(friendIds, forKey: .friendIds)
+        try container.encode(clubIds, forKey: .clubIds)
+        try container.encode(phoneNumber, forKey: .phoneNumber)
+        try container.encode(username, forKey: .username)
+        try container.encode(runIds, forKey: .runIds)
     }
     
     required init(from decoder: any Decoder) throws {
@@ -45,6 +61,11 @@ class User: Codable {
         self.lastName = try container.decodeIfPresent(String.self, forKey: .lastName)
         self.email = try container.decode(String.self, forKey: .email)
         self.friendIds = try container.decode([String].self, forKey: .friendIds)
+        self.clubIds = try container.decode([String].self, forKey: .clubIds)
+        self.phoneNumber = try container.decode(String.self, forKey: .phoneNumber)
+        self.username = try container.decode(String.self, forKey: .username)
+        self.runIds = try container.decode([String].self, forKey: .runIds)
+
     }
     
     static func getCurrentUserId() -> String {

@@ -20,20 +20,7 @@ struct HomeView: View {
                     Text("Run Club")
                         .font(.title)
                     Spacer()
-                    NavigationLink {
-                        SettingsView(authViewModel: authViewModel)
-                    } label: {
-                        ZStack {
-                            Circle()
-                                .fill(.lightGreen)
-                                .frame(width: 40, height: 40)
-                            
-                            Image(systemName: "gearshape")
-                                .foregroundStyle(.white)
-                                .bold()
-                            
-                        }
-                    }
+                
                     NavigationLink {
                         SearchView()
                     } label: {
@@ -63,18 +50,18 @@ struct HomeView: View {
                     }
                 }.padding()
                 
-                if (isLoading) {
-                    Spacer()
-                    ProgressView()
-                        .progressViewStyle(.circular)
-                    Spacer()
-                } else {
-                    ScrollView {
-                        ForEach(posts) { post in
-                            PostView(post: post)
-                        }
-                    }
-                }
+//                if (isLoading) {
+//                    Spacer()
+//                    ProgressView()
+//                        .progressViewStyle(.circular)
+//                    Spacer()
+//                } else {
+//                    ScrollView {
+//                        ForEach(posts) { post in
+//                            PostView(post: post)
+//                        }
+//                    }
+//                }
             }
         }.onAppear {
             fetchPosts()

@@ -13,6 +13,8 @@ struct SignUpView: View {
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var confirmPassword: String = ""
+    @State private var phoneNumber: String = ""
+    @State private var username: String = ""
     @StateObject var authViewModel: AuthViewModel
 
     var body: some View {
@@ -42,11 +44,20 @@ struct SignUpView: View {
                         }
                         .padding(.bottom)
                         
+                        Text("Username")
+                        TextField("Username", text: $username)
+                            .textFieldStyle(.roundedBorder)
+                            .padding(.bottom)        
+                        
                         Text("Email")
-                            .bold()
                         TextField("Email", text: $email)
                             .textFieldStyle(.roundedBorder)
                             .padding(.bottom)
+                        Text("Phone Number")
+                        TextField("Phone Number", text: $phoneNumber)
+                            .textFieldStyle(.roundedBorder)
+                            .padding(.bottom)
+                        
                         
                         Text("Password")
                             .bold()
@@ -64,7 +75,7 @@ struct SignUpView: View {
                 }
                 
                 Button {
-                    authViewModel.createAccount(withEmail: email, password: password, firstName: firstName, lastName: lastName)
+                    authViewModel.createAccount(withEmail: email, password: password, firstName: firstName, lastName: lastName, phoneNumber: phoneNumber, username: username)
                   
                 } label : {
                     Text("SIGN UP")
