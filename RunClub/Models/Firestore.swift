@@ -494,7 +494,6 @@ class FirestoreService {
                 print("Error getting club document: \(error.localizedDescription)")
                 return
             }
-            print("6")
 
             var friendIds = document?.data()?["friendIds"] as? [String] ?? [] // gets the current friend ids from the firestore
             friendIds.append(currentUserId)
@@ -512,6 +511,70 @@ class FirestoreService {
             }
         }
         return nil
+    }
+    
+    func joinClub(clubId: String) {
+        guard let userId = Auth.auth().currentUser?.uid else {
+            return
+        }
+        let clubRef = db.collection("clubs").document(clubId)
+        clubRef.getDocument { (document, error) in
+            if let error = error {
+                print("Error getting club document: \(error.localizedDescription)")
+                return
+            }
+            var clubMemberIds = document?.data()?["memberIds"] as? [String] ?? []
+            clubMemberIds.append(userId)
+            clubRef.updateData(["memberIds" : clubMemberIds])
+            
+        }
+        
+        let userRef = db.collection("users").document(userId)
+        userRef.getDocument { (document, error) in
+            if let error = error {
+                print("Error getting club document: \(error.localizedDescription)")
+                return
+            }
+            var clubIds = document?.data()?["clubIds"] as? [String] ?? []
+            clubIds.append(clubId)
+            userRef.updateData(["clubIds" : clubIds])
+            
+        }
+    }
+    
+    func leaveClub(clubId: String) {
+        print("leaving club")
+        guard let userId = Auth.auth().currentUser?.uid else {
+            return
+        }
+        let clubRef = db.collection("clubs").document(clubId)
+        clubRef.getDocument { (document, error) in
+            if let error = error {
+                print("Error getting club document: \(error.localizedDescription)")
+                return
+            }
+            var clubMemberIds = document?.data()?["memberIds"] as? [String] ?? []
+            if let index = self.getIndexOfId(id: userId, array: clubMemberIds) {
+                print("removing club member")
+                clubMemberIds.remove(at: index)
+            }
+            clubRef.updateData(["memberIds" : clubMemberIds])
+            
+        }
+        
+        let userRef = db.collection("users").document(userId)
+        userRef.getDocument { (document, error) in
+            if let error = error {
+                print("Error getting club document: \(error.localizedDescription)")
+                return
+            }
+            var clubIds = document?.data()?["clubIds"] as? [String] ?? []
+            if let index = self.getIndexOfId(id: clubId, array: clubIds) {
+                clubIds.remove(at: index)
+            }
+            userRef.updateData(["clubIds" : clubIds])
+        }
+
     }
 }
         

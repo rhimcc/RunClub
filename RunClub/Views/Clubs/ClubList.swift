@@ -17,7 +17,7 @@ struct ClubList: View {
                     .font(.title)
                 Spacer()
                 NavigationLink {
-                    ClubOwnerView(club: Club(name: "", ownerId: User.getCurrentUserId(), memberIds: [], eventIds: [], postIds: []), editMode: true)
+                    ClubView(club: Club(name: "", ownerId: User.getCurrentUserId(), memberIds: [], eventIds: [], postIds: []), editMode: true)
                 } label: {
                     Image(systemName: "plus")
                         .font(.system(size: 30))
@@ -28,11 +28,7 @@ struct ClubList: View {
             ScrollView {
                 ForEach(clubs) { club in
                     NavigationLink {
-                        if (club.ownerId == User.getCurrentUserId()) {
-                            ClubOwnerView(club: club, editMode: false)
-                        } else {
-                            ClubView(club: club)
-                        }
+                        ClubView(club: club, editMode: false)
                     } label: {
                         Text("Club")
                     }
