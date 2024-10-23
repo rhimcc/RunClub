@@ -10,7 +10,7 @@ import FirebaseFirestore
 import FirebaseAuth
 import CoreLocation
 
-final class FirestoreService {
+class FirestoreService {
     let db = Firestore.firestore()
     
     func storeNewUser(user: User)  {
@@ -167,9 +167,7 @@ final class FirestoreService {
     func storePost(post: Post) {
         do {
             let jsonData = try JSONEncoder().encode(post) // creates data from the user
-            print("created json")
             let jsonDict = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] // creates a dict from the data
-            print("created dict")
             let docID = self.db.collection("posts").document().documentID
             db.collection("posts").document(docID).setData(jsonDict ?? [:]){ error in // sets the data for the user id with the dict
                 if let error = error {
@@ -183,6 +181,7 @@ final class FirestoreService {
             } catch {
             print("Error encoding post: \(error.localizedDescription)")
         }
+        print("stored post")
     }
     
     private func updateClubPostIds(clubId: String, postId: String) {
@@ -267,6 +266,33 @@ final class FirestoreService {
             }
             completion(clubs) // returns the clubs on completion
         }
+    }
+    
+    func getAllPostsForClub(clubId: String, completion: @escaping ([Post]?, Error?) -> Void) {
+        db.collection("posts")
+            .whereField("clubId", isEqualTo: clubId)
+            .getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    print("Error fetching workouts: \(error)")
+                    completion(nil, error)
+                    return
+                }
+                
+                let fetchedWorkouts = querySnapshot?.documents.compactMap { document -> Post? in
+                    do {
+                        var post = try document.data(as: Post.self)
+                        post.id = document.documentID
+                        return post
+                    } catch {
+                        print("Error decoding post: \(error)")
+                        return nil
+                    }
+                } ?? []
+                
+                DispatchQueue.main.async {
+                    completion(fetchedWorkouts, nil)
+                }
+            }
     }
     
 }
