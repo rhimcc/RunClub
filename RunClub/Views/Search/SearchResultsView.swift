@@ -10,7 +10,7 @@ import SwiftUI
 struct SearchResultsView: View {
     @ObservedObject var searchViewModel: SearchViewModel
     var body: some View {
-        Text("you are searching for: \(searchViewModel.searchQuery)")
+        Text("you are searching for: \(searchViewModel.searchQuery) in")
     }
 }
 

@@ -95,5 +95,5 @@ struct ProfileView: View {
 
 
 #Preview {
-    ProfileView(authViewModel: AuthViewModel(), user: User(id: "123", firstName: "12rtgr", lastName: "rgrefd", email: "wfwgew", friendIds: [], clubIds: [], phoneNumber: "92034829", username: "fwheufijfnr", runIds: []))
+    ProfileView(authViewModel: AuthViewModel(), user: User(id: "123", firstName: "12rtgr", lastName: "rgrefd", email: "wfwgew", friendIds: [], clubIds: [], phoneNumber: "92034829", username: "fwheufijfnr", runIds: [], pendingFriendIds: []))
 }

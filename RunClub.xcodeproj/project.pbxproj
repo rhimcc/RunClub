@@ -25,6 +25,12 @@
 		995F84842CC0E8A70031F804 /* Firestore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995F84822CC0E8A70031F804 /* Firestore.swift */; };
 		995F84852CC0E8A70031F804 /* Firestore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995F84822CC0E8A70031F804 /* Firestore.swift */; };
 		99D564C62CC8E03200EFD584 /* FriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D564C52CC8E03200EFD584 /* FriendsView.swift */; };
+		99D564C82CC8E11400EFD584 /* AddFriendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D564C72CC8E11400EFD584 /* AddFriendView.swift */; };
+		99D564CA2CC8E3B100EFD584 /* UserSearchResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D564C92CC8E3B100EFD584 /* UserSearchResultsView.swift */; };
+		99D564CC2CC8E67700EFD584 /* AddFriendRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D564CB2CC8E67700EFD584 /* AddFriendRow.swift */; };
+		99D564CE2CC8F3CA00EFD584 /* PendingFriendRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D564CD2CC8F3CA00EFD584 /* PendingFriendRow.swift */; };
+		99D564D02CC9167A00EFD584 /* FriendRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D564CF2CC9167A00EFD584 /* FriendRow.swift */; };
+		99D564D42CC91B9700EFD584 /* FriendViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D564D32CC91B9700EFD584 /* FriendViewModel.swift */; };
 		99DE583F2CBD3111003A615B /* RunClubApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE583E2CBD3111003A615B /* RunClubApp.swift */; };
 		99DE58412CBD3111003A615B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE58402CBD3111003A615B /* ContentView.swift */; };
 		99DE58452CBD3113003A615B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 99DE58442CBD3113003A615B /* Assets.xcassets */; };
@@ -118,6 +124,12 @@
 		995F847E2CC0BD6A0031F804 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		995F84822CC0E8A70031F804 /* Firestore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Firestore.swift; sourceTree = "<group>"; };
 		99D564C52CC8E03200EFD584 /* FriendsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsView.swift; sourceTree = "<group>"; };
+		99D564C72CC8E11400EFD584 /* AddFriendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFriendView.swift; sourceTree = "<group>"; };
+		99D564C92CC8E3B100EFD584 /* UserSearchResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchResultsView.swift; sourceTree = "<group>"; };
+		99D564CB2CC8E67700EFD584 /* AddFriendRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFriendRow.swift; sourceTree = "<group>"; };
+		99D564CD2CC8F3CA00EFD584 /* PendingFriendRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingFriendRow.swift; sourceTree = "<group>"; };
+		99D564CF2CC9167A00EFD584 /* FriendRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendRow.swift; sourceTree = "<group>"; };
+		99D564D32CC91B9700EFD584 /* FriendViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewModel.swift; sourceTree = "<group>"; };
 		99DE583B2CBD3111003A615B /* RunClub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RunClub.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		99DE583E2CBD3111003A615B /* RunClubApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunClubApp.swift; sourceTree = "<group>"; };
 		99DE58402CBD3111003A615B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -320,6 +332,11 @@
 				99F8DFA72CC26361002FD982 /* SettingsView.swift */,
 				07BD5EE02CC8CD13002914DF /* Extensions */,
 				99D564C52CC8E03200EFD584 /* FriendsView.swift */,
+				99D564D32CC91B9700EFD584 /* FriendViewModel.swift */,
+				99D564CF2CC9167A00EFD584 /* FriendRow.swift */,
+				99D564C72CC8E11400EFD584 /* AddFriendView.swift */,
+				99D564CB2CC8E67700EFD584 /* AddFriendRow.swift */,
+				99D564CD2CC8F3CA00EFD584 /* PendingFriendRow.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -339,6 +356,7 @@
 			children = (
 				99DE587B2CBF2D0F003A615B /* SearchView.swift */,
 				99DE58812CBF2E31003A615B /* SearchResultsView.swift */,
+				99D564C92CC8E3B100EFD584 /* UserSearchResultsView.swift */,
 				99DE587F2CBF2DE6003A615B /* SearchBar.swift */,
 			);
 			path = Search;
@@ -559,18 +577,22 @@
 				99DE58722CBE8BB7003A615B /* ProfileView.swift in Sources */,
 				99DE58412CBD3111003A615B /* ContentView.swift in Sources */,
 				99DE588F2CBF3C37003A615B /* EventView.swift in Sources */,
+				99D564CC2CC8E67700EFD584 /* AddFriendRow.swift in Sources */,
 				99DE586D2CBD3255003A615B /* SignUpView.swift in Sources */,
 				07BD5ED52CC8C3DB002914DF /* RunMapView.swift in Sources */,
 				995F84832CC0E8A70031F804 /* Firestore.swift in Sources */,
 				99DE588D2CBF3BF8003A615B /* ClubFeed.swift in Sources */,
 				99DE587A2CBF2AC0003A615B /* RunCard.swift in Sources */,
+				99D564D02CC9167A00EFD584 /* FriendRow.swift in Sources */,
 				99F8DFB02CC4ED2E002FD982 /* ClubViewModel.swift in Sources */,
 				07BD5ED72CC8C41E002914DF /* RunMetricsView.swift in Sources */,
 				07BD5EE82CC8CE9E002914DF /* RecordRunView.swift in Sources */,
 				99DE58932CBF45B6003A615B /* EventRow.swift in Sources */,
 				99DE58782CBE8C7B003A615B /* ClubList.swift in Sources */,
 				99DE586B2CBD324C003A615B /* SignInView.swift in Sources */,
+				99D564D42CC91B9700EFD584 /* FriendViewModel.swift in Sources */,
 				99DE58CB2CBF7B3E003A615B /* UserModel.swift in Sources */,
+				99D564CE2CC8F3CA00EFD584 /* PendingFriendRow.swift in Sources */,
 				99DE587E2CBF2D40003A615B /* SearchViewModel.swift in Sources */,
 				99DE58702CBE8842003A615B /* MainView.swift in Sources */,
 				07BD5EC62CC8B821002914DF /* RunModel.swift in Sources */,
@@ -585,7 +607,9 @@
 				99DE583F2CBD3111003A615B /* RunClubApp.swift in Sources */,
 				99F8DFA82CC26361002FD982 /* SettingsView.swift in Sources */,
 				99DE58842CBF2EC1003A615B /* PostView.swift in Sources */,
+				99D564CA2CC8E3B100EFD584 /* UserSearchResultsView.swift in Sources */,
 				99DE58D12CBF7EE5003A615B /* PostModel.swift in Sources */,
+				99D564C82CC8E11400EFD584 /* AddFriendView.swift in Sources */,
 				07BD5EE42CC8CD2F002914DF /* GeometryExtension.swift in Sources */,
 				99F8DFAE2CC4E135002FD982 /* AddEventView.swift in Sources */,
 				07BD5EDF2CC8CC80002914DF /* RunningPath.swift in Sources */,

@@ -22,7 +22,7 @@ struct HomeView: View {
                     Spacer()
                 
                     NavigationLink {
-                        SearchView()
+                        SearchView(searching: "")
                     } label: {
                         ZStack {
                             Circle()
