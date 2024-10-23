@@ -8,8 +8,15 @@
 import SwiftUI
 
 struct ClubView: View {
-    var club: Club
+    @State var club: Club
     @State var clubTab: Int = 0
+    @State var editMode: Bool
+    @State var isOwner: Bool = false
+    @State var clubName: String = ""
+    @State var owner: User?
+    let firestore = FirestoreService()
+    @State var member: Bool = false
+    @FocusState private var textFieldFocused: Bool
     var body: some View {
         ScrollView {
             VStack {
@@ -18,26 +25,92 @@ struct ClubView: View {
                     Circle()
                         .fill(.lightGreen)
                         .frame(width: 120)
+                        .padding(.horizontal, 5)
                     
                     VStack {
                         Spacer()
-                        Text("Club name")
-                            .font(.title)
-                            .bold()
-                        Text("Owner: owner")
-                            .font(.headline)
-                            .padding(.bottom, 10)
+                        HStack {
+        
+                            if (isOwner) {
+                                if (editMode) {
+                                    HStack {
+                                        TextField("Club Name", text: $clubName)
+                                            .textFieldStyle(.roundedBorder)
+                                            .font(.title)
+                                            .focused($textFieldFocused)
+                                            .padding(3)
+                            
+                                        Button("Save") {
+                                            club.name = clubName
+                                            firestore.createClub(club: club)
+                                            textFieldFocused = false
+                                            editMode = false
+                                        }.foregroundStyle(.mossGreen)
+                                    }
+                                    
+                                } else {
+                                    HStack {
+                                        Text(club.name)
+                                            .font(.title)
+                                            .padding(.vertical, 8)
+                                        Button {
+                                            editMode = true
+                                        } label : {
+                                            Image(systemName: "pencil")
+                                                .foregroundStyle(.gray)
+                                        }
+                                    }
+                                }
+                            } else {
+                                VStack (alignment: .leading){
+                                    Text("\(club.name)")
+                                        .font(.title)
+                                        .bold()
+                                    if let owner = owner, let firstName = owner.firstName {
+                                        Text("Owned By: \(String(describing: firstName))")
+                                            .font(.headline)
+                                            .padding(.bottom, 10)
+                                    }
+                                }
+                                Spacer()
+                            }
+                        }
+                  
                         HStack {
                             Spacer()
                             ZStack {
                                 RoundedRectangle(cornerRadius: 15)
                                     .fill(.lightGreen)
-                                Text("100 members")
+                                Text("\(club.memberIds.count)")
                             }
                             ZStack {
                                 RoundedRectangle(cornerRadius: 15)
                                     .fill(.lightGreen)
-                                Text("Join/Joined")
+                                if (isOwner) {
+                                    Text("Owner")
+                                        .foregroundStyle(.black)
+                                            .bold()
+                                } else if (member){
+                                    Button("Member") {
+                                        if let id = club.id {
+                                            firestore.leaveClub(clubId: id)
+                                        }
+                                        member = false
+                                        if let index = club.memberIds.firstIndex(of: User.getCurrentUserId()) {
+                                            club.memberIds.remove(at: index)
+                                        }
+                                    }.foregroundStyle(.black)
+                                        .bold()
+                                } else {
+                                    Button("Join") {
+                                        if let id = club.id {
+                                            firestore.joinClub(clubId: id)
+                                        }
+                                        member = true
+                                        club.memberIds.append(User.getCurrentUserId())
+                                    }.foregroundStyle(.black)
+                                        .bold()
+                                }
                             }
                             Spacer()
                             
@@ -76,10 +149,24 @@ struct ClubView: View {
                 }.tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
             }
         }.frame(maxWidth: .infinity, maxHeight: .infinity)
+            .onAppear {
+                getOwner()
+                member = club.memberIds.contains(User.getCurrentUserId())
+            }
 
     }
+    
+    func getOwner() {
+        firestore.getUserByID(id: club.ownerId) { user in
+            DispatchQueue.main.async {
+                self.owner = user
+            }
+        }
+        isOwner = club.ownerId == User.getCurrentUserId()
+    }
+    
 }
 
 #Preview {
-    ClubView(club: Club(name: "", ownerId: User.getCurrentUserId(), memberIds: [], eventIds: [], postIds: []))
+    ClubView(club: Club(name: "", ownerId: User.getCurrentUserId(), memberIds: [], eventIds: [], postIds: []), editMode: false)
 }

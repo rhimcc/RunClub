@@ -10,6 +10,8 @@ import SwiftUI
 struct ClubList: View {
     let firestore = FirestoreService()
     @State var clubs: [Club] = []
+    @State var usersClubs: [Club] = []
+
     var body: some View {
         VStack {
             HStack {
@@ -17,7 +19,21 @@ struct ClubList: View {
                     .font(.title)
                 Spacer()
                 NavigationLink {
-                    ClubOwnerView(club: Club(name: "", ownerId: User.getCurrentUserId(), memberIds: [], eventIds: [], postIds: []), editMode: true)
+                    AddClubView()
+                } label: {
+                    ZStack {
+                        Circle()
+                            .fill(.lightGreen)
+                            .frame(width: 40, height: 40)
+                        
+                        Image(systemName: "magnifyingglass")
+                            .foregroundStyle(.white)
+                            .bold()
+                        
+                    }
+                }
+                NavigationLink {
+                    ClubView(club: Club(name: "", ownerId: User.getCurrentUserId(), memberIds: [], eventIds: [], postIds: []), editMode: true)
                 } label: {
                     Image(systemName: "plus")
                         .font(.system(size: 30))
@@ -26,13 +42,9 @@ struct ClubList: View {
             
             
             ScrollView {
-                ForEach(clubs) { club in
+                ForEach(usersClubs) { club in
                     NavigationLink {
-                        if (club.ownerId == User.getCurrentUserId()) {
-                            ClubOwnerView(club: club, editMode: false)
-                        } else {
-                            ClubView(club: club)
-                        }
+                        ClubView(club: club, editMode: false)
                     } label: {
                         Text("Club")
                     }
@@ -40,14 +52,27 @@ struct ClubList: View {
             }
         }.padding(.horizontal, 10)
             .onAppear {
+                loadClubsOfUser()
                 loadClubs()
             }
     }
     
     func loadClubs() {
-        firestore.getClubs() { clubs in
+        firestore.loadAllClubs() { clubs, error in
             DispatchQueue.main.async {
-                self.clubs = clubs
+                if let clubs = clubs {
+                    self.clubs = clubs
+                }
+            }
+        }
+    }
+    
+    func loadClubsOfUser() {
+        firestore.getUsersClubs(userId: User.getCurrentUserId()) { clubs, error in
+            DispatchQueue.main.async {
+                if let clubs = clubs {
+                    self.usersClubs = clubs
+                }
             }
         }
     }

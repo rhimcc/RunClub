@@ -59,7 +59,7 @@ class AuthViewModel: ObservableObject {
             //creates a new user from the data
             
             if let uid = authResult?.user.uid {
-                let user = User(id: uid, firstName: firstName, lastName: lastName, email: email, friendIds: [], clubIds: [], phoneNumber: phoneNumber, username: username, runIds: [])
+                let user = User(id: uid, firstName: firstName, lastName: lastName, email: email, friendIds: [], clubIds: [], phoneNumber: phoneNumber, username: username, runIds: [], pendingFriendIds: [])
                 self?.firestore.storeNewUser(user: user)
             }
         }
