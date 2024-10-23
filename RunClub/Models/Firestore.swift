@@ -13,6 +13,8 @@ import CoreLocation
 class FirestoreService {
     let db = Firestore.firestore()
     
+
+    
     func storeNewUser(user: User)  {
         guard let userId = Auth.auth().currentUser?.uid else {
             return
