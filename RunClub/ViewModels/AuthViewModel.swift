@@ -43,7 +43,7 @@ class AuthViewModel: ObservableObject {
         }
     }
     
-    func createAccount(withEmail email: String, password: String, firstName: String, lastName: String) { // allows the user to create an account
+    func createAccount(withEmail email: String, password: String, firstName: String, lastName: String, phoneNumber: String, username: String) { // allows the user to create an account
         // create user with firebase authentication
         Auth.auth().createUser(withEmail: email, password: password) { [weak self] authResult, error in
             // capture a strong reference to self to avoid retain cycles
@@ -59,7 +59,7 @@ class AuthViewModel: ObservableObject {
             //creates a new user from the data
             
             if let uid = authResult?.user.uid {
-                let user = User(id: uid, firstName: firstName, lastName: lastName, email: email, friendIds: [])
+                let user = User(id: uid, firstName: firstName, lastName: lastName, email: email, friendIds: [], clubIds: [], phoneNumber: phoneNumber, username: username, runIds: [], pendingFriendIds: [])
                 self?.firestore.storeNewUser(user: user)
             }
         }

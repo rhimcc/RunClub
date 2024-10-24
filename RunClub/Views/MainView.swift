@@ -8,25 +8,40 @@
 import SwiftUI
 
 struct MainView: View {
-    @State var tabSelection: Int = 1
+    @State var tabSelection: Int = 2
     @ObservedObject var authViewModel: AuthViewModel
+    let firestore = FirestoreService()
     var body: some View {
         NavigationStack {
             TabView(selection: $tabSelection){
-                PersonalView()
+                ProfileView(authViewModel: authViewModel)
                     .tabItem {
                         VStack {
                             Image(systemName: "person")
-                            Text("Your stats")
+                            Text("Profile")
                         }
                     }.tag(0)
+                RecordRunView()
+                    .tabItem {
+                        VStack {
+                            Image(systemName: "figure.run")
+                            Text("Run")
+                        }
+                    }.tag(1)
                 HomeView(authViewModel: authViewModel)
                     .tabItem {
                         VStack {
                             Image(systemName: "house")
                             Text("Home")
                         }
-                    }.tag(1)
+                    }.tag(2)
+                FriendsView()
+                    .tabItem {
+                        VStack {
+                            Image(systemName: "person.2.fill")
+                            Text("Friends")
+                        }
+                    }.tag(3)
                 ClubList()
                     .tabItem {
                         VStack {

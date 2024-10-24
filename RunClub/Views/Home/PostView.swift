@@ -27,7 +27,6 @@ struct PostView: View {
                             Text(firstName)
                             Text(lastName)
                         }
-
                         Spacer()
                         Text("time")
                     }
