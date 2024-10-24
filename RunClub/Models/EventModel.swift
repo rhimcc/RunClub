@@ -13,17 +13,21 @@ struct Event: Codable, Identifiable {
     @DocumentID var id: String?
     var date: Date
     var name: String
-    var location: CLLocationCoordinate2D?
+    var startPoint: CLLocationCoordinate2D
+    var endPoint: CLLocationCoordinate2D
+    var distance: Double
     var timePosted: Date
     var clubId: String
     
-    init(id: String? = nil, date: Date, name: String, location: CLLocationCoordinate2D?, timePosted: Date, clubId: String) {
+    init(id: String? = nil, date: Date, name: String, startPoint: CLLocationCoordinate2D, endPoint: CLLocationCoordinate2D, clubId: String, distance: Double) {
         self.id = id
         self.date = date
         self.name = name
-//        self.location = location
-        self.timePosted = timePosted
+        self.timePosted = Date()
         self.clubId = clubId
+        self.startPoint = startPoint
+        self.endPoint = endPoint
+        self.distance = distance
     }
     
     init(from decoder: any Decoder) throws {
@@ -32,12 +36,14 @@ struct Event: Codable, Identifiable {
         let dateUnixTime = try container.decode(Double.self, forKey: .date)
         self.date = Date(timeIntervalSince1970: dateUnixTime)
         self.name = try container.decode(String.self, forKey: .name)
-//        self.timePosted = try container.decode(Date.self, forKey: .timePosted)
         let timePostedUnix = try container.decode(Double.self, forKey: .date)
         self.timePosted = Date(timeIntervalSince1970: dateUnixTime)
-//        self.location = try container.decode(String.self, forKey: .messageContent)
         self.clubId = try container.decode(String.self, forKey: .clubId)
-        self.location = nil
+        let startPoint = try container.decode(Coordinate.self, forKey: .startPoint)
+        self.startPoint = startPoint.toCoordinate()
+        let endPoint = try container.decode(Coordinate.self, forKey: .endPoint)
+        self.endPoint = endPoint.toCoordinate()
+        self.distance = try container.decode(Double.self, forKey: .distance)
     }
     
     func encode(to encoder: any Encoder) throws {
@@ -46,6 +52,11 @@ struct Event: Codable, Identifiable {
         try container.encode(self.date, forKey: .date)
         try container.encode(self.name, forKey: .name)
         try container.encode(self.clubId, forKey: .clubId)
+        let startPoint = Coordinate(from: startPoint)
+        try container.encode(startPoint, forKey: .startPoint)
+        let endPoint = Coordinate(from: endPoint)
+        try container.encode(distance, forKey: .distance)
+
     }
     
     enum CodingKeys: CodingKey {
@@ -55,6 +66,9 @@ struct Event: Codable, Identifiable {
         case location
         case timePosted
         case clubId
+        case startPoint
+        case endPoint
+        case distance
     }
     
     func getDaysUntilEvent() -> Int {
@@ -71,6 +85,20 @@ struct Event: Codable, Identifiable {
 
             // Return the number of days until the event
             return max(0, daysUntilEvent) // Ensure we return 0 if the event has already passed
+    }
+    
+    struct Coordinate: Codable {
+        var latitude: Double
+        var longitude: Double
+        
+        init(from location: CLLocationCoordinate2D) {
+            self.latitude = location.latitude
+            self.longitude = location.longitude
+        }
+        
+        func toCoordinate() -> CLLocationCoordinate2D {
+            return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        }
     }
 }
 
