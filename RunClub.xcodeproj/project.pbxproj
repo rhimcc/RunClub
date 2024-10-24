@@ -13,17 +13,17 @@
 		07BD5ED52CC8C3DB002914DF /* RunMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BD5ED42CC8C3DB002914DF /* RunMapView.swift */; };
 		07BD5ED72CC8C41E002914DF /* RunMetricsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BD5ED62CC8C41E002914DF /* RunMetricsView.swift */; };
 		07BD5ED92CC8C452002914DF /* RoutePoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BD5ED82CC8C452002914DF /* RoutePoint.swift */; };
-		07BD5EDB2CC8C460002914DF /* MetricView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BD5EDA2CC8C460002914DF /* MetricView.swift */; };
 		07BD5EDD2CC8CB58002914DF /* RouteMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BD5EDC2CC8CB58002914DF /* RouteMapView.swift */; };
 		07BD5EDF2CC8CC80002914DF /* RunningPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BD5EDE2CC8CC80002914DF /* RunningPath.swift */; };
 		07BD5EE42CC8CD2F002914DF /* GeometryExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BD5EE32CC8CD2F002914DF /* GeometryExtension.swift */; };
 		07BD5EE82CC8CE9E002914DF /* RecordRunView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BD5EE72CC8CE9E002914DF /* RecordRunView.swift */; };
+		07BD5EEB2CCA074D002914DF /* MetricBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BD5EEA2CCA074D002914DF /* MetricBox.swift */; };
 		995F847F2CC0BD6A0031F804 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995F847E2CC0BD6A0031F804 /* AuthViewModel.swift */; };
 		995F84802CC0BD6A0031F804 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995F847E2CC0BD6A0031F804 /* AuthViewModel.swift */; };
 		995F84812CC0BD6A0031F804 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995F847E2CC0BD6A0031F804 /* AuthViewModel.swift */; };
-		995F84832CC0E8A70031F804 /* Firestore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995F84822CC0E8A70031F804 /* Firestore.swift */; };
-		995F84842CC0E8A70031F804 /* Firestore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995F84822CC0E8A70031F804 /* Firestore.swift */; };
-		995F84852CC0E8A70031F804 /* Firestore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995F84822CC0E8A70031F804 /* Firestore.swift */; };
+		995F84832CC0E8A70031F804 /* FirestoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995F84822CC0E8A70031F804 /* FirestoreService.swift */; };
+		995F84842CC0E8A70031F804 /* FirestoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995F84822CC0E8A70031F804 /* FirestoreService.swift */; };
+		995F84852CC0E8A70031F804 /* FirestoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995F84822CC0E8A70031F804 /* FirestoreService.swift */; };
 		99D564C62CC8E03200EFD584 /* FriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D564C52CC8E03200EFD584 /* FriendsView.swift */; };
 		99D564C82CC8E11400EFD584 /* AddFriendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D564C72CC8E11400EFD584 /* AddFriendView.swift */; };
 		99D564CA2CC8E3B100EFD584 /* UserSearchResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D564C92CC8E3B100EFD584 /* UserSearchResultsView.swift */; };
@@ -117,14 +117,14 @@
 		07BD5ED42CC8C3DB002914DF /* RunMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunMapView.swift; sourceTree = "<group>"; };
 		07BD5ED62CC8C41E002914DF /* RunMetricsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunMetricsView.swift; sourceTree = "<group>"; };
 		07BD5ED82CC8C452002914DF /* RoutePoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutePoint.swift; sourceTree = "<group>"; };
-		07BD5EDA2CC8C460002914DF /* MetricView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricView.swift; sourceTree = "<group>"; };
 		07BD5EDC2CC8CB58002914DF /* RouteMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteMapView.swift; sourceTree = "<group>"; };
 		07BD5EDE2CC8CC80002914DF /* RunningPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunningPath.swift; sourceTree = "<group>"; };
 		07BD5EE32CC8CD2F002914DF /* GeometryExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryExtension.swift; sourceTree = "<group>"; };
 		07BD5EE72CC8CE9E002914DF /* RecordRunView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordRunView.swift; sourceTree = "<group>"; };
 		07BD5EE92CC8CF91002914DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		07BD5EEA2CCA074D002914DF /* MetricBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricBox.swift; sourceTree = "<group>"; };
 		995F847E2CC0BD6A0031F804 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
-		995F84822CC0E8A70031F804 /* Firestore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Firestore.swift; sourceTree = "<group>"; };
+		995F84822CC0E8A70031F804 /* FirestoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreService.swift; sourceTree = "<group>"; };
 		99D564C52CC8E03200EFD584 /* FriendsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsView.swift; sourceTree = "<group>"; };
 		99D564C72CC8E11400EFD584 /* AddFriendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFriendView.swift; sourceTree = "<group>"; };
 		99D564C92CC8E3B100EFD584 /* UserSearchResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchResultsView.swift; sourceTree = "<group>"; };
@@ -226,6 +226,7 @@
 			isa = PBXGroup;
 			children = (
 				07BD5ED12CC8C314002914DF /* LocationService.swift */,
+				995F84822CC0E8A70031F804 /* FirestoreService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -235,7 +236,7 @@
 			children = (
 				07BD5ED42CC8C3DB002914DF /* RunMapView.swift */,
 				07BD5ED62CC8C41E002914DF /* RunMetricsView.swift */,
-				07BD5EDA2CC8C460002914DF /* MetricView.swift */,
+				07BD5EEA2CCA074D002914DF /* MetricBox.swift */,
 				07BD5EDE2CC8CC80002914DF /* RunningPath.swift */,
 				07BD5EDC2CC8CB58002914DF /* RouteMapView.swift */,
 				07BD5EE72CC8CE9E002914DF /* RecordRunView.swift */,
@@ -335,7 +336,6 @@
 				99DE58892CBF2F25003A615B /* Clubs */,
 				99DE587D2CBF2D40003A615B /* SearchViewModel.swift */,
 				99F8DFA72CC26361002FD982 /* SettingsView.swift */,
-				07BD5EE02CC8CD13002914DF /* Extensions */,
 				99D564C52CC8E03200EFD584 /* FriendsView.swift */,
 				99D564D72CC9353400EFD584 /* ClubRow.swift */,
 				99D564D32CC91B9700EFD584 /* FriendViewModel.swift */,
@@ -412,7 +412,6 @@
 				99DE58CE2CBF7DF9003A615B /* EventModel.swift */,
 				07BD5EC52CC8B821002914DF /* RunModel.swift */,
 				99DE58D02CBF7EE5003A615B /* PostModel.swift */,
-				995F84822CC0E8A70031F804 /* Firestore.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -587,7 +586,7 @@
 				99D564CC2CC8E67700EFD584 /* AddFriendRow.swift in Sources */,
 				99DE586D2CBD3255003A615B /* SignUpView.swift in Sources */,
 				07BD5ED52CC8C3DB002914DF /* RunMapView.swift in Sources */,
-				995F84832CC0E8A70031F804 /* Firestore.swift in Sources */,
+				995F84832CC0E8A70031F804 /* FirestoreService.swift in Sources */,
 				99DE588D2CBF3BF8003A615B /* ClubFeed.swift in Sources */,
 				99DE587A2CBF2AC0003A615B /* RunCard.swift in Sources */,
 				99D564D02CC9167A00EFD584 /* FriendRow.swift in Sources */,
@@ -608,10 +607,10 @@
 				99DE58822CBF2E31003A615B /* SearchResultsView.swift in Sources */,
 				99DE588B2CBF32C5003A615B /* ClubView.swift in Sources */,
 				99DE58762CBE8C74003A615B /* HomeView.swift in Sources */,
-				07BD5EDB2CC8C460002914DF /* MetricView.swift in Sources */,
 				99D564D82CC9353400EFD584 /* ClubRow.swift in Sources */,
 				99D564D62CC933B200EFD584 /* AddClubView.swift in Sources */,
 				99DE58CD2CBF7D02003A615B /* ClubModel.swift in Sources */,
+				07BD5EEB2CCA074D002914DF /* MetricBox.swift in Sources */,
 				99DE58742CBE8C26003A615B /* Line.swift in Sources */,
 				99DE583F2CBD3111003A615B /* RunClubApp.swift in Sources */,
 				99F8DFA82CC26361002FD982 /* SettingsView.swift in Sources */,
@@ -636,7 +635,7 @@
 			files = (
 				995F84802CC0BD6A0031F804 /* AuthViewModel.swift in Sources */,
 				99DE58522CBD3113003A615B /* RunClubTests.swift in Sources */,
-				995F84842CC0E8A70031F804 /* Firestore.swift in Sources */,
+				995F84842CC0E8A70031F804 /* FirestoreService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -645,7 +644,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				99DE585E2CBD3113003A615B /* RunClubUITestsLaunchTests.swift in Sources */,
-				995F84852CC0E8A70031F804 /* Firestore.swift in Sources */,
+				995F84852CC0E8A70031F804 /* FirestoreService.swift in Sources */,
 				99DE585C2CBD3113003A615B /* RunClubUITests.swift in Sources */,
 				995F84812CC0BD6A0031F804 /* AuthViewModel.swift in Sources */,
 			);

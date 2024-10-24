@@ -12,7 +12,8 @@ struct RecordRunView: View {
     var body: some View {
         VStack {
             RouteMapView(locationManager: locationManager)
-                .frame(height: UIScreen.main.bounds.height * 0.7)
+                .frame(height: UIScreen.main.bounds.height * 0.73)
+                .ignoresSafeArea(edges: .top)
             RunMetricsView(locationManager: locationManager)
         }
         .onAppear {

@@ -60,5 +60,6 @@ struct RouteMapView: View {
     
     var body: some View {
         MapViewRepresentable(locationManager: locationManager)
+            .edgesIgnoringSafeArea(.top)
     }
 }
