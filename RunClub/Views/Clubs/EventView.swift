@@ -16,7 +16,7 @@ struct EventView: View {
     
     
     var body: some View {
-        VStack {
+        ScrollView {
             HStack {
                 Spacer()
                 Button {
@@ -24,24 +24,25 @@ struct EventView: View {
                     print(clubViewModel.addEventSheet)
                 } label: {
                     Image(systemName: "plus")
-                }.sheet(isPresented: $clubViewModel.addEventSheet, onDismiss: dismissEventSheet) {
+                        .font(.system(size: 20))
+                }
+                .sheet(isPresented: $clubViewModel.addEventSheet, onDismiss: dismissEventSheet) {
                     AddEventView(clubViewModel: clubViewModel, club: club)
                 }.presentationDragIndicator(.automatic)
                     .presentationDetents([.height(200)])
                 
             }
-            ScrollView {
-                VStack {
-                    ForEach(events) { event in
-                        EventRow(event: event)
-                    }
-                }.padding()
-            }.onAppear {
-                fetchEvents()
-            }
             
+            ForEach(events) { event in
+                EventRow(event: event)
+            }
+        }.padding()
+        .onAppear {
+            fetchEvents()
         }
+            Spacer()
     }
+    
     
     private func fetchEvents() {
             // Assuming the club has eventIds that you want to use to fetch posts
