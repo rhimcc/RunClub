@@ -28,12 +28,13 @@ struct RunMetricsView: View {
     }
     
     var body: some View {
-        VStack(spacing: 20) {
-            HStack(spacing: 40) {
-                MetricView(title: "Distance", value: "\(formattedDistance) km")
-                MetricView(title: "Pace", value: "\(formattedPace) /km")
-                MetricView(title: "Time", value: formattedTime)
+        VStack(spacing: 15) {
+            HStack(spacing: 20) {
+                MetricBox(title: "Distance", value: formattedDistance, unit: "km")
+                MetricBox(title: "Pace", value: formattedPace, unit: "/km")
+                MetricBox(title: "Time", value: formattedTime, unit: "")
             }
+            .padding(.horizontal)
             
             Button(action: {
                 if locationManager.isTracking {
@@ -43,13 +44,18 @@ struct RunMetricsView: View {
                 }
             }) {
                 Text(locationManager.isTracking ? "Stop Run" : "Start Run")
-                    .font(.title2)
+                    .font(.title3)
+                    .fontWeight(.semibold)
                     .foregroundColor(.white)
-                    .padding()
+                    .frame(width: 200)
+                    .padding(.vertical, 12)
                     .background(locationManager.isTracking ? Color.red : Color.green)
-                    .cornerRadius(10)
+                    .cornerRadius(25)
             }
+            .padding(.bottom, 30)
+            Spacer()
         }
-        .padding()
+        .background(Color(UIColor.systemBackground))
+        .frame(maxWidth: .infinity)
     }
 }
