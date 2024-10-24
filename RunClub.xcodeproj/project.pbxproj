@@ -291,6 +291,7 @@
 				99DE58D22CBF7F97003A615B /* Models */,
 				99DE586E2CBE8833003A615B /* Views */,
 				99DE58442CBD3113003A615B /* Assets.xcassets */,
+				07BD5EE02CC8CD13002914DF /* Extensions */,
 				99DE58462CBD3113003A615B /* Preview Content */,
 			);
 			path = RunClub;

@@ -12,7 +12,7 @@ struct RunMetricsView: View {
     @ObservedObject var locationManager: LocationService
     
     var formattedDistance: String {
-        String(format: "%.2f", locationManager.distance / 1000) // Convert to kilometers
+        String(format: "%.2f", locationManager.distance / 1000)
     }
     
     var formattedPace: String {
