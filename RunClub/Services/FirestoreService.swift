@@ -248,28 +248,28 @@ class FirestoreService {
         }
     }
     
-//    func loadAllClubs(completion: @escaping ([Club]) -> Void) {
-//        db.collection("clubs").getDocuments { (snapshot, error) in // gets the club documents from the specified collection
-//            if let error = error {
-//                print("Error loading clubs: \(error.localizedDescription)")
-//                completion([])
-//                return
-//            }
-//            
-//            var clubs: [Club] = [] // initialising array to store clubs
-//            for document in snapshot!.documents { // iterates through the array to get each individual club document
-//                do {
-//                    
-//                    let club = try document.data(as: Club.self)
-//                    clubs.append(club)
-//                    
-//                } catch let error {
-//                    print("Error decoding club: \(error.localizedDescription)")
-//                }
-//            }
-//            completion(clubs) // returns the clubs on completion
-//        }
-//    }
+    //    func loadAllClubs(completion: @escaping ([Club]) -> Void) {
+    //        db.collection("clubs").getDocuments { (snapshot, error) in // gets the club documents from the specified collection
+    //            if let error = error {
+    //                print("Error loading clubs: \(error.localizedDescription)")
+    //                completion([])
+    //                return
+    //            }
+    //
+    //            var clubs: [Club] = [] // initialising array to store clubs
+    //            for document in snapshot!.documents { // iterates through the array to get each individual club document
+    //                do {
+    //
+    //                    let club = try document.data(as: Club.self)
+    //                    clubs.append(club)
+    //
+    //                } catch let error {
+    //                    print("Error decoding club: \(error.localizedDescription)")
+    //                }
+    //            }
+    //            completion(clubs) // returns the clubs on completion
+    //        }
+    //    }
     
     func getAllPostsForClub(clubId: String, completion: @escaping ([Post]?, Error?) -> Void) {
         db.collection("posts")
@@ -475,33 +475,33 @@ class FirestoreService {
                 print("Error getting club document: \(error.localizedDescription)")
                 return
             }
-
+            
             var pendingFriendIds = document?.data()?["pendingFriendIds"] as? [String] ?? [] // gets the current pending friend ids from the firestore
             if let index = self.getIndexOfId(id: userId, array: pendingFriendIds) {
                 pendingFriendIds.remove(at: index) // removes the id of the user which has just been accepted
             }
             userRef.updateData(["pendingFriendIds" : pendingFriendIds]) // updates the data to the array after removing the id
-
+            
             var friendIds = document?.data()?["friendIds"] as? [String] ?? [] // gets the current friend ids from the firestore
             friendIds.append(userId)
             userRef.updateData(["friendIds" : friendIds]) // updates the data to the array after adding the id
-
+            
         }
-
+        
         let otherUserRef = db.collection("users").document(userId)
         otherUserRef.getDocument { (document, error) in
             if let error = error {
                 print("Error getting club document: \(error.localizedDescription)")
                 return
             }
-
+            
             var friendIds = document?.data()?["friendIds"] as? [String] ?? [] // gets the current friend ids from the firestore
             friendIds.append(currentUserId)
             otherUserRef.updateData(["friendIds" : friendIds]) // updates the data to the array after adding the id
             
             
         }
-
+        
     }
     
     func getIndexOfId(id: String, array: [String]) -> Int? {
@@ -574,7 +574,7 @@ class FirestoreService {
             }
             userRef.updateData(["clubIds" : clubIds])
         }
-
+        
     }
     
     func loadAllClubs(completion: @escaping ([Club]?, Error?) -> Void) {
@@ -604,8 +604,40 @@ class FirestoreService {
     }
     
     func getUsersClubs(userId: String, completion: @escaping ([Club]?, Error?) -> Void) {
+        print(userId)
+        let userRef = db.collection("users").document(userId)
+        
+        userRef.getDocument { (document, error) in
+            if let error = error {
+                print("Error getting club document: \(error.localizedDescription)")
+                return
+            }
+            let dispatchGroup = DispatchGroup()
+            var friendIds = document?.data()?["friendIds"] as? [String] ?? []
+            print(friendIds[0])
+            var clubIds = document?.data()?["clubIds"] as? [String] ?? []
+            var clubs: [Club] = []
+            for clubId in clubIds {
+                dispatchGroup.enter() // Start async operation
+                
+                self.getClubById(id: clubId) { fetchedClub in
+                    DispatchQueue.main.async {
+                        if let fetchedClub = fetchedClub {
+                            clubs.append(fetchedClub)
+                        }
+                    }
+                    dispatchGroup.leave() // End async operation
+                }
+            }
+            
+        }
+    }
+    
+
+    
+    func getClubsUserOwns(userId: String, completion: @escaping ([Club]?, Error?) -> Void) {
         db.collection("clubs")
-            .whereField("userId", isEqualTo: userId)
+            .whereField("ownerId", isEqualTo: userId)
             .getDocuments { (querySnapshot, error) in
                 if let error = error {
                     print("Error fetching clubs: \(error)")
@@ -629,7 +661,42 @@ class FirestoreService {
                 }
             }
     }
+    
+    func getClubById(id: String, completion: @escaping (Club?) -> Void) {
+        db.collection("clubs").document(id)
+        
+        let docRef = db.collection("users").document(id) // gets the document which has the userId, if it exists
+        docRef.getDocument { (document, error) in
+            if let error = error {
+                print("Error getting document: \(error)")
+                completion(nil)
+                return
+            }
+            
+            guard let document = document, document.exists else { // checks for errors with the document
+                print("Document does not exist")
+                completion(nil)
+                return
+            }
+            do {
+                var club = try document.data(as: Club.self) // creates data from the document
+                club.id = document.documentID
+                completion(club)
+            } catch {
+                print("Failed to parse club data")
+                completion(nil)
+            }
+        }
+    }
 }
+
+      
+            
+    
+
+
+
+
         
     
     
