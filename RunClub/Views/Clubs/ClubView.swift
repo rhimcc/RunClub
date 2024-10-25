@@ -146,7 +146,7 @@ struct ClubView: View {
                 EventView(club: club)
             }
             if (clubTab == 1) {
-                ClubMessagesView()
+                ClubMessagesView(club: club)
             }
         }
         .onAppear {

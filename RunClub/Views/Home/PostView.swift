@@ -14,21 +14,25 @@ struct PostView: View {
     var club: Club?
     var body: some View {
         VStack {
-            HStack {
+            HStack (alignment: .bottom) {
                 ZStack {
                     Circle()
                         .fill(.gray)
-                        .frame(width: 40, height: 40)
+                        .frame(width: 30, height: 30)
                     Text("pfp")
                 }
                 VStack {
+                    Spacer()
                     HStack {
                         if let user = user, let firstName = user.firstName, let lastName = user.lastName {
                             Text(firstName)
                             Text(lastName)
                         }
                         Spacer()
-                        Text("time")
+                        VStack {
+                            Text("time")
+                            Spacer()
+                        }
                     }
                     if let club = club {
                         HStack {
@@ -38,15 +42,21 @@ struct PostView: View {
                     }
                 }
                 
-            }.padding(10)
-            
+            }
             Text(post.messageContent)
+                .frame(maxWidth: .infinity, alignment: .leading)
                 .padding()
-        }.onAppear {
+                .background (
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(.white)
+                        .shadow(color: .black.opacity(0.2), radius: 5)
+                )
+
+        }.padding(.horizontal)
+           
+        .onAppear {
             getPoster()
         }
-    
-        .background(RoundedRectangle(cornerRadius: 20).stroke(.gray, lineWidth: 3))
     }
     
     func getPoster() {

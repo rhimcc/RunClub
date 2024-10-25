@@ -51,8 +51,6 @@ struct ClubList: View {
                             ClubView(club: club, editMode: false)
                         } label: {
                             Text("Club")
-                        }.onAppear {
-                            print(ownedClubs.count)
                         }
                     }
                     Text("Participant")

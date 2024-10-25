@@ -248,29 +248,6 @@ class FirestoreService {
         }
     }
     
-    //    func loadAllClubs(completion: @escaping ([Club]) -> Void) {
-    //        db.collection("clubs").getDocuments { (snapshot, error) in // gets the club documents from the specified collection
-    //            if let error = error {
-    //                print("Error loading clubs: \(error.localizedDescription)")
-    //                completion([])
-    //                return
-    //            }
-    //
-    //            var clubs: [Club] = [] // initialising array to store clubs
-    //            for document in snapshot!.documents { // iterates through the array to get each individual club document
-    //                do {
-    //
-    //                    let club = try document.data(as: Club.self)
-    //                    clubs.append(club)
-    //
-    //                } catch let error {
-    //                    print("Error decoding club: \(error.localizedDescription)")
-    //                }
-    //            }
-    //            completion(clubs) // returns the clubs on completion
-    //        }
-    //    }
-    
     func getAllPostsForClub(clubId: String, completion: @escaping ([Post]?, Error?) -> Void) {
         db.collection("posts")
             .whereField("clubId", isEqualTo: clubId)
@@ -604,7 +581,6 @@ class FirestoreService {
     }
     
     func getUsersClubs(userId: String, completion: @escaping ([Club]?, Error?) -> Void) {
-        print(userId)
         let userRef = db.collection("users").document(userId)
         
         userRef.getDocument { (document, error) in
