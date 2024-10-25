@@ -24,13 +24,13 @@ struct ClubView: View {
                     Spacer()
                     Circle()
                         .fill(.lightGreen)
-                        .frame(width: 120)
+                        .frame(width: 100)
                         .padding(.horizontal, 5)
                     
                     VStack {
                         Spacer()
                         HStack {
-        
+                            
                             if (isOwner) {
                                 if (editMode) {
                                     HStack {
@@ -39,7 +39,7 @@ struct ClubView: View {
                                             .font(.title)
                                             .focused($textFieldFocused)
                                             .padding(3)
-                            
+                                        
                                         Button("Save") {
                                             club.name = clubName
                                             firestore.createClub(club: club)
@@ -75,7 +75,7 @@ struct ClubView: View {
                                 Spacer()
                             }
                         }
-                  
+                        
                         HStack {
                             Spacer()
                             ZStack {
@@ -89,7 +89,7 @@ struct ClubView: View {
                                 if (isOwner) {
                                     Text("Owner")
                                         .foregroundStyle(.black)
-                                            .bold()
+                                        .bold()
                                 } else if (member){
                                     Button("Member") {
                                         if let id = club.id {
@@ -119,41 +119,40 @@ struct ClubView: View {
                     }
                     
                 }
-
-                .frame(maxWidth: .infinity, alignment: .leading)
                 
-                HStack {
-                    Button("Feed") {
-                        clubTab = 0
-                    }
-                    Button("Events") {
-                        clubTab = 1
-                    }
-                    Button("Members") {
-                        clubTab = 2
-                    }
-                }
-                TabView (selection: $clubTab){
-                    ClubFeed(club: club)
-                        .tabItem {
-                            Text("Feed")
-                        }.tag(0)
-                    EventView(club: club)
-                        .tabItem {
-                            Text("Events")
-                        }.tag(1)
-                    MembersView()
-                        .tabItem {
-                            Text("Members")
-                        }.tag(2)
-                }.tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
-            }
-        }.frame(maxWidth: .infinity, maxHeight: .infinity)
-            .onAppear {
-                getOwner()
-                member = club.memberIds.contains(User.getCurrentUserId())
-            }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                Line()
 
+                HStack {
+                    Spacer()
+
+                    Button("Events") {
+                        clubTab = 0
+                    }.bold(clubTab == 0)
+                        .foregroundStyle(.black)
+                    Spacer()
+                    Spacer()
+                    Button("Messages") {
+                        clubTab = 1
+                    }.bold(clubTab == 1)
+                        .foregroundStyle(.black)
+
+                    Spacer()
+                }
+                Line()
+            }
+            
+            if (clubTab == 0) {
+                EventView(club: club)
+            }
+            if (clubTab == 1) {
+                ClubMessagesView()
+            }
+        }
+        .onAppear {
+            getOwner()
+            member = club.memberIds.contains(User.getCurrentUserId())
+        }
     }
     
     func getOwner() {
