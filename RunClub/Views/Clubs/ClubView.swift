@@ -81,7 +81,7 @@ struct ClubView: View {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 15)
                                     .fill(.lightGreen)
-                                Text("\(club.memberIds.count)")
+                                Text("Members: \(club.memberIds.count)")
                             }
                             ZStack {
                                 RoundedRectangle(cornerRadius: 15)

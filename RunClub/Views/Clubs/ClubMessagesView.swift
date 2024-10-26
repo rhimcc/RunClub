@@ -16,14 +16,22 @@ struct ClubMessagesView: View {
         ScrollView {
             HStack {
                 TextField("Post Something...", text: $message)
-                Button("Post") {
-                    if let id = club.id {
+                    .textFieldStyle(.roundedBorder)
+                Button {
+                     if let id = club.id {
                         let newPost = Post(messageContent: message, posterId: User.getCurrentUserId(), clubId: id)
                         firestore.storePost(post: newPost)
                         messages.append(newPost)
                     }
+                } label: {
+                    Image(systemName: "paperplane.fill")
+                        .foregroundStyle(.white)
+                        .padding(.vertical, 5)
+                        .padding(.horizontal, 10)
+                        .background(RoundedRectangle(cornerRadius: 20).fill(.mossGreen))
                 }
-            }.padding(.bottom, 20)
+            }.padding(.horizontal)
+            .padding(.bottom, 20)
             
             ForEach(messages) { message in
                 PostView(post: message)
