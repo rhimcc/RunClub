@@ -167,5 +167,5 @@ struct ClubView: View {
 }
 
 #Preview {
-    ClubView(club: Club(name: "", ownerId: User.getCurrentUserId(), memberIds: [], eventIds: [], postIds: []), editMode: false)
+    ClubView(club: Club(name: "", ownerId: User.getCurrentUserId(), memberIds: [], eventIds: [], messageIds: []), editMode: false)
 }

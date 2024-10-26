@@ -35,7 +35,7 @@ struct ClubList: View {
                     }
                 }.padding()
                 NavigationLink {
-                    ClubView(club: Club(name: "", ownerId: User.getCurrentUserId(), memberIds: [], eventIds: [], postIds: []), editMode: true)
+                    ClubView(club: Club(name: "", ownerId: User.getCurrentUserId(), memberIds: [], eventIds: [], messageIds: []), editMode: true)
                 } label: {
                     Image(systemName: "plus")
                         .font(.system(size: 30))

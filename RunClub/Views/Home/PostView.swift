@@ -1,5 +1,5 @@
 //
-//  PostView.swift
+//  MessageView.swift
 //  RunClub
 //
 //  Created by Rhianna McCormack on 16/10/2024.
@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct PostView: View {
-    var post: Post
+struct MessageView: View {
+    var message: Message
     let firestore = FirestoreService()
     @State var user: User? = nil
     var club: Club?
@@ -30,7 +30,7 @@ struct PostView: View {
                         }
                         Spacer()
                         VStack {
-                            Text("time")
+                            Text("\(message.getTimeString())")
                             Spacer()
                         }
                     }
@@ -43,7 +43,7 @@ struct PostView: View {
                 }
                 
             }
-            Text(post.messageContent)
+            Text(message.messageContent)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding()
                 .background (
@@ -60,7 +60,7 @@ struct PostView: View {
     }
     
     func getPoster() {
-        firestore.getUserByID(id: post.posterId) { fetchedUser in
+        firestore.getUserByID(id: message.posterId) { fetchedUser in
             DispatchQueue.main.async {
                 self.user = fetchedUser
             }
@@ -68,7 +68,7 @@ struct PostView: View {
         }
     }
 }
-
-#Preview {
-    PostView(post: Post(id: "123", messageContent: "fewhuij", posterId: "32rtgre", clubId: "t4grf"))
-}
+//
+//#Preview {
+//    PostView(post: Post(id: "123", messageContent: "fewhuij", posterId: "32rtgre", clubId: "t4grf"))
+//}

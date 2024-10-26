@@ -10,7 +10,7 @@ import SwiftUI
 struct HomeView: View {
     @State var clubs: [Club] = []
     @ObservedObject var authViewModel: AuthViewModel
-    @State var posts: [Post] = []
+    @State var messages: [Message] = []
     let firestore = FirestoreService()
     @State var isLoading: Bool = false
     var body: some View {

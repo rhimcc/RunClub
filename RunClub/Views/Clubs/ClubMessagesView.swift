@@ -10,8 +10,9 @@ import SwiftUI
 struct ClubMessagesView: View {
     let firestore = FirestoreService()
     var club: Club
+    @State private var daysPosted: [String] = []
     @State var message: String = ""
-    @State var messages: [Post] = []
+    @State var messages: [Message] = []
     var body: some View {
         ScrollView {
             HStack {
@@ -19,9 +20,9 @@ struct ClubMessagesView: View {
                     .textFieldStyle(.roundedBorder)
                 Button {
                      if let id = club.id {
-                        let newPost = Post(messageContent: message, posterId: User.getCurrentUserId(), clubId: id)
-                        firestore.storePost(post: newPost)
-                        messages.append(newPost)
+                        let newMessage = Message(messageContent: message, posterId: User.getCurrentUserId(), clubId: id)
+                        firestore.storeMessage(message: newMessage)
+                        messages.append(newMessage)
                     }
                 } label: {
                     Image(systemName: "paperplane.fill")
@@ -33,10 +34,16 @@ struct ClubMessagesView: View {
             }.padding(.horizontal)
             .padding(.bottom, 20)
             
-            ForEach(messages) { message in
-                PostView(post: message)
-                    .padding(.bottom, 10)
-                
+            ForEach(daysPosted.sorted().reversed(), id: \.self) { day in
+                Text(day)
+                    .padding(.vertical, 5)
+                    .padding(.horizontal, 10)
+                    .background(RoundedRectangle(cornerRadius: 20).fill(.lighterGreen))
+                    .foregroundStyle(.black)
+                ForEach(messages.sorted(by: { $0.timePosted < $1.timePosted }).filter({ $0.getDateString() == day }), id: \.id) { message in
+                    MessageView(message: message)
+                        .padding(.bottom, 10)
+                }
             }
             
         }
@@ -46,13 +53,22 @@ struct ClubMessagesView: View {
     }
     func loadMessages() {
         if let id = club.id {
-            firestore.getAllPostsForClub(clubId: id) { fetchedPosts, error in
+            firestore.getAllMessagesForClub(clubId: id) { fetchedPosts, error in
                 DispatchQueue.main.async {
                     if let fetchedPosts = fetchedPosts {
                         self.messages = fetchedPosts
+                        getDaysPosted()
                     }
                 }
                 
+            }
+        }
+    }
+    
+    func getDaysPosted() {
+        for message in messages {
+            if (!daysPosted.contains(message.getDateString())) {
+                daysPosted.append(message.getDateString())
             }
         }
     }
