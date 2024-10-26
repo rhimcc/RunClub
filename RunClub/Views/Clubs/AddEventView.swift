@@ -39,47 +39,9 @@ struct AddEventView: View {
                         Text("Start Point")
                             .padding()
                             .frame(maxWidth: .infinity)
-                            .background(
-                                Rectangle()
-                                    .fill(.white)
-                                    .shadow(color: .black.opacity(0.2), radius: 5)
-
-                                )
-                            .transition(.move(edge: .bottom))
-                            .onTapGesture {
-                                withAnimation {
-                                    startExpanded.toggle()
-                                }
-                            }
-                        if startExpanded {
-                            LocationPicker(getting: "startPoint", eventViewModel: eventViewModel)
-                            
-                        }
-                        
+                        LocationPicker(getting: "startPoint", eventViewModel: eventViewModel)
                     }
                     
-                    VStack {
-                        Text("End Point")
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(
-                                Rectangle()
-                                    .fill(.white)
-                                    .shadow(color: .black.opacity(0.2), radius: 5)
-
-                                )
-                            .transition(.move(edge: .bottom))
-                            .onTapGesture {
-                                withAnimation {
-                                    endExpanded.toggle()
-                                }
-                            }
-                        if endExpanded {
-                            LocationPicker(getting: "endPoint", eventViewModel: eventViewModel)
-                            
-                        }
-                        
-                    }
                     Text("Distance")
                     TextField("Distance", text: $distance)
                 }
