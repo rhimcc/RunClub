@@ -16,34 +16,40 @@ struct EventView: View {
     
     
     var body: some View {
-        ScrollView {
-            HStack {
-                Spacer()
-                Button {
-                    clubViewModel.addEventSheet.toggle()
-                } label: {
-                    Image(systemName: "plus")
-                        .font(.system(size: 20))
+        ScrollViewReader { scrollProxy in // Use ScrollViewReader
+            ScrollView {
+                VStack {
+                    HStack {
+                        Spacer()
+                        Button {
+                            clubViewModel.addEventSheet.toggle()
+                        } label: {
+                            Image(systemName: "plus")
+                                .font(.system(size: 20))
+                        }
+                        .sheet(isPresented: $clubViewModel.addEventSheet, onDismiss: dismissEventSheet) {
+                            AddEventView(clubViewModel: clubViewModel, club: club)
+                        }.presentationDragIndicator(.automatic)
+                            .presentationDetents([.height(200)])
+                        
+                    }
+                    
+                    ForEach(events) { event in
+                        EventRow(event: event)
+                            .padding( )
+                    }
                 }
-                .sheet(isPresented: $clubViewModel.addEventSheet, onDismiss: dismissEventSheet) {
-                    AddEventView(clubViewModel: clubViewModel, club: club)
-                }.presentationDragIndicator(.automatic)
-                    .presentationDetents([.height(200)])
-                
             }
-            
-            ForEach(events) { event in
-                EventRow(event: event)
-            }
-        }.padding()
-        .onAppear {
-            fetchEvents()
+                .onAppear {
+                    fetchEvents() {
+                        scrollToCurrentEvent(using: scrollProxy)
+                    }
+                }
         }
-            Spacer()
     }
     
     
-    private func fetchEvents() {
+    private func fetchEvents(completion: @escaping () -> Void) {
             // Assuming the club has eventIds that you want to use to fetch posts
             let eventIds = club.eventIds
             
@@ -61,11 +67,24 @@ struct EventView: View {
             }
             
             group.notify(queue: .main) { // Notify when all fetch requests are done
-                self.events = fetchedEvents
+                self.events = fetchedEvents.sorted(by: {$0.date < $1.date})
+                completion()
             }
         }
+    
     func dismissEventSheet() {
+        fetchEvents() {}
         clubViewModel.addEventSheet = false
+    }
+    
+    private func scrollToCurrentEvent(using proxy: ScrollViewProxy) {
+        let today = Date()
+        if let index = events.firstIndex(where: { $0.date >= today }) {
+            print(index)
+            withAnimation {
+                proxy.scrollTo(index, anchor: .top) // Scroll to the index
+            }
+        }
     }
 }
 

@@ -49,7 +49,7 @@ struct AddEventView: View {
             
             Button("Create") {
                 if let id = club.id {
-                    firestore.storeEvent(event: Event(date: date, name: name, startPoint: nil, clubId: club.id ?? "", distance: Double(distance) ?? 0))
+                    firestore.storeEvent(event: Event(date: date, name: name, startPoint: nil, clubId: club.id ?? "", distance: Double(distance) ?? 0, runIds: []))
                 }
                 clubViewModel.addEventSheet = false
             }

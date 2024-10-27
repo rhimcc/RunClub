@@ -53,7 +53,6 @@ class Run: Identifiable, Codable {
     
     func encode(to encoder: any Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(id, forKey: .id)
         try container.encode(eventId, forKey: .eventId)
         try container.encode(startTime, forKey: .startTime)
         try container.encode(elapsedTime, forKey: .elapsedTime)
@@ -64,7 +63,7 @@ class Run: Identifiable, Codable {
     
     required init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.id = try container.decodeIfPresent(String.self, forKey: .id)
+        self._id = try container.decode(DocumentID<String>.self, forKey: .id)
         self.eventId = try container.decodeIfPresent(String.self, forKey: .eventId)
         self.startTime = try container.decode(Date.self, forKey: .startTime)
         self.elapsedTime = try container.decode(TimeInterval.self, forKey: .elapsedTime)
