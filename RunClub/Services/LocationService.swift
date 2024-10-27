@@ -22,7 +22,7 @@ class LocationService: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var elapsedTime: TimeInterval = 0
     
     private var timer: Timer?
-    private var startTime: Date?
+    var startTime: Date?
     
     override init() {
         super.init()

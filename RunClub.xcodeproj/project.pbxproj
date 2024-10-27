@@ -26,6 +26,8 @@
 		999A4B7B2CCDE2840077C2C4 /* RunSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999A4B7A2CCDE2840077C2C4 /* RunSummaryView.swift */; };
 		999A4B7E2CCE22980077C2C4 /* FirebaseVertexAI in Frameworks */ = {isa = PBXBuildFile; productRef = 999A4B7D2CCE22980077C2C4 /* FirebaseVertexAI */; };
 		999A4B802CCE2F920077C2C4 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999A4B7F2CCE2F920077C2C4 /* DateFormatter.swift */; };
+		999A4B822CCE5F120077C2C4 /* ClubFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999A4B812CCE5F120077C2C4 /* ClubFeedView.swift */; };
+		999A4B842CCE5FE40077C2C4 /* FeedItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999A4B832CCE5FE40077C2C4 /* FeedItemModel.swift */; };
 		99B6A2822CC9B0390094405D /* LocationPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B6A2812CC9B0390094405D /* LocationPicker.swift */; };
 		99B6A2842CC9D8B40094405D /* ClubMessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B6A2832CC9D8B40094405D /* ClubMessagesView.swift */; };
 		99B6A2862CCA7CED0094405D /* EventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B6A2852CCA7CED0094405D /* EventViewModel.swift */; };
@@ -130,6 +132,8 @@
 		995F847E2CC0BD6A0031F804 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		999A4B7A2CCDE2840077C2C4 /* RunSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunSummaryView.swift; sourceTree = "<group>"; };
 		999A4B7F2CCE2F920077C2C4 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
+		999A4B812CCE5F120077C2C4 /* ClubFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubFeedView.swift; sourceTree = "<group>"; };
+		999A4B832CCE5FE40077C2C4 /* FeedItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItemModel.swift; sourceTree = "<group>"; };
 		99B6A2812CC9B0390094405D /* LocationPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPicker.swift; sourceTree = "<group>"; };
 		99B6A2832CC9D8B40094405D /* ClubMessagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubMessagesView.swift; sourceTree = "<group>"; };
 		99B6A2852CCA7CED0094405D /* EventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewModel.swift; sourceTree = "<group>"; };
@@ -399,7 +403,6 @@
 			isa = PBXGroup;
 			children = (
 				99DE58752CBE8C74003A615B /* HomeView.swift */,
-				99DE58832CBF2EC1003A615B /* PostView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -411,7 +414,9 @@
 				99DE58772CBE8C7B003A615B /* ClubList.swift */,
 				99D564D52CC933B200EFD584 /* AddClubView.swift */,
 				99DE588A2CBF32C5003A615B /* ClubView.swift */,
+				999A4B812CCE5F120077C2C4 /* ClubFeedView.swift */,
 				99B6A2832CC9D8B40094405D /* ClubMessagesView.swift */,
+				99DE58832CBF2EC1003A615B /* PostView.swift */,
 				99DE588E2CBF3C37003A615B /* EventView.swift */,
 				99F8DFAD2CC4E135002FD982 /* AddEventView.swift */,
 				99DE58922CBF45B6003A615B /* EventRow.swift */,
@@ -426,6 +431,7 @@
 			children = (
 				99DE58CA2CBF7B3E003A615B /* UserModel.swift */,
 				99DE58CC2CBF7D02003A615B /* ClubModel.swift */,
+				999A4B832CCE5FE40077C2C4 /* FeedItemModel.swift */,
 				07BD5ED82CC8C452002914DF /* RoutePoint.swift */,
 				99DE58CE2CBF7DF9003A615B /* EventModel.swift */,
 				07BD5EC52CC8B821002914DF /* RunModel.swift */,
@@ -596,6 +602,7 @@
 			files = (
 				999A4B802CCE2F920077C2C4 /* DateFormatter.swift in Sources */,
 				99D564C62CC8E03200EFD584 /* FriendsView.swift in Sources */,
+				999A4B842CCE5FE40077C2C4 /* FeedItemModel.swift in Sources */,
 				07BD5EDD2CC8CB58002914DF /* RouteMapView.swift in Sources */,
 				07BD5ED92CC8C452002914DF /* RoutePoint.swift in Sources */,
 				99DE58802CBF2DE6003A615B /* SearchBar.swift in Sources */,
@@ -626,6 +633,7 @@
 				99DE58952CBF47AB003A615B /* MemberRow.swift in Sources */,
 				99DE58822CBF2E31003A615B /* SearchResultsView.swift in Sources */,
 				99DE588B2CBF32C5003A615B /* ClubView.swift in Sources */,
+				999A4B822CCE5F120077C2C4 /* ClubFeedView.swift in Sources */,
 				99DE58762CBE8C74003A615B /* HomeView.swift in Sources */,
 				07BD5EDB2CC8C460002914DF /* MetricView.swift in Sources */,
 				0798152D2CCB441A00754E6E /* GeometryExtension.swift in Sources */,
