@@ -9,24 +9,26 @@ import Foundation
 import FirebaseFirestore
 import CoreLocation
 
-struct Event: Codable, Identifiable {
+struct Event: Codable, Identifiable, Hashable {
+    static func == (lhs: Event, rhs: Event) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
     @DocumentID var id: String?
     var date: Date
     var name: String
-    var startPoint: CLLocationCoordinate2D
-    var endPoint: CLLocationCoordinate2D
+    var startPoint: Coordinate
     var distance: Double
     var timePosted: Date
     var clubId: String
     
-    init(id: String? = nil, date: Date, name: String, startPoint: CLLocationCoordinate2D, endPoint: CLLocationCoordinate2D, clubId: String, distance: Double) {
+    init(id: String? = nil, date: Date, name: String, startPoint: CLLocationCoordinate2D, clubId: String, distance: Double) {
         self.id = id
         self.date = date
         self.name = name
         self.timePosted = Date()
         self.clubId = clubId
-        self.startPoint = startPoint
-        self.endPoint = endPoint
+        self.startPoint = Coordinate(from: startPoint)
         self.distance = distance
     }
     
@@ -39,10 +41,7 @@ struct Event: Codable, Identifiable {
         let timePostedUnix = try container.decode(Double.self, forKey: .date)
         self.timePosted = Date(timeIntervalSince1970: dateUnixTime)
         self.clubId = try container.decode(String.self, forKey: .clubId)
-        let startPoint = try container.decode(Coordinate.self, forKey: .startPoint)
-        self.startPoint = startPoint.toCoordinate()
-        let endPoint = try container.decode(Coordinate.self, forKey: .endPoint)
-        self.endPoint = endPoint.toCoordinate()
+        self.startPoint = try container.decode(Coordinate.self, forKey: .startPoint)
         self.distance = try container.decode(Double.self, forKey: .distance)
     }
     
@@ -52,11 +51,8 @@ struct Event: Codable, Identifiable {
         try container.encode(self.date, forKey: .date)
         try container.encode(self.name, forKey: .name)
         try container.encode(self.clubId, forKey: .clubId)
-        let startPoint = Coordinate(from: startPoint)
         try container.encode(startPoint, forKey: .startPoint)
-        let endPoint = Coordinate(from: endPoint)
         try container.encode(distance, forKey: .distance)
-
     }
     
     enum CodingKeys: CodingKey {
@@ -87,7 +83,7 @@ struct Event: Codable, Identifiable {
             return max(0, daysUntilEvent) // Ensure we return 0 if the event has already passed
     }
     
-    struct Coordinate: Codable {
+    struct Coordinate: Codable, Hashable {
         var latitude: Double
         var longitude: Double
         
