@@ -1,11 +1,5 @@
-//
-//  RunSummaryView.swift
-//  RunClub
-//
-//  Created by Rhianna McCormack on 27/10/2024.
-//
-
 import SwiftUI
+import CoreLocation
 
 struct RunSummaryView: View {
     let firestore = FirestoreService()
@@ -15,6 +9,9 @@ struct RunSummaryView: View {
     @State var events: [Event] = []
     @State var selectedClub: Club? = nil
     @State var selectedEvent: Event? = nil
+    
+    private let maxTimeOffsetMinutes: Double = 30
+    private let maxDistanceMeters: Double = 500
     
     var body: some View {
         VStack {
@@ -35,11 +32,13 @@ struct RunSummaryView: View {
                             .foregroundStyle(Color.white)
                             .background(RoundedRectangle(cornerRadius: 16).fill(Color.black))
                             .tag(club as Club?)
-                    }.onChange(of: selectedClub) {
-                        loadEventsForSelectedClub()
                     }
                 }
             }
+            .onChange(of: selectedClub) { _ in
+                loadEventsForSelectedClub()
+            }
+            
             HStack {
                 Text("Event")
                 Spacer()
@@ -53,50 +52,110 @@ struct RunSummaryView: View {
                     }
                 }
             }
+            
             Button("Save Run"){
                 if let event = selectedEvent, let id = event.id {
-                    let run = Run(eventId: id, locations: locationManager.locations, startTime: locationManager.startTime, elapsedTime: locationManager.elapsedTime)
+                    let run = Run(eventId: id,
+                                locations: locationManager.locations,
+                                startTime: locationManager.startTime ?? Date(),
+                                elapsedTime: locationManager.elapsedTime)
                     firestore.storeRun(run: run)
                 }
             }
-        }.padding(20)
-        
-            .navigationBarBackButtonHidden(true)
-            .onAppear {
-                firestore.getUsersClubs(userId: User.getCurrentUserId()) { clubs, error in
-                    DispatchQueue.main.async {
-                        if let clubs = clubs  {
-                            self.clubs = clubs
-                        }
-                    }
+        }
+        .padding(20)
+        .navigationBarBackButtonHidden(true)
+        .onAppear {
+            loadClubs()
+        }
+    }
+    
+    private func loadClubs() {
+        firestore.getUsersClubs(userId: User.getCurrentUserId()) { clubs, error in
+            if let clubs = clubs {
+                DispatchQueue.main.async {
+                    self.clubs = clubs
+                    self.loadAllEventsAndAutoMatch(for: clubs)
                 }
-                firestore.getClubsUserOwns(userId: User.getCurrentUserId()) { clubs, error in
-                    DispatchQueue.main.async {
-                        if let clubs = clubs  {
-                            self.clubs = self.clubs + clubs
-                        }
+            }
+        }
+        
+        firestore.getClubsUserOwns(userId: User.getCurrentUserId()) { clubs, error in
+            if let clubs = clubs {
+                DispatchQueue.main.async {
+                    self.clubs += clubs
+                    self.loadAllEventsAndAutoMatch(for: clubs)
+                }
+            }
+        }
+    }
+    
+    private func loadAllEventsAndAutoMatch(for clubs: [Club]) {
+        let group = DispatchGroup()
+        var allEvents: [Event] = []
+        
+        for club in clubs {
+            group.enter()
+            firestore.getAllEventsForClub(clubId: club.id ?? "") { events, error in
+                if let events = events {
+                    allEvents.append(contentsOf: events)
+                }
+                group.leave()
+            }
+        }
+        
+        group.notify(queue: .main) {
+            self.autoMatchEventAndClub(events: allEvents)
+        }
+    }
+    
+    private func autoMatchEventAndClub(events: [Event]) {
+        guard let runStartLocation = locationManager.locations.first?.coordinate else { return }
+        let runStartTime = locationManager.startTime
+        
+        var bestMatch: (event: Event, club: Club, timeDiff: TimeInterval, distance: CLLocationDistance)?
+        
+        for event in events {
+            guard let eventLocation = event.startPoint?.toCoordinate() else { continue }
+            
+            let timeDifference = abs((runStartTime ?? Date()).timeIntervalSince(event.date))
+            let timeOffsetMinutes = timeDifference / 60
+            
+            let eventCLLocation = CLLocation(latitude: eventLocation.latitude, longitude: eventLocation.longitude)
+            let runCLLocation = CLLocation(latitude: runStartLocation.latitude, longitude: runStartLocation.longitude)
+            let distance = eventCLLocation.distance(from: runCLLocation)
+            
+            if timeOffsetMinutes <= maxTimeOffsetMinutes && distance <= maxDistanceMeters {
+                if bestMatch == nil ||
+                   (timeOffsetMinutes < (bestMatch!.timeDiff / 60) && distance < bestMatch!.distance) {
+                    if let matchingClub = clubs.first(where: { $0.id == event.clubId }) {
+                        bestMatch = (event, matchingClub, timeDifference, distance)
                     }
                 }
             }
+        }
+        
+        if let match = bestMatch {
+            DispatchQueue.main.async {
+                self.selectedClub = match.club
+                loadEventsForSelectedClub()
+                self.selectedEvent = match.event
+            }
+        }
     }
     
     private func loadEventsForSelectedClub() {
-          guard let clubId = selectedClub?.id else {
-              events = [] // Clear events if no club is selected
-              return
-          }
-
-          firestore.getAllEventsForClub(clubId: clubId) { events, error in
-              DispatchQueue.main.async {
-                  if let events = events {
-                      self.events = events
-                  }
-              }
-          }
-      }
-    
+        guard let clubId = selectedClub?.id else {
+            events = []
+            return
+        }
+        
+        firestore.getAllEventsForClub(clubId: clubId) { events, error in
+            DispatchQueue.main.async {
+                if let events = events {
+                    self.events = events
+                }
+            }
+        }
+    }
 }
-
-//#Preview {
-//    RunSummaryView()
-//}

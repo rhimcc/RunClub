@@ -20,11 +20,7 @@ struct ClubFeedView: View {
     }
     
     func loadClubFeed() {
-        firestore.loadClubFeed(clubId: club.id)
+//        firestore.loadClubFeed(clubId: club.id)
     }
     
-}
-
-#Preview {
-    ClubFeedView()
 }
