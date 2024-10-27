@@ -35,6 +35,9 @@
 		99B6A2822CC9B0390094405D /* LocationPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B6A2812CC9B0390094405D /* LocationPicker.swift */; };
 		99B6A2842CC9D8B40094405D /* ClubMessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B6A2832CC9D8B40094405D /* ClubMessagesView.swift */; };
 		99B6A2862CCA7CED0094405D /* EventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B6A2852CCA7CED0094405D /* EventViewModel.swift */; };
+		99D520CD2CCE79DE005158BA /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D520CC2CCE79DE005158BA /* ChatView.swift */; };
+		99D520CF2CCE7B90005158BA /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D520CE2CCE7B90005158BA /* ChatModel.swift */; };
+		99D520D12CCE8354005158BA /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D520D02CCE8354005158BA /* ChatViewModel.swift */; };
 		99D564C62CC8E03200EFD584 /* FriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D564C52CC8E03200EFD584 /* FriendsView.swift */; };
 		99D564C82CC8E11400EFD584 /* AddFriendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D564C72CC8E11400EFD584 /* AddFriendView.swift */; };
 		99D564CA2CC8E3B100EFD584 /* UserSearchResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D564C92CC8E3B100EFD584 /* UserSearchResultsView.swift */; };
@@ -145,6 +148,9 @@
 		99B6A2812CC9B0390094405D /* LocationPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPicker.swift; sourceTree = "<group>"; };
 		99B6A2832CC9D8B40094405D /* ClubMessagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubMessagesView.swift; sourceTree = "<group>"; };
 		99B6A2852CCA7CED0094405D /* EventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewModel.swift; sourceTree = "<group>"; };
+		99D520CC2CCE79DE005158BA /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		99D520CE2CCE7B90005158BA /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
+		99D520D02CCE8354005158BA /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		99D564C52CC8E03200EFD584 /* FriendsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsView.swift; sourceTree = "<group>"; };
 		99D564C72CC8E11400EFD584 /* AddFriendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFriendView.swift; sourceTree = "<group>"; };
 		99D564C92CC8E3B100EFD584 /* UserSearchResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchResultsView.swift; sourceTree = "<group>"; };
@@ -280,6 +286,7 @@
 				076D95082CCE6F3F00E0D59C /* LocationPickerViewModel.swift */,
 				99F8DFAF2CC4ED2E002FD982 /* ClubViewModel.swift */,
 				99B6A2852CCA7CED0094405D /* EventViewModel.swift */,
+				99D520D02CCE8354005158BA /* ChatViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -432,6 +439,7 @@
 				99DE58922CBF45B6003A615B /* EventRow.swift */,
 				99DE58902CBF3C3E003A615B /* MembersView.swift */,
 				99DE58942CBF47AB003A615B /* MemberRow.swift */,
+				99D520CC2CCE79DE005158BA /* ChatView.swift */,
 			);
 			path = Clubs;
 			sourceTree = "<group>";
@@ -448,6 +456,7 @@
 				076D95062CCE69B300E0D59C /* Coordinate.swift */,
 				07BD5EC52CC8B821002914DF /* RunModel.swift */,
 				99DE58D02CBF7EE5003A615B /* PostModel.swift */,
+				99D520CE2CCE7B90005158BA /* ChatModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -655,8 +664,10 @@
 				0798152D2CCB441A00754E6E /* GeometryExtension.swift in Sources */,
 				99D564D82CC9353400EFD584 /* ClubRow.swift in Sources */,
 				99D564D62CC933B200EFD584 /* AddClubView.swift in Sources */,
+				99D520D12CCE8354005158BA /* ChatViewModel.swift in Sources */,
 				99DE58CD2CBF7D02003A615B /* ClubModel.swift in Sources */,
 				99DE58742CBE8C26003A615B /* Line.swift in Sources */,
+				99D520CD2CCE79DE005158BA /* ChatView.swift in Sources */,
 				99DE583F2CBD3111003A615B /* RunClubApp.swift in Sources */,
 				99F8DFA82CC26361002FD982 /* SettingsView.swift in Sources */,
 				99B6A2862CCA7CED0094405D /* EventViewModel.swift in Sources */,
@@ -664,6 +675,7 @@
 				99D564CA2CC8E3B100EFD584 /* UserSearchResultsView.swift in Sources */,
 				99DE58D12CBF7EE5003A615B /* PostModel.swift in Sources */,
 				99D564C82CC8E11400EFD584 /* AddFriendView.swift in Sources */,
+				99D520CF2CCE7B90005158BA /* ChatModel.swift in Sources */,
 				99F8DFAE2CC4E135002FD982 /* AddEventView.swift in Sources */,
 				07BD5EDF2CC8CC80002914DF /* RunningPath.swift in Sources */,
 				99DE587C2CBF2D0F003A615B /* SearchView.swift in Sources */,

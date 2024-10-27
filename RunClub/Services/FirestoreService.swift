@@ -788,12 +788,59 @@ class FirestoreService {
             }
         }
         
-        func loadClubFeed(clubId: String) {
-            print("what")
+        
+        
+    }
+    
+    
+    func loadMessages(with friendId: String, completion: @escaping ([Chat]?, Error?) -> Void) {
+        db.collection("messages")
+            .whereField("senderId", in: [User.getCurrentUserId(), friendId])
+            .whereField("receiverId", in: [User.getCurrentUserId(), friendId])
+            .getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    print("Error fetching clubs: \(error)")
+                    completion(nil, error)
+                    return
+                }
+                
+                let fetchedChats = querySnapshot?.documents.compactMap { document -> Chat? in
+                    do {
+                        var chat = try document.data(as: Chat.self)
+                        chat.id = document.documentID
+                        return chat
+                    } catch {
+                        print("Error decoding club: \(error)")
+                        return nil
+                    }
+                } ?? []
+                
+                DispatchQueue.main.async {
+                    completion(fetchedChats, nil)
+                }
+            }
+        
+    }
+    
+    func sendMessage(to friendId: String, message: Chat) {
+        do {
+            let docID = self.db.collection("messages").document().documentID
+            try db.collection("messages").document(docID).setData(from: message){ error in // sets the data for the user id with the dict
+                if let error = error {
+                    print("Error adding event: \(error.localizedDescription)")
+                } else {
+                    print("event successfully added")
+                }
+            }
+            
+        } catch {
+            print("Error encoding event: \(error.localizedDescription)")
         }
     }
-
 }
+    
+
+
 
       
             
