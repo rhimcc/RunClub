@@ -43,6 +43,7 @@ struct ChatView: View {
                     }
                 }.onAppear {
                     if let id = friend.id {
+                        print("start listening")
                         chatViewModel.startListening(user1Id: User.getCurrentUserId(), user2Id: id)
                     }
                    
