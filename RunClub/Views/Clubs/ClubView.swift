@@ -81,7 +81,7 @@ struct ClubView: View {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 15)
                                     .fill(.lightGreen)
-                                Text("\(club.memberIds.count)")
+                                Text("Members: \(club.memberIds.count)")
                             }
                             ZStack {
                                 RoundedRectangle(cornerRadius: 15)
@@ -146,7 +146,7 @@ struct ClubView: View {
                 EventView(club: club)
             }
             if (clubTab == 1) {
-                ClubMessagesView()
+                ClubMessagesView(club: club)
             }
         }
         .onAppear {
@@ -167,5 +167,5 @@ struct ClubView: View {
 }
 
 #Preview {
-    ClubView(club: Club(name: "", ownerId: User.getCurrentUserId(), memberIds: [], eventIds: [], postIds: []), editMode: false)
+    ClubView(club: Club(name: "", ownerId: User.getCurrentUserId(), memberIds: [], eventIds: [], messageIds: []), editMode: false)
 }

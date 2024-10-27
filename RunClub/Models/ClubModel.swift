@@ -14,15 +14,15 @@ struct Club: Codable, Identifiable {
     var ownerId: String
     var memberIds: [String]
     var eventIds: [String]
-    var postIds: [String]
+    var messageIds: [String]
     
-    init(id: String? = nil, name: String, ownerId: String, memberIds: [String], eventIds: [String], postIds: [String]) {
+    init(id: String? = nil, name: String, ownerId: String, memberIds: [String], eventIds: [String], messageIds: [String]) {
         self.id = id
         self.name = name
         self.ownerId = ownerId
         self.memberIds = memberIds
         self.eventIds = eventIds
-        self.postIds = postIds
+        self.messageIds = messageIds
     }
     
     func encode(to encoder: any Encoder) throws {
@@ -31,7 +31,7 @@ struct Club: Codable, Identifiable {
         try container.encode(self.ownerId, forKey: .ownerId)
         try container.encode(self.memberIds, forKey: .memberIds)
         try container.encode(self.eventIds, forKey: .eventIds)
-        try container.encode(self.postIds, forKey: .postIds)
+        try container.encode(self.messageIds, forKey: .messageIds)
     }
     
     init(from decoder: any Decoder) throws {
@@ -41,7 +41,7 @@ struct Club: Codable, Identifiable {
         self.ownerId = try container.decode(String.self, forKey: .ownerId)
         self.memberIds = try container.decode([String].self, forKey: .memberIds)
         self.eventIds = try container.decode([String].self, forKey: .eventIds)
-        self.postIds = try container.decode([String].self, forKey: .postIds)
+        self.messageIds = try container.decode([String].self, forKey: .messageIds)
 
     }
     
@@ -51,6 +51,6 @@ struct Club: Codable, Identifiable {
         case ownerId
         case memberIds
         case eventIds
-        case postIds
+        case messageIds
     }
 }

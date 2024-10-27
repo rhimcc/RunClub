@@ -396,6 +396,7 @@
 		99DE58892CBF2F25003A615B /* Clubs */ = {
 			isa = PBXGroup;
 			children = (
+				99B6A2812CC9B0390094405D /* LocationPicker.swift */,
 				99DE58772CBE8C7B003A615B /* ClubList.swift */,
 				99D564D52CC933B200EFD584 /* AddClubView.swift */,
 				99DE588A2CBF32C5003A615B /* ClubView.swift */,
@@ -417,7 +418,6 @@
 				07BD5ED82CC8C452002914DF /* RoutePoint.swift */,
 				99DE58CE2CBF7DF9003A615B /* EventModel.swift */,
 				07BD5EC52CC8B821002914DF /* RunModel.swift */,
-				99B6A2812CC9B0390094405D /* LocationPicker.swift */,
 				99DE58D02CBF7EE5003A615B /* PostModel.swift */,
 			);
 			path = Models;
@@ -812,6 +812,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -844,6 +845,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

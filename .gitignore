@@ -1,0 +1,23 @@
+# Xcode
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcworkspace/contents.xcworkspacedata
+
+# Build products
+build/
+DerivedData/
+
+# Swift Package Manager
+.swiftpm/
+Package.resolved
+
+# User-specific files
+*.xcuserstate
+*.xcuserdatad
+*.xcworkspace/
+
+# Other common patterns
+*.DS_Store
+*.log
+*.swp
+*.swo
