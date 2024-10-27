@@ -11,7 +11,7 @@ struct ChatView: View {
     let firestore = FirestoreService()
     var friend: User
     @ObservedObject var chatViewModel: ChatViewModel = ChatViewModel()
-    @State var messages: [Chat] = []
+//    @State var messages: [Chat] = []
     @State var message: String = ""
     var body: some View {
         VStack {
@@ -22,7 +22,7 @@ struct ChatView: View {
             
             ScrollViewReader { proxy in
                 ScrollView {
-                    ForEach(messages) { message in // show all messages
+                    ForEach(chatViewModel.messages) { message in // show all messages
                         HStack {
                             if (message.senderId == User.getCurrentUserId()) { // user is sender
                                 Spacer()
@@ -47,12 +47,12 @@ struct ChatView: View {
                         chatViewModel.startListening(user1Id: User.getCurrentUserId(), user2Id: id)
                     }
                    
-                    if let lastMessage = messages.last {
+                    if let lastMessage = chatViewModel.messages.last {
                         proxy.scrollTo(lastMessage.id, anchor: .bottom)
                     } // snaps the view to the last sent message
                 }
-                .onChange(of: messages) { _, _ in // snaps view to the last sent message
-                    if let lastMessage = messages.last {
+                .onChange(of: chatViewModel.messages) { _, _ in // snaps view to the last sent message
+                    if let lastMessage = chatViewModel.messages.last {
                         withAnimation {
                             proxy.scrollTo(lastMessage.id, anchor: .bottom)
                         }
@@ -69,7 +69,7 @@ struct ChatView: View {
                     if let id = friend.id {
                         let message = Chat(messageContent: message, senderId: User.getCurrentUserId(), receiverId: id)
                         firestore.sendMessage(to: id, message: message)
-                        messages.append(message)
+                        chatViewModel.messages.append(message)
                     }
                     message = ""
                 } label: {
@@ -93,7 +93,7 @@ struct ChatView: View {
             firestore.loadMessages(with: id) { messages, error in
                 DispatchQueue.main.async {
                     if let messages = messages {
-                        self.messages = messages
+                        chatViewModel.messages = messages
                     }
                 }
             }

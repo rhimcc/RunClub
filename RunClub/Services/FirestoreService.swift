@@ -792,61 +792,46 @@ class FirestoreService {
     func loadMessages(with friendId: String, completion: @escaping ([Chat]?, Error?) -> Void) {
         let currentUserId = User.getCurrentUserId()
         
-        // Query for messages sent from the current user to the friend
-        let sentMessagesQuery = db.collection("messages")
+        let senderQuery = db.collection("messages")
             .whereField("senderId", isEqualTo: currentUserId)
             .whereField("receiverId", isEqualTo: friendId)
         
-        // Query for messages sent from the friend to the current user
-        let receivedMessagesQuery = db.collection("messages")
+        let receiverQuery = db.collection("messages")
             .whereField("senderId", isEqualTo: friendId)
             .whereField("receiverId", isEqualTo: currentUserId)
-
-        // Fetch sent messages
-        sentMessagesQuery.getDocuments { (sentSnapshot, error) in
+        
+        // Execute both queries separately
+        senderQuery.getDocuments { (querySnapshot, error) in
             if let error = error {
-                print("Error fetching sent messages: \(error)")
                 completion(nil, error)
                 return
             }
-
-            let sentMessages = sentSnapshot?.documents.compactMap { document -> Chat? in
-                do {
-                    var chat = try document.data(as: Chat.self)
-                    chat.id = document.documentID
-                    return chat
-                } catch {
-                    print("Error decoding sent message: \(error)")
-                    return nil
-                }
+            
+            var fetchedChats = querySnapshot?.documents.compactMap { document -> Chat? in
+                var chat = try? document.data(as: Chat.self)
+                chat?.id = document.documentID
+                return chat
             } ?? []
             
-            // Fetch received messages
-            receivedMessagesQuery.getDocuments { (receivedSnapshot, error) in
+            // After getting sender messages, fetch receiver messages
+            receiverQuery.getDocuments { (querySnapshot, error) in
                 if let error = error {
-                    print("Error fetching received messages: \(error)")
                     completion(nil, error)
                     return
                 }
                 
-                let receivedMessages = receivedSnapshot?.documents.compactMap { document -> Chat? in
-                    do {
-                        var chat = try document.data(as: Chat.self)
-                        chat.id = document.documentID
-                        return chat
-                    } catch {
-                        print("Error decoding received message: \(error)")
-                        return nil
-                    }
+                let receiverChats = querySnapshot?.documents.compactMap { document -> Chat? in
+                    var chat = try? document.data(as: Chat.self)
+                    chat?.id = document.documentID
+                    return chat
                 } ?? []
                 
-                // Combine both message arrays
-                let allMessages = sentMessages + receivedMessages
-                // Sort the messages by timeSent or any other attribute
-                let sortedMessages = allMessages.sorted(by: { $0.timeSent < $1.timeSent })
+                // Combine both results
+                fetchedChats.append(contentsOf: receiverChats)
+                fetchedChats.sort(by: { $0.timeSent < $1.timeSent })
                 
                 DispatchQueue.main.async {
-                    completion(sortedMessages, nil)
+                    completion(fetchedChats, nil)
                 }
             }
         }

@@ -1,37 +1,53 @@
-//
-//  ChatViewModel.swift
-//  RunClub
-//
-//  Created by Rhianna McCormack on 28/10/2024.
-//
-
 import Foundation
 import FirebaseFirestore
 
 class ChatViewModel: ObservableObject {
-    @Published var messages: [Message] = []
-    private var listener: ListenerRegistration?
+    @Published var messages: [Chat] = []
+    private var listeners: [ListenerRegistration] = []
 
-    
     func startListening(user1Id: String, user2Id: String) {
-        listener = Firestore.firestore().collection("messages")
-            .whereField("senderId", in: [user1Id, user2Id])
-            .whereField("receiverId", in: [user1Id, user2Id])
+        let listener1 = Firestore.firestore().collection("messages")
+            .whereField("senderId", isEqualTo: user1Id)
+            .whereField("receiverId", isEqualTo: user2Id)
             .order(by: "timeSent")
             .addSnapshotListener { [weak self] snapshot, error in
                 guard let documents = snapshot?.documents else {
                     print("No messages")
                     return
                 }
-                self?.messages = documents.compactMap { doc in
-                    try? doc.data(as: Message.self)
+                let newMessages = documents.compactMap { doc in
+                    try? doc.data(as: Chat.self)
                 }
+                self?.messages.append(contentsOf: newMessages)
+                self?.messages.sort(by: { $0.timeSent < $1.timeSent })
             }
+        
+        let listener2 = Firestore.firestore().collection("messages")
+            .whereField("senderId", isEqualTo: user2Id)
+            .whereField("receiverId", isEqualTo: user1Id)
+            .order(by: "timeSent")
+            .addSnapshotListener { [weak self] snapshot, error in
+                guard let documents = snapshot?.documents else {
+                    print("No messages")
+                    return
+                }
+                let newMessages = documents.compactMap { doc in
+                    try? doc.data(as: Chat.self)
+                }
+                self?.messages.append(contentsOf: newMessages)
+                self?.messages.sort(by: { $0.timeSent < $1.timeSent })
+            }
+
+        // Store both listeners
+        listeners.append(listener1)
+        listeners.append(listener2)
     }
-    
-    
-    func stopListening() { // removes the listener, to stop listening
-        listener?.remove()
+
+    func stopListening() {
+        // Remove all listeners
+        for listener in listeners {
+            listener.remove()
+        }
+        listeners.removeAll()
     }
-    
 }
