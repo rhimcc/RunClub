@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MessageView: View {
+    let dateFormatter = DateFormatterService()
     var message: Message
     let firestore = FirestoreService()
     @State var user: User? = nil
@@ -30,7 +31,7 @@ struct MessageView: View {
                         }
                         Spacer()
                         VStack {
-                            Text("\(message.getTimeString())")
+                            Text("\(dateFormatter.getTimeString(date: message.timePosted))")
                             Spacer()
                         }
                     }

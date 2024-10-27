@@ -8,25 +8,27 @@
 import SwiftUI
 
 struct EventRow: View {
+    let dateFormatter = DateFormatterService()
     var event: Event
     var body: some View {
-        HStack {
-            Text("In \(event.getDaysUntilEvent()) \ndays")
-                .font(.title)
+        VStack {
+            Text(event.getDaysString())
+                .font(.system(size: 20))
                 .bold()
                 .multilineTextAlignment(.center)
-            Spacer()
-            Text(event.name)
-            Spacer()
-            HStack {
-                Image(systemName: "mappin.and.ellipse")
-                Text("Location")
-            }
+            //MAP
             
-        }
-        .padding(.vertical, 20)
-        .padding(.horizontal, 10)
-        .background(RoundedRectangle(cornerRadius: 20).stroke(.gray, lineWidth: 3))
+            HStack {
+                Text(dateFormatter.getDateString(date: event.date))
+                Text(dateFormatter.getTimeString(date: event.date))
+            }
+            Text("Distance: \(String(format: "%.1f", Double(event.distance)))km")
+        
+        }.padding()
+        .background(RoundedRectangle(cornerRadius: 25)
+            .shadow(color: .black.opacity(0.2), radius: 5)
+        )
+       
     }
 }
 
