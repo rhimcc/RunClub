@@ -26,7 +26,9 @@ struct RunMetricsView: View {
         let seconds = Int(locationManager.elapsedTime.truncatingRemainder(dividingBy: 60))
         return String(format: "%d:%02d", minutes, seconds)
     }
-    
+    @State var navigateToSummary: Bool = false
+    @State var isPresentingConfirm: Bool = false
+    var buttonShown: Bool
     var body: some View {
         VStack(spacing: 15) {
             HStack(spacing: 20) {
@@ -35,25 +37,42 @@ struct RunMetricsView: View {
                 MetricBox(title: "Time", value: formattedTime, unit: "")
             }
             .padding(.horizontal)
-            
-            Button(action: {
-                if locationManager.isTracking {
-                    locationManager.stopTracking()
-                } else {
-                    locationManager.startTracking()
+            if (buttonShown) {
+                Button(action: {
+                    if locationManager.isTracking {
+                        isPresentingConfirm = true
+                    } else {
+                        locationManager.startTracking()
+                    }
+                }) {
+                    Text(locationManager.isTracking ? "Stop Run" : "Start Run")
+                        .font(.title3)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.white)
+                        .frame(width: 200)
+                        .padding(.vertical, 12)
+                        .background(locationManager.isTracking ? Color.red : Color.mossGreen)
+                        .cornerRadius(25)
                 }
-            }) {
-                Text(locationManager.isTracking ? "Stop Run" : "Start Run")
-                    .font(.title3)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.white)
-                    .frame(width: 200)
-                    .padding(.vertical, 12)
-                    .background(locationManager.isTracking ? Color.red : Color.green)
-                    .cornerRadius(25)
+                .padding(.bottom, 30)
+                .background(
+                    NavigationLink(destination: RunSummaryView(locationManager: locationManager, run: Run(locations: locationManager.locations, startTime: nil, elapsedTime: locationManager.elapsedTime)), isActive: $navigateToSummary) {
+                        EmptyView()
+                    }
+                ).alert(isPresented: $isPresentingConfirm) {
+                    Alert(
+                        title: Text("Stop Run"),
+                        message: Text("Are you sure you want to stop the run?"),
+                        primaryButton: .destructive(Text("Stop")) {
+                            locationManager.stopTracking()
+                            navigateToSummary = true
+                        },
+                        secondaryButton: .cancel()
+                    )
+                    
+                }
             }
-            .padding(.bottom, 30)
-            Spacer()
+            
         }
         .background(Color(UIColor.systemBackground))
         .frame(maxWidth: .infinity)

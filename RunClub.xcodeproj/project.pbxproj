@@ -23,6 +23,7 @@
 		995F847F2CC0BD6A0031F804 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995F847E2CC0BD6A0031F804 /* AuthViewModel.swift */; };
 		995F84802CC0BD6A0031F804 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995F847E2CC0BD6A0031F804 /* AuthViewModel.swift */; };
 		995F84812CC0BD6A0031F804 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995F847E2CC0BD6A0031F804 /* AuthViewModel.swift */; };
+		999A4B7B2CCDE2840077C2C4 /* RunSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999A4B7A2CCDE2840077C2C4 /* RunSummaryView.swift */; };
 		99B6A2822CC9B0390094405D /* LocationPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B6A2812CC9B0390094405D /* LocationPicker.swift */; };
 		99B6A2842CC9D8B40094405D /* ClubMessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B6A2832CC9D8B40094405D /* ClubMessagesView.swift */; };
 		99B6A2862CCA7CED0094405D /* EventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B6A2852CCA7CED0094405D /* EventViewModel.swift */; };
@@ -126,6 +127,7 @@
 		07BD5EE72CC8CE9E002914DF /* RecordRunView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordRunView.swift; sourceTree = "<group>"; };
 		07BD5EE92CC8CF91002914DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		995F847E2CC0BD6A0031F804 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+		999A4B7A2CCDE2840077C2C4 /* RunSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunSummaryView.swift; sourceTree = "<group>"; };
 		99B6A2812CC9B0390094405D /* LocationPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPicker.swift; sourceTree = "<group>"; };
 		99B6A2832CC9D8B40094405D /* ClubMessagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubMessagesView.swift; sourceTree = "<group>"; };
 		99B6A2852CCA7CED0094405D /* EventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewModel.swift; sourceTree = "<group>"; };
@@ -246,6 +248,7 @@
 			children = (
 				07BD5ED42CC8C3DB002914DF /* RunMapView.swift */,
 				07BD5ED62CC8C41E002914DF /* RunMetricsView.swift */,
+				999A4B7A2CCDE2840077C2C4 /* RunSummaryView.swift */,
 				07BD5EDA2CC8C460002914DF /* MetricView.swift */,
 				079815302CCB44BE00754E6E /* MetricBox.swift */,
 				07BD5EDE2CC8CC80002914DF /* RunningPath.swift */,
@@ -595,6 +598,7 @@
 				99DE587A2CBF2AC0003A615B /* RunCard.swift in Sources */,
 				99D564D02CC9167A00EFD584 /* FriendRow.swift in Sources */,
 				99F8DFB02CC4ED2E002FD982 /* ClubViewModel.swift in Sources */,
+				999A4B7B2CCDE2840077C2C4 /* RunSummaryView.swift in Sources */,
 				07BD5ED72CC8C41E002914DF /* RunMetricsView.swift in Sources */,
 				07BD5EE82CC8CE9E002914DF /* RecordRunView.swift in Sources */,
 				99DE58932CBF45B6003A615B /* EventRow.swift in Sources */,
@@ -797,7 +801,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RunClub/Preview Content\"";
-				DEVELOPMENT_TEAM = MS33HPMRRR;
+				DEVELOPMENT_TEAM = HRF24T6BK3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RunClub/Info.plist;
@@ -829,7 +833,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RunClub/Preview Content\"";
-				DEVELOPMENT_TEAM = MS33HPMRRR;
+				DEVELOPMENT_TEAM = HRF24T6BK3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RunClub/Info.plist;

@@ -10,14 +10,17 @@ import MapKit
 import CoreLocation
 
 struct RouteMapView: View {
+    var showUserLocation: Bool
+    
     struct MapViewRepresentable: UIViewRepresentable {
+        var showUserLocation: Bool
         @ObservedObject var locationManager: LocationService
         
         func makeUIView(context: Context) -> MKMapView {
             let mapView = MKMapView()
             mapView.delegate = context.coordinator
-            mapView.showsUserLocation = true
-            mapView.userTrackingMode = .follow
+            mapView.showsUserLocation = showUserLocation
+            mapView.userTrackingMode = showUserLocation ? .follow : .none
             return mapView
         }
         
@@ -59,7 +62,7 @@ struct RouteMapView: View {
     @ObservedObject var locationManager: LocationService
     
     var body: some View {
-        MapViewRepresentable(locationManager: locationManager)
+        MapViewRepresentable(showUserLocation: showUserLocation, locationManager: locationManager)
             .edgesIgnoringSafeArea(.top)
     }
 }
