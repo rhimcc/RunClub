@@ -35,12 +35,12 @@ struct AddEventView: View {
                     
                     Text("Name")
                     TextField("Name", text: $name)
-                    VStack {
-                        Text("Start Point")
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                        LocationPicker(getting: "startPoint", eventViewModel: eventViewModel)
-                    }
+//                    VStack {
+//                        Text("Start Point")
+//                            .padding()
+//                            .frame(maxWidth: .infinity)
+//                        LocationPicker(getting: "startPoint", eventViewModel: eventViewModel)
+//                    }
                     
                     Text("Distance")
                     TextField("Distance", text: $distance)
@@ -49,11 +49,14 @@ struct AddEventView: View {
             
             Button("Create") {
                 if let id = club.id {
-//                    firestore.storeEvent(event: Event(date: date, name: name, startPoint: , endPoint: <#T##CLLocation#>, clubId: <#T##String#>, distance: <#T##Double#>))
+                    firestore.storeEvent(event: Event(date: date, name: name, startPoint: nil, clubId: club.id ?? "", distance: Double(distance) ?? 0))
                 }
                 clubViewModel.addEventSheet = false
             }
         }.padding()
+            .onAppear {
+                UIDatePicker.appearance().minuteInterval = 10
+            }
     }
 }
 

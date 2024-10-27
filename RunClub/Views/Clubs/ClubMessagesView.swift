@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ClubMessagesView: View {
     let firestore = FirestoreService()
+    let dateFormatter = DateFormatterService()
     var club: Club
     @State private var daysPosted: [String] = []
     @State var message: String = ""
@@ -40,7 +41,7 @@ struct ClubMessagesView: View {
                     .padding(.horizontal, 10)
                     .background(RoundedRectangle(cornerRadius: 20).fill(.lighterGreen))
                     .foregroundStyle(.black)
-                ForEach(messages.sorted(by: { $0.timePosted < $1.timePosted }).filter({ $0.getDateString() == day }), id: \.id) { message in
+                ForEach(messages.sorted(by: { $0.timePosted < $1.timePosted }).filter({ dateFormatter.getDateString(date: $0.timePosted) == day}), id: \.id) { message in
                     MessageView(message: message)
                         .padding(.bottom, 10)
                 }

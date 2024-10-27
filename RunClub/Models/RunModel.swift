@@ -13,10 +13,10 @@ class Run: Identifiable, Codable {
     @DocumentID var id: String?
     var eventId: String?
     var locations: [CLLocation]
-    var startTime: Date
+    var startTime: Date?
     var elapsedTime: TimeInterval
     
-    init(id: String? = nil, eventId: String? = nil, locations: [CLLocation], startTime: Date, elapsedTime: TimeInterval) {
+    init(id: String? = nil, eventId: String? = nil, locations: [CLLocation], startTime: Date?, elapsedTime: TimeInterval) {
         self.id = id
         self.eventId = eventId
         self.locations = locations

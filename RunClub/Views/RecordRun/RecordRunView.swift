@@ -11,10 +11,10 @@ struct RecordRunView: View {
     @StateObject private var locationManager = LocationService()
     var body: some View {
         VStack {
-            RouteMapView(locationManager: locationManager)
+            RouteMapView(showUserLocation: true, locationManager: locationManager)
                 .frame(height: UIScreen.main.bounds.height * 0.73)
                 .ignoresSafeArea(edges: .top)
-            RunMetricsView(locationManager: locationManager)
+            RunMetricsView(locationManager: locationManager, buttonShown: true)
         }
         .onAppear {
             locationManager.requestPermission()
