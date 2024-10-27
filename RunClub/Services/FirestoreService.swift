@@ -149,10 +149,8 @@ class FirestoreService {
     
     func storeEvent(event: Event) {
         do {
-            let jsonData = try JSONEncoder().encode(event) // creates data from the user
-            let jsonDict = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] // creates a dict from the data
             let docID = self.db.collection("events").document().documentID
-            db.collection("events").document(docID).setData(jsonDict ?? [:]){ error in // sets the data for the user id with the dict
+            try db.collection("events").document(docID).setData(from: event){ error in // sets the data for the user id with the dict
                 if let error = error {
                     print("Error adding event: \(error.localizedDescription)")
                 } else {
@@ -606,7 +604,7 @@ class FirestoreService {
         }
     }
     
-
+    
     
     func getClubsUserOwns(userId: String, completion: @escaping ([Club]?, Error?) -> Void) {
         db.collection("clubs")
@@ -661,6 +659,140 @@ class FirestoreService {
             }
         }
     }
+    
+    func getRunById(id: String, completion: @escaping (Run?) -> Void) {
+        let docRef = db.collection("runs").document(id) // gets the document which has the userId, if it exists
+        docRef.getDocument { (document, error) in
+            if let error = error {
+                print("Error getting document: \(error)")
+                completion(nil)
+                return
+            }
+            
+            guard let document = document, document.exists else { // checks for errors with the document
+                print("Document does not exist")
+                completion(nil)
+                return
+            }
+            do {
+                var run = try document.data(as: Run.self) // creates data from the document
+                run.id = document.documentID
+                completion(run)
+            } catch {
+                print("Failed to parse club data")
+                completion(nil)
+            }
+        }
+    }
+    
+    func getAllRunsForEvent(eventId: String, completion: @escaping ([Run]?, Error?) -> Void) {
+        db.collection("runs")
+            .whereField("eventId", isEqualTo: eventId)
+            .getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    print("Error fetching messages: \(error)")
+                    completion(nil, error)
+                    return
+                }
+                
+                let fetchedRuns = querySnapshot?.documents.compactMap { document -> Run? in
+                    do {
+                        var run = try document.data(as: Run.self)
+                        run.id = document.documentID
+                        return run
+                    } catch {
+                        print("Error decoding run: \(error)")
+                        return nil
+                    }
+                } ?? []
+                
+                DispatchQueue.main.async {
+                    completion(fetchedRuns, nil)
+                }
+            }
+    }
+    
+    func getAllEventsForClub(clubId: String, completion: @escaping ([Event]?, Error?) -> Void) {
+        db.collection("events")
+            .whereField("clubId", isEqualTo: clubId)
+            .getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    print("Error fetching events: \(error)")
+                    completion(nil, error)
+                    return
+                }
+                
+                let fetchedEvents = querySnapshot?.documents.compactMap { document -> Event? in
+                    do {
+                        var event = try document.data(as: Event.self)
+                        event.id = document.documentID
+                        return event
+                    } catch {
+                        print("Error decoding event: \(error)")
+                        return nil
+                    }
+                } ?? []
+                
+                DispatchQueue.main.async {
+                    completion(fetchedEvents, nil)
+                }
+            }
+    }
+    
+    func storeRun(run: Run) {
+        do {
+            let docID = self.db.collection("runs").document().documentID
+            try db.collection("runs").document(docID).setData(from: run){ error in // sets the data for the user id with the dict
+                if let error = error {
+                    print("Error adding event: \(error.localizedDescription)")
+                } else {
+                    print("event successfully added")
+                }
+                if let eventId = run.eventId {
+                    self.updateEventRunIds(eventId: eventId, runId: docID)
+                }
+            }
+            
+        } catch {
+            print("Error encoding event: \(error.localizedDescription)")
+        }
+    }
+    
+    func updateEventRunIds(eventId: String, runId: String) {
+        let eventRef = db.collection("events").document(eventId)
+        
+        eventRef.getDocument { (document, error) in
+            if let error = error {
+                print("Error getting club document: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let document = document, document.exists else {
+                print("Club document does not exist")
+                return
+            }
+            
+            // Retrieve the current postIds, if they exist
+            var runIds = document.data()?["runIds"] as? [String] ?? []
+            
+            // Add the new postId to the array
+            runIds.append(runId)
+            
+            // Update the club document with the new postIds
+            eventRef.updateData(["runIds": runIds]) { error in
+                if let error = error {
+                    print("Error updating club postIds: \(error.localizedDescription)")
+                } else {
+                    print("Club postIds successfully updated")
+                }
+            }
+        }
+        
+        func loadClubFeed(clubId: String) {
+            print("what")
+        }
+    }
+
 }
 
       
