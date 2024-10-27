@@ -96,8 +96,8 @@ class FirestoreService {
         return newClubRef.documentID
     }
     
-    func getPostByID(id: String, completion: @escaping (Post?) -> Void) {
-        let docRef = db.collection("posts").document(id) // gets the document which has the userId, if it exists
+    func getMessageByID(id: String, completion: @escaping (Message?) -> Void) {
+        let docRef = db.collection("messages").document(id) // gets the document which has the userId, if it exists
         docRef.getDocument { (document, error) in
             if let error = error {
                 print("Error getting document: \(error)")
@@ -112,8 +112,8 @@ class FirestoreService {
             }
             
             do {
-                let post = try document.data(as: Post.self)
-                completion(post)
+                let message = try document.data(as: Message.self)
+                completion(message)
             } catch {
                 print("Failed to parse post data")
                 completion(nil)
@@ -167,27 +167,24 @@ class FirestoreService {
         }
     }
     
-    func storePost(post: Post) {
+    func storeMessage(message: Message) {
         do {
-            let jsonData = try JSONEncoder().encode(post) // creates data from the user
-            let jsonDict = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] // creates a dict from the data
-            let docID = self.db.collection("posts").document().documentID
-            db.collection("posts").document(docID).setData(jsonDict ?? [:]){ error in // sets the data for the user id with the dict
+            let docID = self.db.collection("messages").document().documentID
+            try db.collection("messages").document(docID).setData(from: message){ error in // sets the data for the user id with the dict
                 if let error = error {
                     print("Error adding post: \(error.localizedDescription)")
                 } else {
                     print("Post successfully added")
                 }
                 
-                self.updateClubPostIds(clubId: post.clubId, postId: docID)
+                self.updateClubMessageIds(clubId: message.clubId, messageId: docID)
             }
         } catch {
             print("Error encoding post: \(error.localizedDescription)")
         }
-        print("stored post")
     }
     
-    private func updateClubPostIds(clubId: String, postId: String) {
+    private func updateClubMessageIds(clubId: String, messageId: String) {
         let clubRef = db.collection("clubs").document(clubId)
         
         clubRef.getDocument { (document, error) in
@@ -202,13 +199,13 @@ class FirestoreService {
             }
             
             // Retrieve the current postIds, if they exist
-            var postIds = document.data()?["postIds"] as? [String] ?? []
+            var messageIds = document.data()?["messageIds"] as? [String] ?? []
             
             // Add the new postId to the array
-            postIds.append(postId)
+            messageIds.append(messageId)
             
             // Update the club document with the new postIds
-            clubRef.updateData(["postIds": postIds]) { error in
+            clubRef.updateData(["messageIds": messageIds]) { error in
                 if let error = error {
                     print("Error updating club postIds: \(error.localizedDescription)")
                 } else {
@@ -248,44 +245,21 @@ class FirestoreService {
         }
     }
     
-    //    func loadAllClubs(completion: @escaping ([Club]) -> Void) {
-    //        db.collection("clubs").getDocuments { (snapshot, error) in // gets the club documents from the specified collection
-    //            if let error = error {
-    //                print("Error loading clubs: \(error.localizedDescription)")
-    //                completion([])
-    //                return
-    //            }
-    //
-    //            var clubs: [Club] = [] // initialising array to store clubs
-    //            for document in snapshot!.documents { // iterates through the array to get each individual club document
-    //                do {
-    //
-    //                    let club = try document.data(as: Club.self)
-    //                    clubs.append(club)
-    //
-    //                } catch let error {
-    //                    print("Error decoding club: \(error.localizedDescription)")
-    //                }
-    //            }
-    //            completion(clubs) // returns the clubs on completion
-    //        }
-    //    }
-    
-    func getAllPostsForClub(clubId: String, completion: @escaping ([Post]?, Error?) -> Void) {
-        db.collection("posts")
+    func getAllMessagesForClub(clubId: String, completion: @escaping ([Message]?, Error?) -> Void) {
+        db.collection("messages")
             .whereField("clubId", isEqualTo: clubId)
             .getDocuments { (querySnapshot, error) in
                 if let error = error {
-                    print("Error fetching posts: \(error)")
+                    print("Error fetching messages: \(error)")
                     completion(nil, error)
                     return
                 }
                 
-                let fetchedPosts = querySnapshot?.documents.compactMap { document -> Post? in
+                let fetchedmessages = querySnapshot?.documents.compactMap { document -> Message? in
                     do {
-                        var post = try document.data(as: Post.self)
-                        post.id = document.documentID
-                        return post
+                        var message = try document.data(as: Message.self)
+                        message.id = document.documentID
+                        return message
                     } catch {
                         print("Error decoding post: \(error)")
                         return nil
@@ -293,7 +267,7 @@ class FirestoreService {
                 } ?? []
                 
                 DispatchQueue.main.async {
-                    completion(fetchedPosts, nil)
+                    completion(fetchedmessages, nil)
                 }
             }
     }
@@ -604,7 +578,6 @@ class FirestoreService {
     }
     
     func getUsersClubs(userId: String, completion: @escaping ([Club]?, Error?) -> Void) {
-        print(userId)
         let userRef = db.collection("users").document(userId)
         
         userRef.getDocument { (document, error) in

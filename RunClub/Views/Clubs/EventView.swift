@@ -21,7 +21,6 @@ struct EventView: View {
                 Spacer()
                 Button {
                     clubViewModel.addEventSheet.toggle()
-                    print(clubViewModel.addEventSheet)
                 } label: {
                     Image(systemName: "plus")
                         .font(.system(size: 20))
