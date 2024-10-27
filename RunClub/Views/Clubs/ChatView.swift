@@ -43,7 +43,6 @@ struct ChatView: View {
                     }
                 }.onAppear {
                     if let id = friend.id {
-                        print("start listening")
                         chatViewModel.startListening(user1Id: User.getCurrentUserId(), user2Id: id)
                     }
                    
@@ -67,7 +66,8 @@ struct ChatView: View {
                     .textFieldStyle(.roundedBorder)
                 Button {
                     if let id = friend.id {
-                        let message = Chat(messageContent: message, senderId: User.getCurrentUserId(), receiverId: id)
+                        let newMessageID = firestore.db.collection("messages").document().documentID
+                        let message = Chat(id: newMessageID, messageContent: message, senderId: User.getCurrentUserId(), receiverId: id)
                         firestore.sendMessage(to: id, message: message)
                         chatViewModel.messages.append(message)
                     }

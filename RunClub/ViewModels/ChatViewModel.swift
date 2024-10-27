@@ -3,51 +3,45 @@ import FirebaseFirestore
 
 class ChatViewModel: ObservableObject {
     @Published var messages: [Chat] = []
-    private var listeners: [ListenerRegistration] = []
+    private var listener: ListenerRegistration?
 
     func startListening(user1Id: String, user2Id: String) {
-        let listener1 = Firestore.firestore().collection("messages")
-            .whereField("senderId", isEqualTo: user1Id)
-            .whereField("receiverId", isEqualTo: user2Id)
-            .order(by: "timeSent")
-            .addSnapshotListener { [weak self] snapshot, error in
-                guard let documents = snapshot?.documents else {
-                    print("No messages")
-                    return
-                }
-                let newMessages = documents.compactMap { doc in
-                    try? doc.data(as: Chat.self)
-                }
-                self?.messages.append(contentsOf: newMessages)
-                self?.messages.sort(by: { $0.timeSent < $1.timeSent })
-            }
+        stopListening()
         
-        let listener2 = Firestore.firestore().collection("messages")
-            .whereField("senderId", isEqualTo: user2Id)
-            .whereField("receiverId", isEqualTo: user1Id)
+        let messagesCollection = Firestore.firestore().collection("messages")
+        listener = messagesCollection
             .order(by: "timeSent")
             .addSnapshotListener { [weak self] snapshot, error in
+                if let error = error {
+                    print("Error listening for messages: \(error.localizedDescription)")
+                    return
+                }
+                
                 guard let documents = snapshot?.documents else {
                     print("No messages")
                     return
                 }
-                let newMessages = documents.compactMap { doc in
-                    try? doc.data(as: Chat.self)
+                
+                DispatchQueue.main.async {
+                    // Filter messages client-side temporarily
+                    self?.messages = documents.compactMap { doc -> Chat? in
+                        guard let chat = try? doc.data(as: Chat.self) else { return nil }
+                        
+                        // Only include messages between these two users
+                        let isValidMessage = (chat.senderId == user1Id && chat.receiverId == user2Id) ||
+                                           (chat.senderId == user2Id && chat.receiverId == user1Id)
+                        return isValidMessage ? chat : nil
+                    }
                 }
-                self?.messages.append(contentsOf: newMessages)
-                self?.messages.sort(by: { $0.timeSent < $1.timeSent })
             }
-
-        // Store both listeners
-        listeners.append(listener1)
-        listeners.append(listener2)
     }
 
     func stopListening() {
-        // Remove all listeners
-        for listener in listeners {
-            listener.remove()
-        }
-        listeners.removeAll()
+        listener?.remove()
+        listener = nil
+    }
+    
+    deinit {
+        stopListening()
     }
 }
