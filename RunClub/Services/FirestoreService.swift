@@ -789,7 +789,7 @@ class FirestoreService {
         }
         
         func loadClubFeed(clubId: String) {
-            
+            print("what")
         }
     }
 

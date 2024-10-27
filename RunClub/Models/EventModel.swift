@@ -1,10 +1,3 @@
-//
-//  EventModel.swift
-//  RunClub
-//
-//  Created by Rhianna McCormack on 16/10/2024.
-//
-
 import Foundation
 import FirebaseFirestore
 import CoreLocation
@@ -19,11 +12,19 @@ struct Event: Codable, Identifiable, Hashable {
     var name: String
     var startPoint: Coordinate?
     var distance: Double
+    var estimatedTime: Int
     var timePosted: Date
     var clubId: String
     var runIds: [String]
     
-    init(id: String? = nil, date: Date, name: String, startPoint: CLLocationCoordinate2D?, clubId: String, distance: Double, runIds: [String]) {
+    init(id: String? = nil,
+         date: Date,
+         name: String,
+         startPoint: CLLocationCoordinate2D?,
+         clubId: String,
+         distance: Double,
+         estimatedTime: Int = 0,
+         runIds: [String]) {
         self.id = id
         self.date = date
         self.name = name
@@ -31,6 +32,7 @@ struct Event: Codable, Identifiable, Hashable {
         self.clubId = clubId
         self.startPoint = Coordinate(from: startPoint ?? CLLocationCoordinate2D(latitude: 0, longitude: 0))
         self.distance = distance
+        self.estimatedTime = estimatedTime
         self.runIds = runIds
     }
     
@@ -44,6 +46,7 @@ struct Event: Codable, Identifiable, Hashable {
         self.startPoint = try container.decode(Coordinate.self, forKey: .startPoint)
         self.distance = try container.decode(Double.self, forKey: .distance)
         self.runIds = try container.decode([String].self, forKey: .runIds)
+        self.estimatedTime = try container.decodeIfPresent(Int.self, forKey: .estimatedTime) ?? 0
     }
     
     func encode(to encoder: any Encoder) throws {
@@ -54,6 +57,7 @@ struct Event: Codable, Identifiable, Hashable {
         try container.encode(self.clubId, forKey: .clubId)
         try container.encode(self.startPoint, forKey: .startPoint)
         try container.encode(self.distance, forKey: .distance)
+        try container.encode(self.estimatedTime, forKey: .estimatedTime)
         try container.encode(self.runIds, forKey: .runIds)
     }
     
@@ -67,9 +71,9 @@ struct Event: Codable, Identifiable, Hashable {
         case startPoint
         case endPoint
         case distance
+        case estimatedTime
         case runIds
     }
-    
     
     func getDaysString() -> String {
         let dateFormatter = DateFormatterService()
@@ -85,22 +89,27 @@ struct Event: Codable, Identifiable, Hashable {
                 return "\(components.day ?? 0) days ago"
             }
         }
-        
-
     }
     
-    struct Coordinate: Codable, Hashable {
-        var latitude: Double
-        var longitude: Double
+
+    func getFormattedEstimatedTime() -> String {
+        let hours = estimatedTime / 60
+        let minutes = estimatedTime % 60
         
-        init(from location: CLLocationCoordinate2D) {
-            self.latitude = location.latitude
-            self.longitude = location.longitude
-        }
-        
-        func toCoordinate() -> CLLocationCoordinate2D {
-            return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        if hours > 0 {
+            return "\(hours)h \(minutes)m"
+        } else {
+            return "\(minutes)m"
         }
     }
+    
+    func getEstimatedPace() -> String {
+        guard distance > 0 && estimatedTime > 0 else { return "N/A" }
+        
+        let paceInMinutesPerKm = Double(estimatedTime) / distance
+        let paceMinutes = Int(paceInMinutesPerKm)
+        let paceSeconds = Int((paceInMinutesPerKm - Double(paceMinutes)) * 60)
+        
+        return String(format: "%d:%02d /km", paceMinutes, paceSeconds)
+    }
 }
-
