@@ -20,6 +20,14 @@ struct FriendRow: View {
                 Text(user.username)
             }
             Spacer()
+            NavigationLink {
+                ChatView(friend: user)
+            } label: {
+                Image(systemName: "message")
+                    .font(.system(size: 20))
+                    .bold()
+                    .padding(.trailing)
+            }
         }.padding()
         .background (
             RoundedRectangle(cornerRadius: 20)

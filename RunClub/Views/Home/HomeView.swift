@@ -22,19 +22,7 @@ struct HomeView: View {
                     Spacer()
                 
 
-                    NavigationLink {
-                        //ChatView()
-                    } label: {
-                        ZStack {
-                            Circle()
-                                .fill(.lightGreen)
-                                .frame(width: 40, height: 40)
-                            
-                            Image(systemName: "message")
-                                .foregroundStyle(.white)
-                                .bold()
-                        }
-                    }
+                  
                 }.padding()
                 
 //                if (isLoading) {
