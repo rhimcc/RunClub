@@ -9,6 +9,7 @@ import SwiftUI
 import MapKit
 
 struct RunMetricsView: View {
+    @StateObject var runViewModel: RunViewModel = RunViewModel()
     @ObservedObject var locationManager: LocationService
     
     var formattedDistance: String {
@@ -26,7 +27,6 @@ struct RunMetricsView: View {
         let seconds = Int(locationManager.elapsedTime.truncatingRemainder(dividingBy: 60))
         return String(format: "%d:%02d", minutes, seconds)
     }
-    @State var navigateToSummary: Bool = false
     @State var isPresentingConfirm: Bool = false
     var buttonShown: Bool
     var body: some View {
@@ -55,17 +55,15 @@ struct RunMetricsView: View {
                         .cornerRadius(25)
                 }
                 .padding(.bottom, 30)
-                .background(
-                    NavigationLink(destination: RunSummaryView(locationManager: locationManager, run: Run(locations: locationManager.locations, startTime: locationManager.startTime ?? Date(), elapsedTime: locationManager.elapsedTime, runnerId: User.getCurrentUserId())), isActive: $navigateToSummary) {
-                        EmptyView()
-                    }
-                ).alert(isPresented: $isPresentingConfirm) {
+                .sheet(isPresented: $runViewModel.showSummary, onDismiss: dismissSheet) {
+                    RunSummaryView(locationManager: locationManager, run: Run(locations: locationManager.locations, startTime: locationManager.startTime ?? Date(), elapsedTime: locationManager.elapsedTime, runnerId: User.getCurrentUserId()), runViewModel: runViewModel)
+                }.alert(isPresented: $isPresentingConfirm) {
                     Alert(
                         title: Text("Stop Run"),
                         message: Text("Are you sure you want to stop the run?"),
                         primaryButton: .destructive(Text("Stop")) {
                             locationManager.stopTracking()
-                            navigateToSummary = true
+                            runViewModel.showSummary = true
                         },
                         secondaryButton: .cancel()
                     )
@@ -76,5 +74,9 @@ struct RunMetricsView: View {
         }
         .background(Color(UIColor.systemBackground))
         .frame(maxWidth: .infinity)
+    }
+    
+    func dismissSheet() {
+        runViewModel.showSummary = false
     }
 }

@@ -5,6 +5,7 @@ struct RunSummaryView: View {
     let firestore = FirestoreService()
     var locationManager: LocationService
     var run: Run
+    @ObservedObject var runViewModel: RunViewModel
     @State var clubs: [Club] = []
     @State var events: [Event] = []
     @State var selectedClub: Club? = nil
@@ -20,7 +21,7 @@ struct RunSummaryView: View {
             let size = UIScreen.main.bounds.width - 40
             RouteMapView(showUserLocation: false, locationManager: locationManager)
                 .frame(width: size, height: size)
-            RunMetricsView(locationManager: locationManager, buttonShown: false)
+            RunMetricsView(runViewModel: runViewModel, locationManager: locationManager, buttonShown: false)
             
             HStack {
                 Text("Club:")
@@ -54,12 +55,13 @@ struct RunSummaryView: View {
             }
             
             Button("Save Run"){
-                    let run = Run(eventId: selectedEvent?.id ?? "",
-                                locations: locationManager.locations,
-                                startTime: locationManager.startTime ?? Date(),
-                                  elapsedTime: locationManager.elapsedTime, runnerId: User.getCurrentUserId())
-                    firestore.storeRun(run: run)
-            }
+                let run = Run(eventId: selectedEvent?.id ?? "",
+                            locations: locationManager.locations,
+                            startTime: locationManager.startTime ?? Date(),
+                              elapsedTime: locationManager.elapsedTime, runnerId: User.getCurrentUserId())
+                firestore.storeRun(run: run)
+                runViewModel.showSummary = false
+            }.buttonStyle(.borderedProminent)
         }
         .padding(20)
         .navigationBarBackButtonHidden(true)
