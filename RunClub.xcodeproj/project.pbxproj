@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		07668FE92CCF79AB004FA7D1 /* FeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07668FE82CCF79AB004FA7D1 /* FeedItem.swift */; };
+		07668FEB2CCF85A8004FA7D1 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07668FEA2CCF85A8004FA7D1 /* FeedView.swift */; };
+		07668FED2CCF85C1004FA7D1 /* UpcomingEventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07668FEC2CCF85C1004FA7D1 /* UpcomingEventsView.swift */; };
 		076D95032CCE683500E0D59C /* LocationPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076D95022CCE683500E0D59C /* LocationPickerView.swift */; };
 		076D95052CCE685400E0D59C /* MapPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076D95042CCE685400E0D59C /* MapPin.swift */; };
 		076D95072CCE69B400E0D59C /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076D95062CCE69B300E0D59C /* Coordinate.swift */; };
@@ -128,6 +131,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		07668FE82CCF79AB004FA7D1 /* FeedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItem.swift; sourceTree = "<group>"; };
+		07668FEA2CCF85A8004FA7D1 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
+		07668FEC2CCF85C1004FA7D1 /* UpcomingEventsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingEventsView.swift; sourceTree = "<group>"; };
 		076D95022CCE683500E0D59C /* LocationPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPickerView.swift; sourceTree = "<group>"; };
 		076D95042CCE685400E0D59C /* MapPin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPin.swift; sourceTree = "<group>"; };
 		076D95062CCE69B300E0D59C /* Coordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinate.swift; sourceTree = "<group>"; };
@@ -390,6 +396,7 @@
 				99D564C52CC8E03200EFD584 /* FriendsView.swift */,
 				99D564D72CC9353400EFD584 /* ClubRow.swift */,
 				99D564D32CC91B9700EFD584 /* FriendViewModel.swift */,
+				07668FEA2CCF85A8004FA7D1 /* FeedView.swift */,
 				99D564CF2CC9167A00EFD584 /* FriendRow.swift */,
 				99D564C72CC8E11400EFD584 /* AddFriendView.swift */,
 				99D564CB2CC8E67700EFD584 /* AddFriendRow.swift */,
@@ -448,6 +455,8 @@
 				99DE58832CBF2EC1003A615B /* PostView.swift */,
 				99DE588E2CBF3C37003A615B /* EventView.swift */,
 				9926C3952CCF1AA4007D14D4 /* EventDetailView.swift */,
+				07668FEC2CCF85C1004FA7D1 /* UpcomingEventsView.swift */,
+				9926C3972CCF1BA9007D14D4 /* RunRow.swift */,
 				9926C3972CCF1BA9007D14D4 /* ResultRow.swift */,
 				99861B3E2CCF3B7A001122B4 /* RunRow.swift */,
 				99F8DFAD2CC4E135002FD982 /* AddEventView.swift */,
@@ -470,6 +479,7 @@
 				999A4B832CCE5FE40077C2C4 /* FeedItemModel.swift */,
 				076D95042CCE685400E0D59C /* MapPin.swift */,
 				07BD5ED82CC8C452002914DF /* RoutePoint.swift */,
+				07668FE82CCF79AB004FA7D1 /* FeedItem.swift */,
 				99DE58CE2CBF7DF9003A615B /* EventModel.swift */,
 				076D95062CCE69B300E0D59C /* Coordinate.swift */,
 				07BD5EC52CC8B821002914DF /* RunModel.swift */,
@@ -639,6 +649,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07668FEB2CCF85A8004FA7D1 /* FeedView.swift in Sources */,
 				999A4B802CCE2F920077C2C4 /* DateFormatter.swift in Sources */,
 				99D564C62CC8E03200EFD584 /* FriendsView.swift in Sources */,
 				999A4B842CCE5FE40077C2C4 /* FeedItemModel.swift in Sources */,
@@ -669,6 +680,8 @@
 				07BD5EE82CC8CE9E002914DF /* RecordRunView.swift in Sources */,
 				99DE58932CBF45B6003A615B /* EventRow.swift in Sources */,
 				99DE58782CBE8C7B003A615B /* ClubList.swift in Sources */,
+				07668FED2CCF85C1004FA7D1 /* UpcomingEventsView.swift in Sources */,
+				07668FE92CCF79AB004FA7D1 /* FeedItem.swift in Sources */,
 				079815312CCB44BE00754E6E /* MetricBox.swift in Sources */,
 				99DE586B2CBD324C003A615B /* SignInView.swift in Sources */,
 				99D564D42CC91B9700EFD584 /* FriendViewModel.swift in Sources */,
