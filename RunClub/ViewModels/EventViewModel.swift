@@ -10,4 +10,5 @@ import MapKit
 
 class EventViewModel: ObservableObject {
     @Published var addEventSheet: Bool = false
+    
 }

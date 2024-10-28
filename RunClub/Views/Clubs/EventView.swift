@@ -10,7 +10,6 @@ import CoreLocation
 
 struct EventView: View {
     @ObservedObject var eventViewModel: EventViewModel = EventViewModel()
-//    @ObservedObject var clubViewModel: ClubViewModel = ClubViewModel()
     var club: Club
     @State var events: [Event] = []
     let firestore = FirestoreService()
@@ -91,7 +90,6 @@ struct EventView: View {
     private func scrollToCurrentEvent(using proxy: ScrollViewProxy) {
         let today = Date()
         if let index = events.firstIndex(where: { $0.date >= today }) {
-            print(index)
             withAnimation {
                 proxy.scrollTo(index, anchor: .top) // Scroll to the index
             }

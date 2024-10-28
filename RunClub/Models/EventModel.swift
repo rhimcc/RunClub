@@ -112,4 +112,5 @@ struct Event: Codable, Identifiable, Hashable {
         
         return String(format: "%d:%02d /km", paceMinutes, paceSeconds)
     }
+    
 }

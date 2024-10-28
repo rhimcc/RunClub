@@ -62,19 +62,57 @@ class FirestoreService {
     }
     
     func createClub(club: Club) {
-        
+        var club = club
+        print("creating club")
         do {
             let jsonData = try JSONEncoder().encode(club) // creates data from the user
             let jsonDict = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] // creates a dict from the data
-            db.collection("clubs").addDocument(data: jsonDict ?? [:]) { error in // sets the data for the user id with the dict
+            let docRef = db.collection("clubs").addDocument(data: jsonDict ?? [:]) { error in // sets the data for the user id with the dict
                 if let error = error {
                     print("Error adding club: \(error.localizedDescription)")
                 } else {
                     print("Club successfully added")
                 }
             }
+            club.id = docRef.documentID
         } catch {
             print("Error encoding club: \(error.localizedDescription)")
+        }
+        //add club id to owners club ids
+        addClubIdToOwner(club: club)
+    }
+    
+    func addClubIdToOwner(club: Club) {
+        print("adding club id to owner")
+        let userRef = db.collection("users").document(club.ownerId)
+        
+        userRef.getDocument { (document, error) in
+            if let error = error {
+                print("Error getting club document: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let document = document, document.exists else {
+                print("Club document does not exist")
+                return
+            }
+            
+            // Retrieve the current postIds, if they exist
+            var clubIds = document.data()?["clubIds"] as? [String] ?? []
+            
+            // Add the new postId to the array
+            if let id = club.id {
+                clubIds.append(id)
+            }
+            
+            // Update the club document with the new postIds
+            userRef.updateData(["clubIds": clubIds]) { error in
+                if let error = error {
+                    print("Error updating club eventIds: \(error.localizedDescription)")
+                } else {
+                    print("Club eventIds successfully updated")
+                }
+            }
         }
     }
     
@@ -147,7 +185,7 @@ class FirestoreService {
     }
     
     
-    func storeEvent(event: Event) {
+    func storeEvent(event: Event, completion: @escaping () -> Void) {
         do {
             let docID = self.db.collection("events").document().documentID
             try db.collection("events").document(docID).setData(from: event){ error in // sets the data for the user id with the dict
@@ -163,6 +201,7 @@ class FirestoreService {
         } catch {
             print("Error encoding event: \(error.localizedDescription)")
         }
+        completion()
     }
     
     func storeMessage(message: Message) {

@@ -147,7 +147,10 @@ struct AddEventView: View {
             runIds: []
         )
 
-        firestore.storeEvent(event: newEvent)
-        eventViewModel.addEventSheet = false
+        firestore.storeEvent(event: newEvent) {
+            DispatchQueue.main.async {
+                eventViewModel.addEventSheet = false
+            }
+        }
     }
 }
