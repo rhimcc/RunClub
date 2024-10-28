@@ -1,5 +1,5 @@
 //
-//  RunRow.swift
+//  ResultRow.swift
 //  RunClub
 //
 //  Created by Rhianna McCormack on 28/10/2024.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct RunRow: View {
+struct ResultRow: View {
     let firestore = FirestoreService()
     var run: Run
     var index: Int
@@ -43,5 +43,5 @@ struct RunRow: View {
 }
 
 //#Preview {
-//    RunRow()
+//    ResultRow()
 //}
