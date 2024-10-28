@@ -117,7 +117,7 @@ struct EventRow: View {
             RoundedRectangle(cornerRadius: 16)
                 .fill(Color("lightGreen").opacity(0.1))
         )
-//        .padding(.horizontal)
+        .padding(.horizontal)
         .onAppear {
             updateRegion()
             loadRunsCount()
