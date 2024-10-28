@@ -13,7 +13,8 @@ struct EventView: View {
     var club: Club
     @State var events: [Event] = []
     let firestore = FirestoreService()
-    
+    @State var eventPopUp: Bool = false
+    @State var currentEvent: Event? = nil
     
     var body: some View {
         ScrollViewReader { scrollProxy in // Use ScrollViewReader
@@ -35,16 +36,23 @@ struct EventView: View {
                     }
                     
                     ForEach(events) { event in
-                        EventRow(event: event)
-                            .padding( )
+                        Button {
+                            currentEvent = event
+                                eventPopUp = true
+                        } label: {
+                            EventRow(event: event)
+                                .padding()
+                        }
+                 
                     }
                 }
-            }
-                .onAppear {
-                    fetchEvents() {
-                        scrollToCurrentEvent(using: scrollProxy)
-                    }
+            }.onAppear {
+                fetchEvents() {
+                    scrollToCurrentEvent(using: scrollProxy)
                 }
+            }.sheet(item: $currentEvent, content: { event in
+                EventDetailView(event: event)
+             })
         }
     }
     

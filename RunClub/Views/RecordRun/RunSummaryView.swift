@@ -58,7 +58,7 @@ struct RunSummaryView: View {
                     let run = Run(eventId: id,
                                 locations: locationManager.locations,
                                 startTime: locationManager.startTime ?? Date(),
-                                elapsedTime: locationManager.elapsedTime)
+                                  elapsedTime: locationManager.elapsedTime, runnerId: User.getCurrentUserId())
                     firestore.storeRun(run: run)
                 }
             }

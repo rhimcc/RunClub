@@ -42,7 +42,7 @@ struct AddEventView: View {
                 VStack(alignment: .leading) {
                     Text("Date & Time")
                         .font(.headline)
-                        .foregroundColor(Color("LighterGreen"))
+                        .foregroundColor(Color("MossGreen"))
                     DatePicker("", selection: $date, displayedComponents: [.date, .hourAndMinute])
                         .datePickerStyle(.graphical)
                         .tint(Color("MossGreen"))
@@ -54,7 +54,7 @@ struct AddEventView: View {
                 VStack(alignment: .leading, spacing: 15) {
                     Text("Event Details")
                         .font(.headline)
-                        .foregroundColor(Color("LighterGreen"))
+                        .foregroundColor(Color("MossGreen"))
                     
                     TextField("Event Name", text: $name)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -74,8 +74,8 @@ struct AddEventView: View {
                 VStack(alignment: .leading) {
                     Text("Start Location")
                         .font(.headline)
-                        .foregroundColor(Color("LighterGreen"))
-                    
+                        .foregroundColor(Color("MossGreen"))
+
                     LocationPickerView(selectedLocation: $selectedLocation)
                 }
                 .padding()

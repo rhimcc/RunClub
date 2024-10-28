@@ -56,7 +56,7 @@ struct RunMetricsView: View {
                 }
                 .padding(.bottom, 30)
                 .background(
-                    NavigationLink(destination: RunSummaryView(locationManager: locationManager, run: Run(locations: locationManager.locations, startTime: locationManager.startTime ?? Date(), elapsedTime: locationManager.elapsedTime)), isActive: $navigateToSummary) {
+                    NavigationLink(destination: RunSummaryView(locationManager: locationManager, run: Run(locations: locationManager.locations, startTime: locationManager.startTime ?? Date(), elapsedTime: locationManager.elapsedTime, runnerId: User.getCurrentUserId())), isActive: $navigateToSummary) {
                         EmptyView()
                     }
                 ).alert(isPresented: $isPresentingConfirm) {

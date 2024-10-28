@@ -15,13 +15,15 @@ class Run: Identifiable, Codable {
     var locations: [CLLocation]
     var startTime: Date
     var elapsedTime: TimeInterval
+    var runnerId: String?
     
-    init(id: String? = nil, eventId: String? = nil, locations: [CLLocation], startTime: Date, elapsedTime: TimeInterval) {
+    init(id: String? = nil, eventId: String? = nil, locations: [CLLocation], startTime: Date, elapsedTime: TimeInterval, runnerId: String) {
         self.id = id
         self.eventId = eventId
         self.locations = locations
         self.startTime = startTime
         self.elapsedTime = elapsedTime
+        self.runnerId = runnerId
     }
     
     private struct LocationData: Codable {
@@ -59,6 +61,7 @@ class Run: Identifiable, Codable {
         
         let locationData = locations.map { LocationData(from: $0) }
         try container.encode(locationData, forKey: .locations)
+        try container.encode(runnerId, forKey: .runnerId)
     }
     
     required init(from decoder: any Decoder) throws {
@@ -69,6 +72,7 @@ class Run: Identifiable, Codable {
         self.elapsedTime = try container.decode(TimeInterval.self, forKey: .elapsedTime)
         let locationData = try container.decode([LocationData].self, forKey: .locations)
         self.locations = locationData.map { $0.toCLLocation() }
+        self.runnerId = try container.decode(String.self, forKey: .runnerId)
     }
     
     enum CodingKeys: String, CodingKey {
@@ -77,5 +81,6 @@ class Run: Identifiable, Codable {
         case locations
         case startTime
         case elapsedTime
+        case runnerId
     }
 }

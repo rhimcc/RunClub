@@ -21,50 +21,56 @@ struct ClubList: View {
                     .font(.title)
                 Spacer()
                 NavigationLink {
-                    AddClubView()
+                    // Search clubs
                 } label: {
                     ZStack {
-                        Circle()
-                            .fill(.lightGreen)
-                            .frame(width: 40, height: 40)
-                        
                         Image(systemName: "magnifyingglass")
-                            .foregroundStyle(.white)
-                            .bold()
-                        
+                            .foregroundStyle(.mossGreen)
+                            .font(.system(size: 25))
                     }
-                }.padding()
+                }
+                
                 NavigationLink {
                     ClubView(club: Club(name: "", ownerId: User.getCurrentUserId(), memberIds: [], eventIds: [], messageIds: []), editMode: true)
                 } label: {
                     Image(systemName: "plus")
                         .font(.system(size: 30))
                 }
-            }
+            }.padding()
             
             
             ScrollView {
                 VStack (alignment: .leading){
-                    Text("Owned")
-                    ForEach(ownedClubs) { club in
-                        NavigationLink {
-                            ClubView(club: club, editMode: false)
-                        } label: {
-                            ClubRow(club: club)
+                    if (ownedClubs.count > 0) {
+                        Text("Owned (\(ownedClubs.count))")
+                            .padding(.horizontal, 10)
+                        ForEach(ownedClubs) { club in
+                            NavigationLink {
+                                ClubView(club: club, editMode: false)
+                            } label: {
+                                ClubRow(club: club)
+                                    .padding(.horizontal, 10)
+                            }
                         }
                     }
-                    Text("Participant")
-                    ForEach(usersClubs) { club in
-                        NavigationLink {
-                            ClubView(club: club, editMode: false)
-                        } label: {
-                            Text("Club")
+                    if (usersClubs.count > 0) {
+                        Text("Participant (\(usersClubs.count))")
+                            .padding(.horizontal, 10)
+                        ForEach(usersClubs) { club in
+                            NavigationLink {
+                                ClubView(club: club, editMode: false)
+                            } label: {
+                                Text("Club")
+                            }
                         }
+                    }
+                    if (usersClubs.count == 0 && ownedClubs.count == 0) {
+                        Text("You are not in any clubs, join or create one!")
+                            .foregroundStyle(.gray)
                     }
                 }
             }
         }.frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.horizontal, 10)
             .onAppear {
                 loadClubsOfUser()
                 loadClubsUserOwns()

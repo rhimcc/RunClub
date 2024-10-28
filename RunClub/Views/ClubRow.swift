@@ -19,7 +19,11 @@ struct ClubRow: View {
             VStack (alignment: .leading){
                 Text(club.name)
                     .bold()
-                Text(member ? "Member" : "Not a Member")
+                if (club.ownerId == User.getCurrentUserId()) {
+                    Text("Owner")
+                } else {
+                    Text(member ? "Member" : "Not a Member")
+                }
                 
             }.foregroundStyle(.black)
             Spacer()
@@ -31,7 +35,7 @@ struct ClubRow: View {
             RoundedRectangle(cornerRadius: 20)
                 .fill(.white)
                 .shadow(color: .black.opacity(0.2), radius: 5)
-        ).padding()
+        )
 
     }
     
