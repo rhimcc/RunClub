@@ -18,7 +18,7 @@ struct FriendRow: View {
                 Text(user.firstName ?? "" + " " + (user.lastName ?? ""))
                     .bold()
                 Text(user.username)
-            }
+            }.foregroundStyle(.black)
             Spacer()
             NavigationLink {
                 ChatView(friend: user)

@@ -75,7 +75,9 @@ struct ProfileView: View {
                 if (id == User.getCurrentUserId()) {
                     Text("Your recent runs")
                 } else {
-                    Text("\(user.firstName)'s recent runs")
+                    if let firstName = user.firstName {
+                        Text("\(firstName)'s recent runs")
+                    }
                 }
             }
             ScrollView {
