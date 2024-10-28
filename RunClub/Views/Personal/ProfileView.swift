@@ -9,124 +9,278 @@ import SwiftUI
 
 struct ProfileView: View {
     @ObservedObject var authViewModel: AuthViewModel
-    @State var user: User? = nil
+    @State var user: User?
+    @State private var runs: [Run] = []
+    @State private var friendshipStatus: FriendshipStatus = .notFriends
     let firestore = FirestoreService()
-    @State var runs: [Run] = []
+    
+    private var isCurrentUser: Bool {
+        user?.id == User.getCurrentUserId()
+    }
+    
     var body: some View {
-        ScrollView {
-            
-            HStack {
-                Spacer()
-                Circle()
-                    .fill(.mossGreen)
-                    .frame(width: 120)
-                if let user = user, let firstName = user.firstName, let lastName = user.lastName {
-                    Text(firstName + " " + lastName)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .font(.title)
-                }
-                Spacer()
-                if let user = user, let id = user.id {
-                    if (id == User.getCurrentUserId()) {
-                        VStack {
-                            NavigationLink {
-                                SettingsView(authViewModel: authViewModel)
-                            } label: {
-                                ZStack {
-                                    Circle()
-                                        .fill(.lightGreen)
-                                        .frame(width: 40, height: 40)
-                                    
-                                    Image(systemName: "gearshape")
-                                        .foregroundStyle(.white)
-                                        .bold()
-                                    
-                                }.padding(.trailing, 10)
-                            }
-                            Spacer()
+       ScrollView {
+            VStack(spacing: 0) {
+                HStack{
+                    Spacer()
+                    if isCurrentUser {
+                        Button(action: {
+                            authViewModel.signOut()
+                        }) {
+                            Image(systemName: "rectangle.portrait.and.arrow.right")
+                                .foregroundStyle(.red)
+                                .opacity(0.6)
+                                .font(.system(size: 20))
                         }
+                        .padding(.horizontal, 10)
                     }
                 }
-            }
-            HStack {
-                Spacer()
-                VStack {
-                    Text("Friends")
-                        .bold()
-                    if let user = user, let friendIds = user.friendIds {
-                        Text("\(String(describing: friendIds.count))")
+                VStack(spacing: 12) {
+                    HStack(spacing: 20) {
+                        Circle()
+                            .fill(Color("MossGreen"))
+                            .frame(width: 100, height: 100)
+                            .overlay(
+                                Text((user?.username.prefix(1) ?? "A").uppercased())
+                                    .font(.system(size: 40))
+                                    .foregroundColor(.white)
+                            )
+                        
+                        Spacer()
+                        
+                        HStack(spacing: 40) {
+                            VStack(spacing: 4) {
+                                Text("\(user?.runIds?.count ?? 0)")
+                                    .font(.system(size: 16, weight: .semibold))
+                                Text("Runs")
+                                    .font(.system(size: 13))
+                                    .foregroundColor(.gray)
+                            }
+                            
+                            VStack(spacing: 4) {
+                                Text("\(user?.friendIds?.count ?? 0)")
+                                    .font(.system(size: 16, weight: .semibold))
+                                Text("Friends")
+                                    .font(.system(size: 13))
+                                    .foregroundColor(.gray)
+                            }
+                            
+                            VStack(spacing: 4) {
+                                Text("\(user?.clubIds?.count ?? 0)")
+                                    .font(.system(size: 16, weight: .semibold))
+                                Text("Clubs")
+                                    .font(.system(size: 13))
+                                    .foregroundColor(.gray)
+                            }
+                        }
+                        Spacer()
                         
                     }
-                }
-                Spacer()
-                VStack {
-                    Text("Clubs") // includes both the ones user owns and is a member of
-                        .bold()
-                    if let user = user, let clubIds = user.clubIds {
-                        Text("\(String(describing: clubIds.count))")
+                    
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text(user?.username ?? "")
+                            .font(.system(size: 22, weight: .semibold))
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    
+                    if !isCurrentUser {
+                        Button(action: handleFriendshipAction) {
+                            Text(friendshipButtonText)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(friendshipButtonColor)
+                                .cornerRadius(12)
+                        }
+                        .padding(.top, 12)
                     }
                 }
-                Spacer()
-            }.padding()
-            
-        
-            
-            Line()
-            if let user = user, let id = user.id {
-                if (id == User.getCurrentUserId()) {
-                    Text("Your recent runs")
-                } else {
-                    if let firstName = user.firstName {
-                        Text("\(firstName)'s recent runs")
+                .padding()
+                
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 12) {
+                        StatCard(
+                            icon: "flame.fill",
+                            title: "Total Distance",
+                            value: String(format: "%.1f", calculateTotalDistance()),
+                            unit: "km"
+                        )
+                        
+                        StatCard(
+                            icon: "clock.fill",
+                            title: "Total Time",
+                            value: formatTotalTime(),
+                            unit: ""
+                        )
+                        
+                        StatCard(
+                            icon: "speedometer",
+                            title: "Avg Pace",
+                            value: String(format: "%.1f", calculateAveragePace()),
+                            unit: "/km"
+                        )
+                        
+                        StatCard(
+                            icon: "arrow.up.right",
+                            title: "Total Elevation",
+                            value: String(format: "%.0f", calculateTotalElevation()),
+                            unit: "m"
+                        )
                     }
+                    .padding(.horizontal)
+                }
+                .padding(.vertical, 8)
+                
+                if !runs.isEmpty {
+                    HStack {
+                        Text("Recent Runs")
+                            .font(.headline)
+                            .foregroundColor(Color("MossGreen"))
+                        Spacer()
+                    }
+                    .padding(.horizontal)
+                    .padding(.top, 8)
+                    
+                    LazyVStack(spacing: 16) {
+                        ForEach(runs) { run in
+                            RunRow(run: run, onProfile: true)
+                        }
+                    }
+                    .padding(.top, 8)
                 }
             }
-            ScrollView {
-                ForEach(runs) { run in
-                    RunRow(run: run, onProfile: true)
-                }
-            }
-
-        }.onAppear {
-            if (user == nil) {
-                getCurrentUser() {
+        }
+        .onAppear {
+            if user == nil {
+                getCurrentUser {
                     loadRuns()
+                    checkFriendshipStatus()
                 }
             } else {
                 loadRuns()
+                checkFriendshipStatus()
             }
         }
     }
+    
+    private var friendshipButtonText: String {
+        switch friendshipStatus {
+        case .friends:
+            return "Unfriend"
+        case .pending:
+            return "Request Pending"
+        case .notFriends:
+            return "Add Friend"
+        }
+    }
+    
+    private var friendshipButtonColor: Color {
+        switch friendshipStatus {
+        case .friends:
+            return Color("MossGreen")
+        case .pending:
+            return Color.gray
+        case .notFriends:
+            return Color("MossGreen")
+        }
+    }
+    
+    private func handleFriendshipAction() {
+        let userId = User.getCurrentUserId()
+         guard let otherUserId = user?.id else { return }
+        
+        switch friendshipStatus {
+        case .friends:
+            firestore.unfriend(userId: userId, friendId: otherUserId) {
+                friendshipStatus = .notFriends
+            }
+        case .notFriends:
+            firestore.sendFriendRequest(to: user!)
+            friendshipStatus = .pending
+        case .pending:
+            break
+        }
+    }
+    
+    private func checkFriendshipStatus() {
+        guard !isCurrentUser, let otherUserId = user?.id else { return }
+        let userId = User.getCurrentUserId()
+        
+        firestore.checkFriendshipStatus(userId: userId, otherUserId: otherUserId) { status in
+            DispatchQueue.main.async {
+                self.friendshipStatus = status
+            }
+        }
+    }
+    
+    private func calculateTotalDistance() -> Double {
+        runs.reduce(0.0) { total, run in
+            let distance = run.locations.enumerated().dropLast().reduce(0.0) { sum, element in
+                sum + element.element.distance(from: run.locations[element.offset + 1])
+            }
+            return total + (distance / 1000)
+        }
+    }
+    
+    private func calculateAveragePace() -> Double {
+        let totalDistance = calculateTotalDistance()
+        let totalTime = runs.reduce(0.0) { $0 + $1.elapsedTime }
+        guard totalDistance > 0 else { return 0 }
+        return (totalTime / 60) / totalDistance
+    }
+    
+    private func formatTotalTime() -> String {
+        let totalSeconds = runs.reduce(0.0) { $0 + $1.elapsedTime }
+        let hours = Int(totalSeconds / 3600)
+        let minutes = Int((totalSeconds.truncatingRemainder(dividingBy: 3600)) / 60)
+        return "\(hours)h \(minutes)m"
+    }
+    
+    private func calculateTotalElevation() -> Double {
+        runs.reduce(0.0) { total, run in
+            let elevation = run.locations.enumerated().dropLast().reduce(0.0) { sum, element in
+                let heightDiff = run.locations[element.offset + 1].altitude - element.element.altitude
+                return sum + (heightDiff > 0 ? heightDiff : 0)
+            }
+            return total + elevation
+        }
+    }
+    
+    private func getMostActiveDay() -> String {
+        let calendar = Calendar.current
+        let runCounts = runs.reduce(into: [Int: Int]()) { counts, run in
+            let weekday = calendar.component(.weekday, from: run.startTime)
+            counts[weekday, default: 0] += 1
+        }
+        
+        if let mostActive = runCounts.max(by: { $0.value < $1.value }) {
+            return calendar.weekdaySymbols[mostActive.key - 1]
+        }
+        return "N/A"
+    }
+    
     private func getCurrentUser(completion: @escaping () -> Void) {
         firestore.getUserByID(id: User.getCurrentUserId()) { user in
             DispatchQueue.main.async {
                 if let user = user {
                     self.user = user
+                    completion()
                 }
             }
         }
     }
     
-    func loadRuns() {
+    private func loadRuns() {
         if let user = user, let id = user.id {
             firestore.getRunsOfUser(userId: id) { runs, error in
                 DispatchQueue.main.async {
                     if let runs = runs {
-                        self.runs = runs
-                        print(runs.count)
+                        self.runs = runs.sorted(by: { $0.startTime > $1.startTime })
                     }
                 }
             }
         }
     }
     
-    
-    
-    
-}
-
-
-
-#Preview {
-    ProfileView(authViewModel: AuthViewModel(), user: User(id: "123", firstName: "12rtgr", lastName: "rgrefd", email: "wfwgew", friendIds: [], clubIds: [], phoneNumber: "92034829", username: "fwheufijfnr", runIds: [], pendingFriendIds: []))
 }
