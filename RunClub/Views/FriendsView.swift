@@ -34,7 +34,11 @@ struct FriendsView: View {
                 if !friendViewModel.friends.isEmpty {
                     Text("Friends (\(friendViewModel.friends.count))")
                     ForEach(friendViewModel.friends) { friend in
-                        FriendRow(user: friend)
+                        NavigationLink {
+                            ProfileView(authViewModel: AuthViewModel(), user: friend)
+                        } label: {
+                            FriendRow(user: friend)
+                        }
                     }
                 }
             }.padding(.horizontal, 10)
