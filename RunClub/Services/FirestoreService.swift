@@ -851,6 +851,33 @@ class FirestoreService {
             print("Error encoding event: \(error.localizedDescription)")
         }
     }
+    
+    func getRunsOfUser(userId: String, completion: @escaping ([Run]?, Error?) -> Void) {
+        db.collection("runs")
+            .whereField("runnerId", isEqualTo: userId)
+            .getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    print("Error fetching runs: \(error)")
+                    completion(nil, error)
+                    return
+                }
+                
+                let fetchedRuns = querySnapshot?.documents.compactMap { document -> Run? in
+                    do {
+                        var run = try document.data(as: Run.self)
+                        run.id = document.documentID
+                        return run
+                    } catch {
+                        print("Error decoding run: \(error)")
+                        return nil
+                    }
+                } ?? []
+                
+                DispatchQueue.main.async {
+                    completion(fetchedRuns, nil)
+                }
+            }
+    }
 }
     
 

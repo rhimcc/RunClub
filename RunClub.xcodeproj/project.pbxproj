@@ -32,6 +32,7 @@
 		995F847F2CC0BD6A0031F804 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995F847E2CC0BD6A0031F804 /* AuthViewModel.swift */; };
 		995F84802CC0BD6A0031F804 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995F847E2CC0BD6A0031F804 /* AuthViewModel.swift */; };
 		995F84812CC0BD6A0031F804 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995F847E2CC0BD6A0031F804 /* AuthViewModel.swift */; };
+		99861B3F2CCF3B7A001122B4 /* RunRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99861B3E2CCF3B7A001122B4 /* RunRow.swift */; };
 		999A4B7B2CCDE2840077C2C4 /* RunSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999A4B7A2CCDE2840077C2C4 /* RunSummaryView.swift */; };
 		999A4B7E2CCE22980077C2C4 /* FirebaseVertexAI in Frameworks */ = {isa = PBXBuildFile; productRef = 999A4B7D2CCE22980077C2C4 /* FirebaseVertexAI */; };
 		999A4B802CCE2F920077C2C4 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999A4B7F2CCE2F920077C2C4 /* DateFormatter.swift */; };
@@ -151,6 +152,7 @@
 		9926C3952CCF1AA4007D14D4 /* EventDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailView.swift; sourceTree = "<group>"; };
 		9926C3972CCF1BA9007D14D4 /* ResultRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultRow.swift; sourceTree = "<group>"; };
 		995F847E2CC0BD6A0031F804 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+		99861B3E2CCF3B7A001122B4 /* RunRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunRow.swift; sourceTree = "<group>"; };
 		999A4B7A2CCDE2840077C2C4 /* RunSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunSummaryView.swift; sourceTree = "<group>"; };
 		999A4B7F2CCE2F920077C2C4 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
 		999A4B812CCE5F120077C2C4 /* ClubFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubFeedView.swift; sourceTree = "<group>"; };
@@ -447,6 +449,7 @@
 				99DE588E2CBF3C37003A615B /* EventView.swift */,
 				9926C3952CCF1AA4007D14D4 /* EventDetailView.swift */,
 				9926C3972CCF1BA9007D14D4 /* ResultRow.swift */,
+				99861B3E2CCF3B7A001122B4 /* RunRow.swift */,
 				99F8DFAD2CC4E135002FD982 /* AddEventView.swift */,
 				99DE58922CBF45B6003A615B /* EventRow.swift */,
 				99DE58902CBF3C3E003A615B /* MembersView.swift */,
@@ -641,6 +644,7 @@
 				999A4B842CCE5FE40077C2C4 /* FeedItemModel.swift in Sources */,
 				07BD5EDD2CC8CB58002914DF /* RouteMapView.swift in Sources */,
 				07BD5ED92CC8C452002914DF /* RoutePoint.swift in Sources */,
+				99861B3F2CCF3B7A001122B4 /* RunRow.swift in Sources */,
 				99DE58802CBF2DE6003A615B /* SearchBar.swift in Sources */,
 				99DE58722CBE8BB7003A615B /* ProfileView.swift in Sources */,
 				076D95032CCE683500E0D59C /* LocationPickerView.swift in Sources */,
@@ -869,7 +873,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RunClub/Preview Content\"";
-				DEVELOPMENT_TEAM = MS33HPMRRR;
+				DEVELOPMENT_TEAM = HRF24T6BK3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RunClub/Info.plist;
@@ -902,7 +906,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RunClub/Preview Content\"";
-				DEVELOPMENT_TEAM = MS33HPMRRR;
+				DEVELOPMENT_TEAM = HRF24T6BK3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RunClub/Info.plist;

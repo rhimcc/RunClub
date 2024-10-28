@@ -11,6 +11,7 @@ struct ProfileView: View {
     @ObservedObject var authViewModel: AuthViewModel
     @State var user: User? = nil
     let firestore = FirestoreService()
+    @State var runs: [Run] = []
     var body: some View {
         ScrollView {
             
@@ -81,16 +82,16 @@ struct ProfileView: View {
                 }
             }
             ScrollView {
-//                ForEach(user?.runIds) { run in
-//                    // Each run
-//                }
-                //Each personal run
+                ForEach(runs) { run in
+                    RunRow(run: run, onProfile: true)
+                }
             }
 
         }.onAppear {
             if (user == nil) {
                 getCurrentUser()
             }
+            loadRuns()
         }
     }
     private func getCurrentUser() {
@@ -102,6 +103,20 @@ struct ProfileView: View {
             }
         }
     }
+    
+    func loadRuns() {
+        if let user = user, let id = user.id {
+            firestore.getRunsOfUser(userId: id) { runs, error in
+                DispatchQueue.main.async {
+                    if let runs = runs {
+                        self.runs = runs
+                    }
+                }
+            }
+        }
+    }
+    
+    
     
     
 }
