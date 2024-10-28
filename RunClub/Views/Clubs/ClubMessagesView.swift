@@ -42,7 +42,7 @@ struct ClubMessagesView: View {
                     .background(RoundedRectangle(cornerRadius: 20).fill(.lighterGreen))
                     .foregroundStyle(.black)
                 ForEach(messages.sorted(by: { $0.timePosted < $1.timePosted }).filter({ dateFormatter.getDateString(date: $0.timePosted) == day}), id: \.id) { message in
-                    MessageView(message: message)
+                    PostView(message: message)
                         .padding(.bottom, 10)
                 }
             }

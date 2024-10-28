@@ -11,67 +11,24 @@ struct ChatView: View {
     let firestore = FirestoreService()
     var friend: User
     @ObservedObject var chatViewModel: ChatViewModel = ChatViewModel()
-//    @State var messages: [Chat] = []
-    @State var message: String = ""
+    let dateFormatter = DateFormatterService()
     var body: some View {
         VStack {
             if let firstName = friend.firstName, let lastName = friend.lastName {
                 Text(firstName + " " + lastName)
                     .font(.headline)
             }
+            MessageStream(chatViewModel: chatViewModel, friend: friend)
             
-            ScrollViewReader { proxy in
-                ScrollView {
-                    ForEach(chatViewModel.messages) { message in // show all messages
-                        HStack {
-                            if (message.senderId == User.getCurrentUserId()) { // user is sender
-                                Spacer()
-                                Text(message.messageContent)
-                                    .padding(10)
-                                    .foregroundStyle(.white)
-                                    .background(Color.mossGreen)
-                                    .cornerRadius(20)
-                            } else {
-                                Text(message.messageContent)
-                                    .padding(10)
-                                    .foregroundStyle(.white)
-                                    .background(Color.lightGreen)
-                                    .cornerRadius(20)
-                                Spacer()
-                            }
-                        }
-                    }
-                }.onAppear {
-                    if let id = friend.id {
-                        chatViewModel.startListening(user1Id: User.getCurrentUserId(), user2Id: id)
-                    }
-                   
-                    if let lastMessage = chatViewModel.messages.last {
-                        proxy.scrollTo(lastMessage.id, anchor: .bottom)
-                    } // snaps the view to the last sent message
-                }
-                .onChange(of: chatViewModel.messages) { _, _ in // snaps view to the last sent message
-                    if let lastMessage = chatViewModel.messages.last {
-                        withAnimation {
-                            proxy.scrollTo(lastMessage.id, anchor: .bottom)
-                        }
-                    }
-                }
-            }.onDisappear {
-                chatViewModel.stopListening() // Stop listening when the view disappears
-            }
+
 
             HStack {
-                TextField("Message...", text: $message)
+                TextField("Message...", text: $chatViewModel.message)
                     .textFieldStyle(.roundedBorder)
                 Button {
                     if let id = friend.id {
-                        let newMessageID = firestore.db.collection("messages").document().documentID
-                        let message = Chat(id: newMessageID, messageContent: message, senderId: User.getCurrentUserId(), receiverId: id)
-                        firestore.sendMessage(to: id, message: message)
-                        chatViewModel.messages.append(message)
+                        chatViewModel.sendMessage(friendId: id)
                     }
-                    message = ""
                 } label: {
                     Image(systemName: "paperplane.fill")
                         .foregroundStyle(.white)
@@ -84,6 +41,7 @@ struct ChatView: View {
             }
         }.padding()
             .onAppear {
+                chatViewModel.updateDaysPosted()
                 loadAllMessages()
             }
     }
@@ -100,10 +58,18 @@ struct ChatView: View {
             
         }
     }
+    
+    
+    
+
+    
+   
 
 }
 
 //#Preview {
 //    ChatView()
 //}
+
+
 

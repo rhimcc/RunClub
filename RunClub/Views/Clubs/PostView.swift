@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MessageView: View {
+struct PostView: View {
     let dateFormatter = DateFormatterService()
     var message: Message
     let firestore = FirestoreService()
