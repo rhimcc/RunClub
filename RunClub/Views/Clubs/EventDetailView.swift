@@ -26,7 +26,7 @@ struct EventDetailView: View {
                         coordinateRegion: $region,
                         interactionModes: .all,
                         annotationItems: [
-                            Location(coordinate: CLLocationCoordinate2D(
+                            MapPin(coordinate: CLLocationCoordinate2D(
                                 latitude: startPoint.latitude,
                                 longitude: startPoint.longitude
                             ))
