@@ -9,7 +9,8 @@ import SwiftUI
 import CoreLocation
 
 struct EventView: View {
-    @ObservedObject var clubViewModel: ClubViewModel = ClubViewModel()
+    @ObservedObject var eventViewModel: EventViewModel = EventViewModel()
+//    @ObservedObject var clubViewModel: ClubViewModel = ClubViewModel()
     var club: Club
     @State var events: [Event] = []
     let firestore = FirestoreService()
@@ -23,13 +24,13 @@ struct EventView: View {
                     HStack {
                         Spacer()
                         Button {
-                            clubViewModel.addEventSheet.toggle()
+                            eventViewModel.addEventSheet.toggle()
                         } label: {
                             Image(systemName: "plus")
                                 .font(.system(size: 20))
                         }
-                        .sheet(isPresented: $clubViewModel.addEventSheet, onDismiss: dismissEventSheet) {
-                            AddEventView(clubViewModel: clubViewModel, club: club)
+                        .sheet(isPresented: $eventViewModel.addEventSheet, onDismiss: dismissEventSheet) {
+                                AddEventView(eventViewModel: eventViewModel, club: club)
                         }.presentationDragIndicator(.automatic)
                             .presentationDetents([.height(200)])
                         
@@ -58,8 +59,10 @@ struct EventView: View {
     
     
     private func fetchEvents(completion: @escaping () -> Void) {
-            // Assuming the club has eventIds that you want to use to fetch posts
+        // Assuming the club has eventIds that you want to use to fetch posts
+            
             let eventIds = club.eventIds
+            
             
             let group = DispatchGroup() // To manage multiple fetch requests
             var fetchedEvents: [Event] = []
@@ -78,11 +81,11 @@ struct EventView: View {
                 self.events = fetchedEvents.sorted(by: {$0.date < $1.date})
                 completion()
             }
-        }
+    }
     
     func dismissEventSheet() {
         fetchEvents() {}
-        clubViewModel.addEventSheet = false
+        eventViewModel.addEventSheet = false
     }
     
     private func scrollToCurrentEvent(using proxy: ScrollViewProxy) {

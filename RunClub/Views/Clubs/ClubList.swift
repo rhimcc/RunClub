@@ -12,7 +12,7 @@ struct ClubList: View {
     @State var clubs: [Club] = []
     @State var usersClubs: [Club] = []
     @State var ownedClubs: [Club] = []
-
+    @ObservedObject var clubViewModel: ClubViewModel = ClubViewModel()
 
     var body: some View {
         VStack (alignment: .leading){

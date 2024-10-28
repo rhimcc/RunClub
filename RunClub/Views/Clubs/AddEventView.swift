@@ -9,8 +9,8 @@ struct AddEventView: View {
     @State private var selectedLocation: CLLocationCoordinate2D?
     @State private var showingValidationAlert = false
     @State private var validationMessage = ""
+    @ObservedObject var eventViewModel: EventViewModel
     
-    var clubViewModel: ClubViewModel
     var club: Club
     let firestore = FirestoreService()
     
@@ -127,27 +127,26 @@ struct AddEventView: View {
     
     private func createEvent() {
         if let errorMessage = validateForm() {
-        validationMessage = errorMessage
-        showingValidationAlert = true
-        return
-    }
+            validationMessage = errorMessage
+            showingValidationAlert = true
+            return
+        }
 
-    guard let clubId = club.id,
-          let locationCoordinate = selectedLocation else {
-        return
-    }
+        guard let clubId = club.id,
+              let locationCoordinate = selectedLocation else {
+            return
+        }
 
-    let newEvent = Event(
-        date: date,
-        name: name,
-        startPoint: locationCoordinate,
-        clubId: clubId,
-        distance: Double(distance) ?? 0,
-        estimatedTime: Int(estimatedTime) ?? 0,
-        runIds: []
-    )
+        let newEvent = Event(
+            date: date,
+            name: name,
+            startPoint: locationCoordinate,
+            clubId: clubId,
+            distance: Double(distance) ?? 0,
+            estimatedTime: Int(estimatedTime) ?? 0,
+            runIds: []
+        )
 
-    firestore.storeEvent(event: newEvent)
-    clubViewModel.addEventSheet = false
+        firestore.storeEvent(event: newEvent)
     }
 }
