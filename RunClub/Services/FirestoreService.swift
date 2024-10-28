@@ -584,8 +584,6 @@ class FirestoreService {
                 return
             }
             let dispatchGroup = DispatchGroup()
-            var friendIds = document?.data()?["friendIds"] as? [String] ?? []
-            print(friendIds[0])
             var clubIds = document?.data()?["clubIds"] as? [String] ?? []
             var clubs: [Club] = []
             for clubId in clubIds {

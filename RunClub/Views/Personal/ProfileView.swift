@@ -25,22 +25,26 @@ struct ProfileView: View {
                         .font(.title)
                 }
                 Spacer()
-                VStack {
-                    NavigationLink {
-                        SettingsView(authViewModel: authViewModel)
-                    } label: {
-                        ZStack {
-                            Circle()
-                                .fill(.lightGreen)
-                                .frame(width: 40, height: 40)
-                            
-                            Image(systemName: "gearshape")
-                                .foregroundStyle(.white)
-                                .bold()
-                            
-                        }.padding(.trailing, 10)
+                if let user = user, let id = user.id {
+                    if (id == User.getCurrentUserId()) {
+                        VStack {
+                            NavigationLink {
+                                SettingsView(authViewModel: authViewModel)
+                            } label: {
+                                ZStack {
+                                    Circle()
+                                        .fill(.lightGreen)
+                                        .frame(width: 40, height: 40)
+                                    
+                                    Image(systemName: "gearshape")
+                                        .foregroundStyle(.white)
+                                        .bold()
+                                    
+                                }.padding(.trailing, 10)
+                            }
+                            Spacer()
+                        }
                     }
-                    Spacer()
                 }
             }
             HStack {
@@ -67,7 +71,13 @@ struct ProfileView: View {
         
             
             Line()
-            Text("Your recent runs")
+            if let user = user, let id = user.id {
+                if (id == User.getCurrentUserId()) {
+                    Text("Your recent runs")
+                } else {
+                    Text("\(user.firstName)'s recent runs")
+                }
+            }
             ScrollView {
 //                ForEach(user?.runIds) { run in
 //                    // Each run
@@ -76,7 +86,9 @@ struct ProfileView: View {
             }
 
         }.onAppear {
-            getCurrentUser()
+            if (user == nil) {
+                getCurrentUser()
+            }
         }
     }
     private func getCurrentUser() {
