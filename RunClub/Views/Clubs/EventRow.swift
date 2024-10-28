@@ -105,7 +105,7 @@ struct EventRow: View {
                 if isExpanded {
                     VStack(spacing: 8) {
                         ForEach(Array(runs.enumerated()), id: \.element.id) { index, run in
-                            RunRow(run: run, index: index)
+                            ResultRow(run: run, index: index)
                         }
                     }
                     .padding(.top, 8)

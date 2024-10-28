@@ -129,9 +129,7 @@ struct ClubView: View {
             }
             .padding(.horizontal)
             
-            // Content
             if clubTab == 0 {
-                // Message Input Field
                 HStack(spacing: 12) {
                     TextField("Write a message...", text: $newMessage)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -145,7 +143,7 @@ struct ClubView: View {
                     .disabled(newMessage.isEmpty)
                 }
                 .padding()
-                
+
                 ScrollView {
                     LazyVStack(spacing: 12) {
                         
@@ -154,14 +152,7 @@ struct ClubView: View {
                             case .message(let message):
                                 PostView(message: message)
                             case .event(let event):
-                                VStack(alignment: .leading, spacing: 8) {
-                                    Text("Past event")
-                                        .font(.subheadline)
-                                        .foregroundColor(.gray)
-                                        .padding(.horizontal)
-                                    
-                                    EventRow(event: event)
-                                }
+                                EventRow(event: event)
                             }
                         }
                     }
@@ -193,7 +184,7 @@ struct ClubView: View {
             }
         }
         .sheet(isPresented: $showingAddEventSheet) {
-            AddEventView(clubViewModel: ClubViewModel(), club: club)
+            AddEventView(eventViewModel: EventViewModel(), club: club)
         }
         .onAppear {
             getOwner()
@@ -265,7 +256,3 @@ struct ClubView: View {
         }
     }
 }
-
-//#Preview {
-//    ClubView(club: Club(name: "", ownerId: User.getCurrentUserId(), memberIds: [], eventIds: [], messageIds: []), editMode: false)
-//}
