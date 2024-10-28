@@ -89,12 +89,15 @@ struct ProfileView: View {
 
         }.onAppear {
             if (user == nil) {
-                getCurrentUser()
+                getCurrentUser() {
+                    loadRuns()
+                }
+            } else {
+                loadRuns()
             }
-            loadRuns()
         }
     }
-    private func getCurrentUser() {
+    private func getCurrentUser(completion: @escaping () -> Void) {
         firestore.getUserByID(id: User.getCurrentUserId()) { user in
             DispatchQueue.main.async {
                 if let user = user {
@@ -110,6 +113,7 @@ struct ProfileView: View {
                 DispatchQueue.main.async {
                     if let runs = runs {
                         self.runs = runs
+                        print(runs.count)
                     }
                 }
             }

@@ -54,13 +54,11 @@ struct RunSummaryView: View {
             }
             
             Button("Save Run"){
-                if let event = selectedEvent, let id = event.id {
-                    let run = Run(eventId: id,
+                    let run = Run(eventId: selectedEvent?.id ?? "",
                                 locations: locationManager.locations,
                                 startTime: locationManager.startTime ?? Date(),
                                   elapsedTime: locationManager.elapsedTime, runnerId: User.getCurrentUserId())
                     firestore.storeRun(run: run)
-                }
             }
         }
         .padding(20)

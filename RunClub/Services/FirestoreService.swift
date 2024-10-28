@@ -781,12 +781,15 @@ class FirestoreService {
             let docID = self.db.collection("runs").document().documentID
             try db.collection("runs").document(docID).setData(from: run){ error in // sets the data for the user id with the dict
                 if let error = error {
-                    print("Error adding event: \(error.localizedDescription)")
+                    print("Error adding run: \(error.localizedDescription)")
                 } else {
-                    print("event successfully added")
+                    print("run successfully added")
                 }
-                if let eventId = run.eventId {
+                if let eventId = run.eventId, eventId != "" {
                     self.updateEventRunIds(eventId: eventId, runId: docID)
+                }
+                if let runnerId = run.runnerId {
+                    self.updateUserRunIds(runId: docID)
                 }
             }
             
@@ -916,6 +919,36 @@ class FirestoreService {
                     completion(fetchedRuns, nil)
                 }
             }
+    }
+    
+    func updateUserRunIds(runId: String) {
+        let userRef = db.collection("users").document(User.getCurrentUserId())
+        userRef.getDocument { (document, error) in
+            if let error = error {
+                print("Error getting useer document: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let document = document, document.exists else {
+                print("User document does not exist")
+                return
+            }
+            
+            // Retrieve the current postIds, if they exist
+            var runIds = document.data()?["runIds"] as? [String] ?? []
+            
+            // Add the new postId to the array
+            runIds.append(runId)
+            
+            // Update the club document with the new postIds
+            userRef.updateData(["runIds": runIds]) { error in
+                if let error = error {
+                    print("Error updating user runIds: \(error.localizedDescription)")
+                } else {
+                    print("User runIds successfully updated")
+                }
+            }
+        }
     }
 }
     
