@@ -11,6 +11,7 @@ struct ProfileView: View {
     @ObservedObject var authViewModel: AuthViewModel
     @State var user: User? = nil
     let firestore = FirestoreService()
+    @State var runs: [Run] = []
     var body: some View {
         ScrollView {
             
@@ -25,22 +26,26 @@ struct ProfileView: View {
                         .font(.title)
                 }
                 Spacer()
-                VStack {
-                    NavigationLink {
-                        SettingsView(authViewModel: authViewModel)
-                    } label: {
-                        ZStack {
-                            Circle()
-                                .fill(.lightGreen)
-                                .frame(width: 40, height: 40)
-                            
-                            Image(systemName: "gearshape")
-                                .foregroundStyle(.white)
-                                .bold()
-                            
-                        }.padding(.trailing, 10)
+                if let user = user, let id = user.id {
+                    if (id == User.getCurrentUserId()) {
+                        VStack {
+                            NavigationLink {
+                                SettingsView(authViewModel: authViewModel)
+                            } label: {
+                                ZStack {
+                                    Circle()
+                                        .fill(.lightGreen)
+                                        .frame(width: 40, height: 40)
+                                    
+                                    Image(systemName: "gearshape")
+                                        .foregroundStyle(.white)
+                                        .bold()
+                                    
+                                }.padding(.trailing, 10)
+                            }
+                            Spacer()
+                        }
                     }
-                    Spacer()
                 }
             }
             HStack {
@@ -67,16 +72,26 @@ struct ProfileView: View {
         
             
             Line()
-            Text("Your recent runs")
+            if let user = user, let id = user.id {
+                if (id == User.getCurrentUserId()) {
+                    Text("Your recent runs")
+                } else {
+                    if let firstName = user.firstName {
+                        Text("\(firstName)'s recent runs")
+                    }
+                }
+            }
             ScrollView {
-//                ForEach(user?.runIds) { run in
-//                    // Each run
-//                }
-                //Each personal run
+                ForEach(runs) { run in
+                    RunRow(run: run, onProfile: true)
+                }
             }
 
         }.onAppear {
-            getCurrentUser()
+            if (user == nil) {
+                getCurrentUser()
+            }
+            loadRuns()
         }
     }
     private func getCurrentUser() {
@@ -88,6 +103,20 @@ struct ProfileView: View {
             }
         }
     }
+    
+    func loadRuns() {
+        if let user = user, let id = user.id {
+            firestore.getRunsOfUser(userId: id) { runs, error in
+                DispatchQueue.main.async {
+                    if let runs = runs {
+                        self.runs = runs
+                    }
+                }
+            }
+        }
+    }
+    
+    
     
     
 }

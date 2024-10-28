@@ -13,7 +13,6 @@ struct ClubFeedView: View {
     
     var body: some View {
         ScrollView {
-//            ForEach()
         }.onAppear {
             loadClubFeed()
         }
