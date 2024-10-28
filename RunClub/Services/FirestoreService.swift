@@ -950,6 +950,51 @@ class FirestoreService {
             }
         }
     }
+    
+    func unfriend(userId: String, friendId: String, completion: @escaping () -> Void) {
+        let userRef = db.collection("users").document(userId)
+        userRef.getDocument { (document, error) in
+            if let error = error {
+                print("Error getting user document: \(error.localizedDescription)")
+                return
+            }
+            
+            var friendIds = document?.data()?["friendIds"] as? [String] ?? []
+            if let index = self.getIndexOfId(id: friendId, array: friendIds) {
+                friendIds.remove(at: index)
+            }
+            userRef.updateData(["friendIds": friendIds])
+            
+            let friendRef = self.db.collection("users").document(friendId)
+            friendRef.getDocument { (document, error) in
+                if let error = error {
+                    print("Error getting friend document: \(error.localizedDescription)")
+                    return
+                }
+                
+                var otherFriendIds = document?.data()?["friendIds"] as? [String] ?? []
+                if let index = self.getIndexOfId(id: userId, array: otherFriendIds) {
+                    otherFriendIds.remove(at: index)
+                }
+                friendRef.updateData(["friendIds": otherFriendIds])
+                completion()
+            }
+        }
+    }
+    
+    func checkFriendshipStatus(userId: String, otherUserId: String, completion: @escaping (FriendshipStatus) -> Void) {
+        getUserByID(id: userId) { currentUser in
+            if let currentUser = currentUser {
+                if currentUser.friendIds?.contains(otherUserId) ?? false {
+                    completion(.friends)
+                } else if currentUser.pendingFriendIds?.contains(otherUserId) ?? false {
+                    completion(.pending)
+                } else {
+                    completion(.notFriends)
+                }
+            }
+        }
+    }
 }
     
 

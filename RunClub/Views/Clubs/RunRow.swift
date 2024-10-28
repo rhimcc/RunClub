@@ -8,43 +8,70 @@
 import SwiftUI
 
 struct RunRow: View {
-    let firestore = FirestoreService()
-    var run: Run
+    let run: Run
     let dateFormatter = DateFormatterService()
-    @State var runner: User? = nil
     let locationManager = LocationService()
     var onProfile: Bool
+    
     var body: some View {
-        VStack {
-            if (!onProfile) {
-                if let runner = runner, let firstName = runner.firstName {
-                    Text(firstName)
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(dateFormatter.getDateString(date: run.startTime))
+                        .font(.headline)
+                        .foregroundColor(Color("MossGreen"))
+                    
+                    Text(dateFormatter.getTimeFromSeconds(seconds: Float(run.elapsedTime)))
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                }
+                
+                Spacer()
+                
+                HStack(spacing: 16) {
+                    StatBubble(
+                        icon: "speedometer",
+                        value: String(format: "%.1f", calculatePace(distance: calculateDistance(), time: run.elapsedTime)),
+                        unit: "/km"
+                    )
+                    
+                    StatBubble(
+                        icon: "figure.run",
+                        value: String(format: "%.1f", calculateDistance()),
+                        unit: "km"
+                    )
                 }
             }
-            Text(dateFormatter.getTimeFromSeconds(seconds: Float(run.elapsedTime)))
+            
             RouteMapView(showUserLocation: false, locationManager: locationManager)
-               
-        }.padding()
-        .background {
-            RoundedRectangle(cornerRadius: 20)
-                .fill(.white)
-                .shadow(color: .black.opacity(0.2), radius: 5)
-        }.padding(.horizontal, 10)
+                .frame(height: 180)
+                .cornerRadius(12)
+        }
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color("lightGreen").opacity(0.1))
+                .shadow(color: .black.opacity(0.05), radius: 5, x: 0, y: 2)
+        )
+        .padding(.horizontal)
         .onAppear {
-            loadRunner()
             locationManager.locations = run.locations
-            print(locationManager.locations.count)
         }
     }
     
-    func loadRunner() {
-        if let id = run.runnerId {
-            firestore.getUserByID(id: id) { runner in
-                DispatchQueue.main.async {
-                    self.runner = runner
-                }
-            }
+    private func calculateDistance() -> Double {
+        var distance = 0.0
+        guard run.locations.count > 1 else { return distance }
+        
+        for i in 0..<run.locations.count-1 {
+            distance += run.locations[i].distance(from: run.locations[i+1])
         }
+        return distance / 1000
+    }
+    
+    private func calculatePace(distance: Double, time: TimeInterval) -> Double {
+        guard distance > 0 else { return 0 }
+        return (time / 60) / distance
     }
 }
 
