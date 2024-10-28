@@ -53,4 +53,7 @@ struct Club: Codable, Identifiable, Hashable {
         case eventIds
         case messageIds
     }
+    
+
+   
 }

@@ -1,3 +1,10 @@
+//
+//  ClubView.swift
+//  RunClub
+//
+//  Created by Rhianna McCormack on 16/10/2024.
+//
+
 import SwiftUI
 
 struct ClubView: View {
@@ -258,3 +265,7 @@ struct ClubView: View {
         }
     }
 }
+
+//#Preview {
+//    ClubView(club: Club(name: "", ownerId: User.getCurrentUserId(), memberIds: [], eventIds: [], messageIds: []), editMode: false)
+//}

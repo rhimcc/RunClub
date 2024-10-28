@@ -49,7 +49,7 @@ struct EventDetailView: View {
                 .font(.headline)
                 .frame(maxWidth: .infinity, alignment: .leading)
             ForEach(Array(runs.enumerated()), id: \.element.id) { index, run in
-                RunRow(run: run, index: index)
+                ResultRow(run: run, index: index)
             }
         }.padding(.horizontal)
         .onAppear {
