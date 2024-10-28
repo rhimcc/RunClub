@@ -1,10 +1,3 @@
-//
-//  MessageView.swift
-//  RunClub
-//
-//  Created by Rhianna McCormack on 16/10/2024.
-//
-
 import SwiftUI
 
 struct PostView: View {
@@ -13,48 +6,52 @@ struct PostView: View {
     let firestore = FirestoreService()
     @State var user: User? = nil
     var club: Club?
+    
     var body: some View {
-        VStack {
-            HStack (alignment: .bottom) {
-                ZStack {
-                    Circle()
-                        .fill(.gray)
-                        .frame(width: 30, height: 30)
-                    Text("pfp")
-                }
-                VStack {
+        HStack(alignment: .top, spacing: 8) {
+            Circle()
+                .fill(Color("lightGreen"))
+                .frame(width: 36, height: 36)
+                .overlay(
+                    Group {
+                        if let user = user {
+                            Text(user.username.prefix(1).uppercased())
+                                .font(.system(size: 14, weight: .medium))
+                                .foregroundColor(Color("MossGreen"))
+                        } else {
+                            Text("?")
+                                .font(.system(size: 14, weight: .medium))
+                                .foregroundColor(Color("MossGreen"))
+                        }
+                    }
+                )
+            
+            VStack(alignment: .leading, spacing: 4) {
+                HStack {
+                    if let user = user {
+                        Text(user.username)
+                            .font(.headline)
+                            .foregroundColor(.primary)
+                    }
+                    
                     Spacer()
-                    HStack {
-                        if let user = user, let firstName = user.firstName, let lastName = user.lastName {
-                            Text(firstName)
-                            Text(lastName)
-                        }
-                        Spacer()
-                        VStack {
-                            Text("\(dateFormatter.getTimeString(date: message.timePosted))")
-                            Spacer()
-                        }
-                    }
-                    if let club = club {
-                        HStack {
-                            Text(club.name)
-                            Spacer()
-                        }
-                    }
+                    
+                    Text(dateFormatter.getTimeString(date: message.timePosted))
+                        .font(.caption)
+                        .foregroundColor(.secondary)
                 }
                 
+                Text(message.messageContent)
+                    .font(.body)
+                    .foregroundColor(.primary)
             }
-            Text(message.messageContent)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding()
-                .background (
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(.white)
-                        .shadow(color: .black.opacity(0.2), radius: 5)
-                )
-
-        }.padding(.horizontal)
-           
+        }
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color("lightGreen").opacity(0.1))
+        )
+        .padding(.horizontal)
         .onAppear {
             getPoster()
         }
@@ -65,11 +62,6 @@ struct PostView: View {
             DispatchQueue.main.async {
                 self.user = fetchedUser
             }
-            
         }
     }
 }
-//
-//#Preview {
-//    PostView(post: Post(id: "123", messageContent: "fewhuij", posterId: "32rtgre", clubId: "t4grf"))
-//}
