@@ -8,70 +8,58 @@
 import SwiftUI
 
 struct HomeView: View {
-    @State var clubs: [Club] = []
+    @State var friends: [User] = []
     @ObservedObject var authViewModel: AuthViewModel
-    @State var messages: [Message] = []
+    @State var runs: [Run] = []
     let firestore = FirestoreService()
     @State var isLoading: Bool = false
     var body: some View {
         NavigationStack {
-            VStack {
+            ScrollView {
                 HStack {
                     Text("Run Club")
                         .font(.title)
                     Spacer()
-                
 
-                  
                 }.padding()
-                
-//                if (isLoading) {
-//                    Spacer()
-//                    ProgressView()
-//                        .progressViewStyle(.circular)
-//                    Spacer()
-//                } else {
-//                    ScrollView {
-//                        ForEach(posts) { post in
-//                            PostView(post: post)
-//                        }
-//                    }
-//                }
+                ForEach(runs) { run in
+                    RunRow(run: run, onProfile: false)
+                }
             }
         }.onAppear {
-//            fetchPosts()
+            loadFriends() {
+                loadRuns()
+            }
         }.padding()
+        
+    }
+    func loadFriends(completion: @escaping () -> Void) {
+        firestore.getFriendsOfUser(userId: User.getCurrentUserId()) { friends, error in
+            DispatchQueue.main.async {
+                if let friends = friends {
+                    self.friends = friends
+                    completion()
+                }
+            }
+        }
     }
     
-//    func fetchPosts() {
-//        self.isLoading = true
-//        self.posts = [] // Clear existing posts
-//
-//        firestore.loadAllClubs() { fetchedClubs in
-//            DispatchQueue.main.async {
-//                self.clubs = fetchedClubs
-//                let group = DispatchGroup()
-//                for club in self.clubs {
-//                    for postId in club.postIds {
-//                        group.enter()
-//                        self.firestore.getPostByID(id: postId) { post in
-//                            if let post = post {
-//                                DispatchQueue.main.async {
-//                                    if !self.posts.contains(where: { $0.id == post.id }) {
-//                                        self.posts.append(post)
-//                                    }
-//                                }
-//                            }
-//                            group.leave()
-//                        }
-//                    }
-//                }
-//                group.notify(queue: .main) {
-//                    self.isLoading = false
-//                }
-//            }
-//        }
-//    }
+    func loadRuns() {
+        runs = []
+        for friend in friends {
+            if let runIds = friend.runIds {
+                for runId in runIds {
+                    firestore.getRunById(id: runId) { run in
+                        DispatchQueue.main.async {
+                            if let run = run {
+                                runs.append(run)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 #Preview {
