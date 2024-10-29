@@ -21,7 +21,7 @@ struct ClubList: View {
                     .font(.title)
                 Spacer()
                 NavigationLink {
-                    // Search clubs
+                    SearchView(searchViewModel: SearchViewModel(), searching: "clubs")
                 } label: {
                     ZStack {
                         Image(systemName: "magnifyingglass")
