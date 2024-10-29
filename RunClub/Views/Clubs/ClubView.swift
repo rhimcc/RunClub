@@ -14,13 +14,14 @@ struct ClubView: View {
     @State var isOwner: Bool = false
     @State var clubName: String = ""
     @State var owner: User?
+    @ObservedObject var eventViewModel: EventViewModel = EventViewModel()
     @State var showingAddEventSheet = false
     @State private var newMessage = ""
     let firestore = FirestoreService()
     @State var member: Bool = false
     @FocusState private var textFieldFocused: Bool
     @State private var feedItems: [FeedItem] = []
-    @State private var upcomingEvents: [Event] = []
+//    @State private var upcomingEvents: [Event] = []
     
     var body: some View {
         VStack(spacing: 0) {
@@ -159,7 +160,7 @@ struct ClubView: View {
                 }
             } else {
                 Button {
-                    showingAddEventSheet = true
+                    eventViewModel.addEventSheet = true
                 } label: {
                     HStack {
                         Text("Add Event")
@@ -176,21 +177,22 @@ struct ClubView: View {
                 
                 ScrollView {
                     LazyVStack(spacing: 12) {
-                        ForEach(upcomingEvents) { event in
+                        ForEach(eventViewModel.upcomingEvents) { event in
                             EventRow(event: event)
                         }
                     }
                 }
             }
         }
-        .sheet(isPresented: $showingAddEventSheet) {
-            AddEventView(eventViewModel: EventViewModel(), club: club)
+        .sheet(isPresented: $eventViewModel.addEventSheet, onDismiss: eventViewModel.dismissSheet) {
+            AddEventView(eventViewModel: eventViewModel, club: club)
         }
         .onAppear {
             getOwner()
             member = club.memberIds.contains(User.getCurrentUserId())
             loadFeedContent()
-            loadUpcomingEvents()
+            eventViewModel.club = club
+            eventViewModel.loadUpcomingEvents()
         }
     }
     
@@ -244,15 +246,5 @@ struct ClubView: View {
         }
     }
     
-    private func loadUpcomingEvents() {
-        if let clubId = club.id {
-            firestore.getAllEventsForClub(clubId: clubId) { events, error in
-                if let events = events {
-                    self.upcomingEvents = events
-                        .filter { $0.date > Date() }
-                        .sorted(by: { $0.date < $1.date })
-                }
-            }
-        }
-    }
+ 
 }
