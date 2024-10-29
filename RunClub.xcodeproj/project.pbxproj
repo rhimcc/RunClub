@@ -120,6 +120,8 @@
 		99DE58CD2CBF7D02003A615B /* ClubModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE58CC2CBF7D02003A615B /* ClubModel.swift */; };
 		99DE58CF2CBF7DF9003A615B /* EventModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE58CE2CBF7DF9003A615B /* EventModel.swift */; };
 		99DE58D12CBF7EE5003A615B /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE58D02CBF7EE5003A615B /* PostModel.swift */; };
+		99F3E27D2CD1148E00FCFE94 /* RunActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F3E27C2CD1148E00FCFE94 /* RunActivityAttributes.swift */; };
+		99F3E27F2CD114B900FCFE94 /* RunLiveActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F3E27E2CD114B900FCFE94 /* RunLiveActivityView.swift */; };
 		99F8DFA82CC26361002FD982 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F8DFA72CC26361002FD982 /* SettingsView.swift */; };
 		99F8DFAE2CC4E135002FD982 /* AddEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F8DFAD2CC4E135002FD982 /* AddEventView.swift */; };
 		99F8DFB02CC4ED2E002FD982 /* ClubViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F8DFAF2CC4ED2E002FD982 /* ClubViewModel.swift */; };
@@ -236,6 +238,8 @@
 		99DE58CC2CBF7D02003A615B /* ClubModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubModel.swift; sourceTree = "<group>"; };
 		99DE58CE2CBF7DF9003A615B /* EventModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventModel.swift; sourceTree = "<group>"; };
 		99DE58D02CBF7EE5003A615B /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
+		99F3E27C2CD1148E00FCFE94 /* RunActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunActivityAttributes.swift; sourceTree = "<group>"; };
+		99F3E27E2CD114B900FCFE94 /* RunLiveActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunLiveActivityView.swift; sourceTree = "<group>"; };
 		99F8DFA72CC26361002FD982 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		99F8DFAD2CC4E135002FD982 /* AddEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventView.swift; sourceTree = "<group>"; };
 		99F8DFAF2CC4ED2E002FD982 /* ClubViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubViewModel.swift; sourceTree = "<group>"; };
@@ -526,6 +530,8 @@
 				07BD5EC52CC8B821002914DF /* RunModel.swift */,
 				99DE58D02CBF7EE5003A615B /* PostModel.swift */,
 				99D520CE2CCE7B90005158BA /* ChatModel.swift */,
+				99F3E27C2CD1148E00FCFE94 /* RunActivityAttributes.swift */,
+				99F3E27E2CD114B900FCFE94 /* RunLiveActivityView.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -702,9 +708,11 @@
 				99DE58802CBF2DE6003A615B /* SearchBar.swift in Sources */,
 				99DE58722CBE8BB7003A615B /* ProfileView.swift in Sources */,
 				076D95032CCE683500E0D59C /* LocationPickerView.swift in Sources */,
+				99F3E27F2CD114B900FCFE94 /* RunLiveActivityView.swift in Sources */,
 				076D95072CCE69B400E0D59C /* Coordinate.swift in Sources */,
 				99DE58412CBD3111003A615B /* ContentView.swift in Sources */,
 				99B6A2842CC9D8B40094405D /* ClubMessagesView.swift in Sources */,
+				99F3E27D2CD1148E00FCFE94 /* RunActivityAttributes.swift in Sources */,
 				07668FFB2CD0706A004FA7D1 /* StaticMapView.swift in Sources */,
 				99DE588F2CBF3C37003A615B /* EventView.swift in Sources */,
 				9926C3982CCF1BA9007D14D4 /* ResultRow.swift in Sources */,
@@ -948,6 +956,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Jog Jam";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "\"need your location\"";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"using location\"";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -982,6 +991,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Jog Jam";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "\"need your location\"";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"using location\"";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
