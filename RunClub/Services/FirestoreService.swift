@@ -993,6 +993,64 @@ class FirestoreService {
             }
         }
     }
+    
+    func getClubsForUser(userId: String, completion: @escaping ([Club]?, Error?) -> Void) {
+        let userRef = db.collection("users").document(userId)
+        
+        userRef.getDocument { (document, error) in
+            if let error = error {
+                print("Error getting user document: \(error.localizedDescription)")
+                completion(nil, error)
+                return
+            }
+            
+            guard let document = document, document.exists else {
+                print("User document does not exist")
+                completion(nil, nil)
+                return
+            }
+            
+            let clubIds = document.data()?["clubIds"] as? [String] ?? []
+            if clubIds.isEmpty {
+                completion([], nil)
+                return
+            }
+            
+            let group = DispatchGroup()
+            var clubs: [Club] = []
+            var fetchError: Error?
+            
+            for clubId in clubIds {
+                group.enter()
+                let clubRef = self.db.collection("clubs").document(clubId)
+                clubRef.getDocument { (document, error) in
+                    defer { group.leave() }
+                    
+                    if let error = error {
+                        fetchError = error
+                        return
+                    }
+                    
+                    guard let document = document, document.exists else {
+                        return
+                    }
+                    
+                    do {
+                        var club = try document.data(as: Club.self)
+                        club.id = document.documentID
+                        clubs.append(club)
+                    } catch {
+                        fetchError = error
+                    }
+                }
+            }
+            
+            group.notify(queue: .main) {
+                completion(clubs, fetchError)
+            }
+        }
+    }
+    
 }
     
 

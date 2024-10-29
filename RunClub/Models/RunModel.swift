@@ -83,4 +83,39 @@ class Run: Identifiable, Codable {
         case elapsedTime
         case runnerId
     }
+    
+    func calculateDistance() -> Double {
+        var distance = 0.0
+        guard locations.count > 1 else { return distance }
+        
+        for i in 0..<locations.count-1 {
+            distance += locations[i].distance(from: locations[i+1])
+        }
+        return distance / 1000
+    }
+    
+    func calculatePace() -> Double {
+        let distance = calculateDistance()
+        guard distance > 0 else { return 0 }
+        return (elapsedTime / 60) / distance
+    }
+    
+    func getFormattedPace() -> String {
+        let pace = calculatePace()
+        let minutes = Int(pace)
+        let seconds = Int((pace - Double(minutes)) * 60)
+        return String(format: "%d:%02d /km", minutes, seconds)
+    }
+    
+    func getFormattedTime() -> String {
+        let hours = Int(elapsedTime) / 3600
+        let minutes = Int(elapsedTime) / 60 % 60
+        let seconds = Int(elapsedTime) % 60
+        
+        if hours > 0 {
+            return String(format: "%d:%02d:%02d", hours, minutes, seconds)
+        } else {
+            return String(format: "%d:%02d", minutes, seconds)
+        }
+    }
 }
