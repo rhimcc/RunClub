@@ -10,6 +10,7 @@ import SwiftUI
 struct SearchView: View {
     @ObservedObject var searchViewModel: SearchViewModel = SearchViewModel()
     var searching: String
+    
     var body: some View {
         SearchBar(searchViewModel: searchViewModel)
         
@@ -20,7 +21,9 @@ struct SearchView: View {
                 SearchResultsView(searchViewModel: searchViewModel)
             }
         } else {
-            Text("Place holder !! CHANGE")
+            if (searching == "users") {
+                UserList()
+            }
         }
     }
 }

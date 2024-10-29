@@ -9,6 +9,7 @@ import SwiftUI
 
 struct FriendRow: View {
     var user: User
+    var friends: Bool
     var body: some View {
         HStack {
             Circle()
@@ -20,13 +21,15 @@ struct FriendRow: View {
                 Text(user.username)
             }.foregroundStyle(.black)
             Spacer()
-            NavigationLink {
-                ChatView(friend: user)
-            } label: {
-                Image(systemName: "message")
-                    .font(.system(size: 20))
-                    .bold()
-                    .padding(.trailing)
+            if (friends) {
+                NavigationLink {
+                    ChatView(friend: user)
+                } label: {
+                    Image(systemName: "message")
+                        .font(.system(size: 20))
+                        .bold()
+                        .padding(.trailing)
+                }
             }
         }.padding()
         .background (

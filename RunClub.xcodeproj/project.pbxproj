@@ -123,6 +123,7 @@
 		99F8DFA82CC26361002FD982 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F8DFA72CC26361002FD982 /* SettingsView.swift */; };
 		99F8DFAE2CC4E135002FD982 /* AddEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F8DFAD2CC4E135002FD982 /* AddEventView.swift */; };
 		99F8DFB02CC4ED2E002FD982 /* ClubViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F8DFAF2CC4ED2E002FD982 /* ClubViewModel.swift */; };
+		99FC6B482CD0A96A0009D094 /* UserList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FC6B472CD0A96A0009D094 /* UserList.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -237,6 +238,7 @@
 		99F8DFA72CC26361002FD982 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		99F8DFAD2CC4E135002FD982 /* AddEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventView.swift; sourceTree = "<group>"; };
 		99F8DFAF2CC4ED2E002FD982 /* ClubViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubViewModel.swift; sourceTree = "<group>"; };
+		99FC6B472CD0A96A0009D094 /* UserList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -501,6 +503,7 @@
 				9926C3932CCF0423007D14D4 /* MessageStream.swift */,
 				9926C38F2CCEFD53007D14D4 /* MessageView.swift */,
 				9926C3912CCEFD6F007D14D4 /* MessageDayView.swift */,
+				99FC6B472CD0A96A0009D094 /* UserList.swift */,
 			);
 			path = Clubs;
 			sourceTree = "<group>";
@@ -719,6 +722,7 @@
 				07BD5ED72CC8C41E002914DF /* RunMetricsView.swift in Sources */,
 				07668FFD2CD07280004FA7D1 /* MapSnapshotCache.swift in Sources */,
 				076D95052CCE685400E0D59C /* MapPin.swift in Sources */,
+				99FC6B482CD0A96A0009D094 /* UserList.swift in Sources */,
 				07668FEF2CCFD191004FA7D1 /* StatisticsView.swift in Sources */,
 				07668FF32CCFD32F004FA7D1 /* StatBubble.swift in Sources */,
 				07BD5EE82CC8CE9E002914DF /* RecordRunView.swift in Sources */,
@@ -933,7 +937,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RunClub/Preview Content\"";
-				DEVELOPMENT_TEAM = MS33HPMRRR;
+				DEVELOPMENT_TEAM = HRF24T6BK3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RunClub/Info.plist;
@@ -966,7 +970,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RunClub/Preview Content\"";
-				DEVELOPMENT_TEAM = MS33HPMRRR;
+				DEVELOPMENT_TEAM = HRF24T6BK3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RunClub/Info.plist;

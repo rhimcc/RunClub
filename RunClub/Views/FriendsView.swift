@@ -13,17 +13,23 @@ struct FriendsView: View {
     var body: some View {
         ScrollView {
             VStack (alignment: .leading){
-                HStack {
-                    Text("Friends")
-                        .font(.title)
-                    Spacer()
-                    NavigationLink {
-                        AddFriendView()
-                    } label: {
-                        Image(systemName: "plus")
-                            .font(.system(size: 30))
+                Text("Friends")
+                    .font(.title)
+                NavigationLink {
+                    AddFriendView()
+                } label: {
+                    HStack {
+                        Text("Add Friend")
+                            .font(.headline)
+                        Spacer()
+                        Image(systemName: "plus.circle.fill")
                     }
-                }.padding()
+                    .foregroundColor(.white)
+                    .padding()
+                    .background(Color("MossGreen"))
+                    .cornerRadius(8)
+                }
+                  
                 if (!friendViewModel.pending.isEmpty) {
                     Text("Pending (\(friendViewModel.pending.count))")
                     ForEach(friendViewModel.pending) { pendingFriend in
@@ -37,7 +43,7 @@ struct FriendsView: View {
                         NavigationLink {
                             ProfileView(authViewModel: AuthViewModel(), user: friend)
                         } label: {
-                            FriendRow(user: friend)
+                            FriendRow(user: friend, friends: true)
                         }
                     }
                 }
