@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -30,6 +30,10 @@
 		0766901B2CD10F84004FA7D1 /* SuggestionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0766901A2CD10F84004FA7D1 /* SuggestionRow.swift */; };
 		0766901D2CD1118D004FA7D1 /* ComparisonStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0766901C2CD1118D004FA7D1 /* ComparisonStats.swift */; };
 		0766901F2CD11D13004FA7D1 /* FeedItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0766901E2CD11D13004FA7D1 /* FeedItemView.swift */; };
+		076690262CD128CD004FA7D1 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 076690252CD128CD004FA7D1 /* WidgetKit.framework */; };
+		076690282CD128CD004FA7D1 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 076690272CD128CD004FA7D1 /* SwiftUI.framework */; };
+		076690392CD128CE004FA7D1 /* RunClubWidgetExtensionExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 076690242CD128CD004FA7D1 /* RunClubWidgetExtensionExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		076690402CD129E5004FA7D1 /* RunActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F3E27C2CD1148E00FCFE94 /* RunActivityAttributes.swift */; };
 		076D95032CCE683500E0D59C /* LocationPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076D95022CCE683500E0D59C /* LocationPickerView.swift */; };
 		076D95052CCE685400E0D59C /* MapPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076D95042CCE685400E0D59C /* MapPin.swift */; };
 		076D95072CCE69B400E0D59C /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076D95062CCE69B300E0D59C /* Coordinate.swift */; };
@@ -129,6 +133,7 @@
 		99DE58CD2CBF7D02003A615B /* ClubModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE58CC2CBF7D02003A615B /* ClubModel.swift */; };
 		99DE58CF2CBF7DF9003A615B /* EventModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE58CE2CBF7DF9003A615B /* EventModel.swift */; };
 		99DE58D12CBF7EE5003A615B /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DE58D02CBF7EE5003A615B /* PostModel.swift */; };
+		99F3E27D2CD1148E00FCFE94 /* RunActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F3E27C2CD1148E00FCFE94 /* RunActivityAttributes.swift */; };
 		99F8DFA82CC26361002FD982 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F8DFA72CC26361002FD982 /* SettingsView.swift */; };
 		99F8DFAE2CC4E135002FD982 /* AddEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F8DFAD2CC4E135002FD982 /* AddEventView.swift */; };
 		99F8DFB02CC4ED2E002FD982 /* ClubViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F8DFAF2CC4ED2E002FD982 /* ClubViewModel.swift */; };
@@ -137,6 +142,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		076690372CD128CE004FA7D1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 99DE58332CBD3111003A615B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 076690232CD128CD004FA7D1;
+			remoteInfo = RunClubWidgetExtensionExtension;
+		};
 		99DE584E2CBD3113003A615B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 99DE58332CBD3111003A615B /* Project object */;
@@ -152,6 +164,20 @@
 			remoteInfo = RunClub;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		0766903E2CD128CE004FA7D1 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				076690392CD128CE004FA7D1 /* RunClubWidgetExtensionExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		07668FE82CCF79AB004FA7D1 /* FeedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItem.swift; sourceTree = "<group>"; };
@@ -177,6 +203,9 @@
 		0766901A2CD10F84004FA7D1 /* SuggestionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionRow.swift; sourceTree = "<group>"; };
 		0766901C2CD1118D004FA7D1 /* ComparisonStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComparisonStats.swift; sourceTree = "<group>"; };
 		0766901E2CD11D13004FA7D1 /* FeedItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItemView.swift; sourceTree = "<group>"; };
+		076690242CD128CD004FA7D1 /* RunClubWidgetExtensionExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = RunClubWidgetExtensionExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		076690252CD128CD004FA7D1 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		076690272CD128CD004FA7D1 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		076D95022CCE683500E0D59C /* LocationPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPickerView.swift; sourceTree = "<group>"; };
 		076D95042CCE685400E0D59C /* MapPin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPin.swift; sourceTree = "<group>"; };
 		076D95062CCE69B300E0D59C /* Coordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinate.swift; sourceTree = "<group>"; };
@@ -254,6 +283,7 @@
 		99DE58CC2CBF7D02003A615B /* ClubModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubModel.swift; sourceTree = "<group>"; };
 		99DE58CE2CBF7DF9003A615B /* EventModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventModel.swift; sourceTree = "<group>"; };
 		99DE58D02CBF7EE5003A615B /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
+		99F3E27C2CD1148E00FCFE94 /* RunActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunActivityAttributes.swift; sourceTree = "<group>"; };
 		99F8DFA72CC26361002FD982 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		99F8DFAD2CC4E135002FD982 /* AddEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventView.swift; sourceTree = "<group>"; };
 		99F8DFAF2CC4ED2E002FD982 /* ClubViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubViewModel.swift; sourceTree = "<group>"; };
@@ -261,7 +291,30 @@
 		99FC6B492CD0F58B0009D094 /* SuggestedClubs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestedClubs.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		0766903A2CD128CE004FA7D1 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 076690232CD128CD004FA7D1 /* RunClubWidgetExtensionExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		076690292CD128CD004FA7D1 /* RunClubWidgetExtension */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (0766903A2CD128CE004FA7D1 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = RunClubWidgetExtension; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
+		076690212CD128CD004FA7D1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				076690282CD128CD004FA7D1 /* SwiftUI.framework in Frameworks */,
+				076690262CD128CD004FA7D1 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		99DE58382CBD3111003A615B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -361,6 +414,8 @@
 		999A4B7C2CCE22970077C2C4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				076690252CD128CD004FA7D1 /* WidgetKit.framework */,
+				076690272CD128CD004FA7D1 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -371,6 +426,7 @@
 				99DE583D2CBD3111003A615B /* RunClub */,
 				99DE58502CBD3113003A615B /* RunClubTests */,
 				99DE585A2CBD3113003A615B /* RunClubUITests */,
+				076690292CD128CD004FA7D1 /* RunClubWidgetExtension */,
 				99DE583C2CBD3111003A615B /* Products */,
 				999A4B7C2CCE22970077C2C4 /* Frameworks */,
 			);
@@ -382,6 +438,7 @@
 				99DE583B2CBD3111003A615B /* RunClub.app */,
 				99DE584D2CBD3113003A615B /* RunClubTests.xctest */,
 				99DE58572CBD3113003A615B /* RunClubUITests.xctest */,
+				076690242CD128CD004FA7D1 /* RunClubWidgetExtensionExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -553,6 +610,7 @@
 				07BD5EC52CC8B821002914DF /* RunModel.swift */,
 				99DE58D02CBF7EE5003A615B /* PostModel.swift */,
 				99D520CE2CCE7B90005158BA /* ChatModel.swift */,
+				99F3E27C2CD1148E00FCFE94 /* RunActivityAttributes.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -560,6 +618,28 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		076690232CD128CD004FA7D1 /* RunClubWidgetExtensionExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0766903B2CD128CE004FA7D1 /* Build configuration list for PBXNativeTarget "RunClubWidgetExtensionExtension" */;
+			buildPhases = (
+				076690202CD128CD004FA7D1 /* Sources */,
+				076690212CD128CD004FA7D1 /* Frameworks */,
+				076690222CD128CD004FA7D1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				076690292CD128CD004FA7D1 /* RunClubWidgetExtension */,
+			);
+			name = RunClubWidgetExtensionExtension;
+			packageProductDependencies = (
+			);
+			productName = RunClubWidgetExtensionExtension;
+			productReference = 076690242CD128CD004FA7D1 /* RunClubWidgetExtensionExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		99DE583A2CBD3111003A615B /* RunClub */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 99DE58612CBD3113003A615B /* Build configuration list for PBXNativeTarget "RunClub" */;
@@ -567,10 +647,12 @@
 				99DE58372CBD3111003A615B /* Sources */,
 				99DE58382CBD3111003A615B /* Frameworks */,
 				99DE58392CBD3111003A615B /* Resources */,
+				0766903E2CD128CE004FA7D1 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				076690382CD128CE004FA7D1 /* PBXTargetDependency */,
 			);
 			name = RunClub;
 			packageProductDependencies = (
@@ -646,9 +728,12 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1530;
+				LastSwiftUpdateCheck = 1600;
 				LastUpgradeCheck = 1530;
 				TargetAttributes = {
+					076690232CD128CD004FA7D1 = {
+						CreatedOnToolsVersion = 16.0;
+					};
 					99DE583A2CBD3111003A615B = {
 						CreatedOnToolsVersion = 15.3;
 					};
@@ -681,11 +766,19 @@
 				99DE583A2CBD3111003A615B /* RunClub */,
 				99DE584C2CBD3113003A615B /* RunClubTests */,
 				99DE58562CBD3113003A615B /* RunClubUITests */,
+				076690232CD128CD004FA7D1 /* RunClubWidgetExtensionExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		076690222CD128CD004FA7D1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		99DE58392CBD3111003A615B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -713,6 +806,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		076690202CD128CD004FA7D1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				076690402CD129E5004FA7D1 /* RunActivityAttributes.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		99DE58372CBD3111003A615B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -734,6 +835,7 @@
 				99DE58412CBD3111003A615B /* ContentView.swift in Sources */,
 				076690152CD10C4A004FA7D1 /* CalendarExtension.swift in Sources */,
 				99B6A2842CC9D8B40094405D /* ClubMessagesView.swift in Sources */,
+				99F3E27D2CD1148E00FCFE94 /* RunActivityAttributes.swift in Sources */,
 				07668FFB2CD0706A004FA7D1 /* StaticMapView.swift in Sources */,
 				99DE588F2CBF3C37003A615B /* EventView.swift in Sources */,
 				9926C3982CCF1BA9007D14D4 /* ResultRow.swift in Sources */,
@@ -837,6 +939,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		076690382CD128CE004FA7D1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 076690232CD128CD004FA7D1 /* RunClubWidgetExtensionExtension */;
+			targetProxy = 076690372CD128CE004FA7D1 /* PBXContainerItemProxy */;
+		};
 		99DE584F2CBD3113003A615B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 99DE583A2CBD3111003A615B /* RunClub */;
@@ -850,6 +957,62 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		0766903C2CD128CE004FA7D1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = MS33HPMRRR;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = RunClubWidgetExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = RunClubWidgetExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rhianna.RunClub.RunClubWidgetExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0766903D2CD128CE004FA7D1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = MS33HPMRRR;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = RunClubWidgetExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = RunClubWidgetExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rhianna.RunClub.RunClubWidgetExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		99DE585F2CBD3113003A615B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -977,13 +1140,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RunClub/Preview Content\"";
-				DEVELOPMENT_TEAM = HRF24T6BK3;
+				DEVELOPMENT_TEAM = MS33HPMRRR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RunClub/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Jog Jam";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "\"need your location\"";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"using location\"";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1011,13 +1175,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RunClub/Preview Content\"";
-				DEVELOPMENT_TEAM = HRF24T6BK3;
+				DEVELOPMENT_TEAM = MS33HPMRRR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RunClub/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Jog Jam";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "\"need your location\"";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"using location\"";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1116,6 +1281,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0766903B2CD128CE004FA7D1 /* Build configuration list for PBXNativeTarget "RunClubWidgetExtensionExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0766903C2CD128CE004FA7D1 /* Debug */,
+				0766903D2CD128CE004FA7D1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		99DE58362CBD3111003A615B /* Build configuration list for PBXProject "RunClub" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -8,6 +8,7 @@
 import Foundation
 import CoreLocation
 import MapKit
+import ActivityKit
 
 class LocationService: NSObject, ObservableObject, CLLocationManagerDelegate {
     private var locationManager: CLLocationManager?
@@ -64,6 +65,7 @@ class LocationService: NSObject, ObservableObject, CLLocationManagerDelegate {
         isTracking = true
         startTime = Date()
         
+        
         if hasBackgroundCapability() {
             locationManager.allowsBackgroundLocationUpdates = true
             locationManager.showsBackgroundLocationIndicator = true
@@ -71,6 +73,7 @@ class LocationService: NSObject, ObservableObject, CLLocationManagerDelegate {
         }
         
         locationManager.startUpdatingLocation()
+        self.startLiveActivity()
         
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
             guard let self = self, let startTime = self.startTime else { return }
@@ -78,7 +81,9 @@ class LocationService: NSObject, ObservableObject, CLLocationManagerDelegate {
             if self.distance > 0 {
                 self.currentPace = self.elapsedTime / (self.distance / 1000)
             }
+            self.updateLiveActivity()
         }
+
     }
     
     func stopTracking() {
@@ -89,6 +94,8 @@ class LocationService: NSObject, ObservableObject, CLLocationManagerDelegate {
         startTime = nil
         
         locationManager?.allowsBackgroundLocationUpdates = false
+        self.endLiveActivity()
+        
     }
     
     
@@ -106,6 +113,49 @@ class LocationService: NSObject, ObservableObject, CLLocationManagerDelegate {
                 center: newLocation.coordinate,
                 span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
             )
+        }
+    }
+    
+}
+extension LocationService {
+    func startLiveActivity() {
+        let attributes = RunActivityAttributes(runName: "Current Run")
+        
+        do {
+            let initialContentState = RunActivityAttributes.ContentState(
+                distance: 0,
+                pace: 0,
+                elapsedTime: 0
+            )
+            
+            let activity = try Activity.request(
+                attributes: attributes,
+                contentState: initialContentState
+            )
+            print("Requested Live Activity: \(activity.id)")
+        } catch {
+            print("Error requesting Live Activity: \(error.localizedDescription)")
+        }
+    }
+
+    func updateLiveActivity() {
+        Task {
+            for activity in Activity<RunActivityAttributes>.activities {
+                let contentState = RunActivityAttributes.ContentState(
+                    distance: self.distance,
+                    pace: self.currentPace,
+                    elapsedTime: self.elapsedTime
+                )
+                await activity.update(using: contentState)
+            }
+        }
+    }
+    
+    func endLiveActivity() {
+        Task {
+            for activity in Activity<RunActivityAttributes>.activities {
+                await activity.end(using: activity.contentState, dismissalPolicy: .immediate)
+            }
         }
     }
 }
