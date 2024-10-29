@@ -64,6 +64,7 @@ struct RunMetricsView: View {
                         primaryButton: .destructive(Text("Stop")) {
                             locationManager.stopTracking()
                             runViewModel.showSummary = true
+
                         },
                         secondaryButton: .cancel()
                     )
