@@ -14,6 +14,7 @@ struct ClubView: View {
     @State var isOwner: Bool = false
     @State var clubName: String = ""
     @State var owner: User?
+    @ObservedObject var eventViewModel: EventViewModel = EventViewModel()
     @State var showingAddEventSheet = false
     @State private var newMessage = ""
     let firestore = FirestoreService()
@@ -159,7 +160,7 @@ struct ClubView: View {
                 }
             } else {
                 Button {
-                    showingAddEventSheet = true
+                    eventViewModel.addEventSheet = true
                 } label: {
                     HStack {
                         Text("Add Event")
@@ -183,8 +184,8 @@ struct ClubView: View {
                 }
             }
         }
-        .sheet(isPresented: $showingAddEventSheet) {
-            AddEventView(eventViewModel: EventViewModel(), club: club)
+        .sheet(isPresented: $eventViewModel.addEventSheet) {
+            AddEventView(eventViewModel: eventViewModel, club: club)
         }
         .onAppear {
             getOwner()

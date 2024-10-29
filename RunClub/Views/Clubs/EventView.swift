@@ -13,7 +13,6 @@ struct EventView: View {
     var club: Club
     @State var events: [Event] = []
     let firestore = FirestoreService()
-    @State var eventPopUp: Bool = false
     @State var currentEvent: Event? = nil
     
     var body: some View {
@@ -38,7 +37,6 @@ struct EventView: View {
                     ForEach(events) { event in
                         Button {
                             currentEvent = event
-                                eventPopUp = true
                         } label: {
                             EventRow(event: event)
                                 .padding()

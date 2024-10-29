@@ -51,10 +51,6 @@ class ClubViewModel: ObservableObject {
     func checkIfNotification(event: Event) {
         let notificationId = event.id ?? UUID().uuidString
         UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
-            for request in requests {
-                print("Pending request: \(request.identifier)")
-            }
-            
             if !requests.contains(where: { $0.identifier == notificationId }) {
                 self.scheduleEventNotification(event: event)
             } else {
@@ -88,10 +84,7 @@ class ClubViewModel: ObservableObject {
                     let triggerDate = Calendar.current.date(byAdding: .hour, value: -1, to: event.date) // 1 hour before
                     
                     if let triggerDate = triggerDate {
-                        print("Trigger date for event \(event.name): \(triggerDate)")
                         let triggerTimeInterval = triggerDate.timeIntervalSinceNow
-                        
-                        print("Trigger time interval: \(triggerTimeInterval) seconds")
                         guard triggerTimeInterval > 0 else {
                             print("Trigger time is in the past for event: \(event.name)")
                             return
