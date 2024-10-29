@@ -23,6 +23,8 @@ struct SearchView: View {
         } else {
             if (searching == "users") {
                 UserList()
+            } else if (searching == "clubs") {
+                SuggestedClubs()
             }
         }
     }

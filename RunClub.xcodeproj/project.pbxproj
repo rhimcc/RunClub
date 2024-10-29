@@ -124,6 +124,7 @@
 		99F8DFAE2CC4E135002FD982 /* AddEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F8DFAD2CC4E135002FD982 /* AddEventView.swift */; };
 		99F8DFB02CC4ED2E002FD982 /* ClubViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F8DFAF2CC4ED2E002FD982 /* ClubViewModel.swift */; };
 		99FC6B482CD0A96A0009D094 /* UserList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FC6B472CD0A96A0009D094 /* UserList.swift */; };
+		99FC6B4A2CD0F58B0009D094 /* SuggestedClubs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FC6B492CD0F58B0009D094 /* SuggestedClubs.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -239,6 +240,7 @@
 		99F8DFAD2CC4E135002FD982 /* AddEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventView.swift; sourceTree = "<group>"; };
 		99F8DFAF2CC4ED2E002FD982 /* ClubViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubViewModel.swift; sourceTree = "<group>"; };
 		99FC6B472CD0A96A0009D094 /* UserList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserList.swift; sourceTree = "<group>"; };
+		99FC6B492CD0F58B0009D094 /* SuggestedClubs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestedClubs.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -504,6 +506,7 @@
 				9926C38F2CCEFD53007D14D4 /* MessageView.swift */,
 				9926C3912CCEFD6F007D14D4 /* MessageDayView.swift */,
 				99FC6B472CD0A96A0009D094 /* UserList.swift */,
+				99FC6B492CD0F58B0009D094 /* SuggestedClubs.swift */,
 			);
 			path = Clubs;
 			sourceTree = "<group>";
@@ -726,6 +729,7 @@
 				07668FEF2CCFD191004FA7D1 /* StatisticsView.swift in Sources */,
 				07668FF32CCFD32F004FA7D1 /* StatBubble.swift in Sources */,
 				07BD5EE82CC8CE9E002914DF /* RecordRunView.swift in Sources */,
+				99FC6B4A2CD0F58B0009D094 /* SuggestedClubs.swift in Sources */,
 				99DE58932CBF45B6003A615B /* EventRow.swift in Sources */,
 				99DE58782CBE8C7B003A615B /* ClubList.swift in Sources */,
 				07668FED2CCF85C1004FA7D1 /* UpcomingEventsView.swift in Sources */,
