@@ -22,8 +22,12 @@ struct HomeView: View {
                     Spacer()
 
                 }.padding()
-                ForEach(runs) { run in
-                    RunRow(run: run, onProfile: false)
+                if (runs.count) > 0 {
+                    ForEach(runs) { run in
+                        RunRow(run: run, onProfile: false)
+                    }
+                } else {
+                    Text("Your friends runs will appear here!")
                 }
             }
         }.onAppear {
