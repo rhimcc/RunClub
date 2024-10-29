@@ -26,7 +26,7 @@ class Run: Identifiable, Codable {
         self.runnerId = runnerId
     }
     
-    private struct LocationData: Codable {
+    struct LocationData: Codable {
         let latitude: Double
         let longitude: Double
         let timestamp: Date
