@@ -779,7 +779,7 @@ class FirestoreService {
     func storeRun(run: Run) {
         do {
             let docID = self.db.collection("runs").document().documentID
-            try db.collection("runs").document(docID).setData(from: run){ error in // sets the data for the user id with the dict
+            try db.collection("runs").document(docID).setData(from: run){ error in
                 if let error = error {
                     print("Error adding run: \(error.localizedDescription)")
                 } else {
@@ -788,9 +788,7 @@ class FirestoreService {
                 if let eventId = run.eventId, eventId != "" {
                     self.updateEventRunIds(eventId: eventId, runId: docID)
                 }
-                if let runnerId = run.runnerId {
-                    self.updateUserRunIds(runId: docID)
-                }
+                self.updateUserRunIds(runId: run.runnerId)
             }
             
         } catch {

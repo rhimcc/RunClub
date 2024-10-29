@@ -16,7 +16,6 @@ struct MessageStream: View {
         ScrollViewReader { proxy in
             ScrollView {
                 ForEach(chatViewModel.daysPosted.sorted().reversed(), id: \.self) { day in
-                    // Ensure messagesForDay returns [Chat]
                     let messagesForDay = chatViewModel.getMessagesForDay(day: day)
 
                     MessageDayView(day: day, messages: messagesForDay, dateFormatter: dateFormatter)

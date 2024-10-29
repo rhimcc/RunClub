@@ -32,11 +32,10 @@ struct ResultRow: View {
     }
     
     func loadRunner() {
-        if let runnerId = run.runnerId {
-            firestore.getUserByID(id: runnerId) { runner in
-                DispatchQueue.main.async {
-                    self.runner = runner
-                }
+        let runnerId = run.runnerId
+        firestore.getUserByID(id: runnerId) { runner in
+            DispatchQueue.main.async {
+                self.runner = runner
             }
         }
     }

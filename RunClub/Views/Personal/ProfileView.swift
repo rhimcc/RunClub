@@ -161,6 +161,7 @@ struct ProfileView: View {
                 loadRuns()
                 checkFriendshipStatus()
             }
+            MapSnapshotPrefetcher.shared.prefetchSnapshots(for: runs)
         }
     }
     
