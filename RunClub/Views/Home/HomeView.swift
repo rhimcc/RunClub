@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct HomeView: View {
     @State var friends: [User] = []
@@ -38,6 +39,10 @@ struct HomeView: View {
         
     }
     func loadFriends(completion: @escaping () -> Void) {
+        guard let userId = Auth.auth().currentUser?.uid else {
+            completion()
+            return
+        }
         firestore.getFriendsOfUser(userId: User.getCurrentUserId()) { friends, error in
             DispatchQueue.main.async {
                 if let friends = friends {
