@@ -165,6 +165,43 @@ struct ProfileView: View {
         }
     }
     
+    private func checkFriendshipStatus() {
+        guard authViewModel.isSignedIn else { return }
+        guard !isCurrentUser, let otherUserId = user?.id else { return }
+        let userId = User.getCurrentUserId()
+        
+        firestore.checkFriendshipStatus(userId: userId, otherUserId: otherUserId) { status in
+            DispatchQueue.main.async {
+                self.friendshipStatus = status
+            }
+        }
+    }
+    
+    private func getCurrentUser(completion: @escaping () -> Void) {
+        guard authViewModel.isSignedIn else { return }
+        firestore.getUserByID(id: User.getCurrentUserId()) { user in
+            DispatchQueue.main.async {
+                if let user = user {
+                    self.user = user
+                    completion()
+                }
+            }
+        }
+    }
+    
+    private func loadRuns() {
+        guard authViewModel.isSignedIn else { return }
+        if let user = user, let id = user.id {
+            firestore.getRunsOfUser(userId: id) { runs, error in
+                DispatchQueue.main.async {
+                    if let runs = runs {
+                        self.runs = runs.sorted(by: { $0.startTime > $1.startTime })
+                    }
+                }
+            }
+        }
+    }
+    
     private var friendshipButtonText: String {
         switch friendshipStatus {
         case .friends:
@@ -201,17 +238,6 @@ struct ProfileView: View {
             friendshipStatus = .pending
         case .pending:
             break
-        }
-    }
-    
-    private func checkFriendshipStatus() {
-        guard !isCurrentUser, let otherUserId = user?.id else { return }
-        let userId = User.getCurrentUserId()
-        
-        firestore.checkFriendshipStatus(userId: userId, otherUserId: otherUserId) { status in
-            DispatchQueue.main.async {
-                self.friendshipStatus = status
-            }
         }
     }
     
@@ -261,27 +287,5 @@ struct ProfileView: View {
         return "N/A"
     }
     
-    private func getCurrentUser(completion: @escaping () -> Void) {
-        firestore.getUserByID(id: User.getCurrentUserId()) { user in
-            DispatchQueue.main.async {
-                if let user = user {
-                    self.user = user
-                    completion()
-                }
-            }
-        }
-    }
-    
-    private func loadRuns() {
-        if let user = user, let id = user.id {
-            firestore.getRunsOfUser(userId: id) { runs, error in
-                DispatchQueue.main.async {
-                    if let runs = runs {
-                        self.runs = runs.sorted(by: { $0.startTime > $1.startTime })
-                    }
-                }
-            }
-        }
-    }
     
 }

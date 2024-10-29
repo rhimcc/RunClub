@@ -1,71 +1,63 @@
-//
-//  HomeView.swift
-//  RunClub
-//
-//  Created by Rhianna McCormack on 15/10/2024.
-//
-
 import SwiftUI
+import Foundation
 
 struct HomeView: View {
-    @State var friends: [User] = []
+    @StateObject private var viewModel = HomeFeedViewModel()
     @ObservedObject var authViewModel: AuthViewModel
-    @State var runs: [Run] = []
-    let firestore = FirestoreService()
-    @State var isLoading: Bool = false
+    let dateFormatter = DateFormatterService()
+    
+    private func getSortedItems() -> [HomeFeedItem] {
+        viewModel.feedItems.sorted { $0.date > $1.date }
+    }
+    
     var body: some View {
         NavigationStack {
             ScrollView {
-                HStack {
-                    Text("Run Club")
-                        .font(.title)
-                    Spacer()
-
-                }.padding()
-                if (runs.count) > 0 {
-                    ForEach(runs) { run in
-                        RunRow(run: run, onProfile: false)
-                    }
+                if viewModel.isLoading {
+                    ProgressView()
+                        .progressViewStyle(.circular)
+                        .scaleEffect(1.5)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .padding(.top, 40)
                 } else {
-                    Text("Your friends runs will appear here!")
-                }
-            }
-        }.onAppear {
-            loadFriends() {
-                loadRuns()
-            }
-        }.padding()
-        
-    }
-    func loadFriends(completion: @escaping () -> Void) {
-        firestore.getFriendsOfUser(userId: User.getCurrentUserId()) { friends, error in
-            DispatchQueue.main.async {
-                if let friends = friends {
-                    self.friends = friends
-                    completion()
-                }
-            }
-        }
-    }
-    
-    func loadRuns() {
-        runs = []
-        for friend in friends {
-            if let runIds = friend.runIds {
-                for runId in runIds {
-                    firestore.getRunById(id: runId) { run in
-                        DispatchQueue.main.async {
-                            if let run = run {
-                                runs.append(run)
+                    VStack(spacing: 24) {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Welcome back")
+                                .font(.title2)
+                            Text("\(viewModel.currentUser?.username ?? "runner")")
+                                .font(.title.bold())
+                                .foregroundColor(Color("MossGreen"))
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal)
+                        
+                        LazyVStack(spacing: 24) {
+                            ForEach(getSortedItems()) { item in
+                                FeedItemView(item: item)
                             }
                         }
+                        
+                        if viewModel.feedItems.isEmpty && !viewModel.isLoading {
+                            EmptyFeedView()
+                        }
+                        
+                        if let error = viewModel.error {
+                            Text(error)
+                                .foregroundColor(.red)
+                                .padding()
+                        }
                     }
+                    .padding(.vertical)
                 }
+            }
+            .refreshable {
+                await viewModel.loadContent()
+            }
+        }
+        .onAppear {
+            Task {
+                await viewModel.loadContent()
             }
         }
     }
-}
-
-#Preview {
-    HomeView(authViewModel: AuthViewModel())
 }

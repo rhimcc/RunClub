@@ -1,4 +1,5 @@
 import Foundation
+import FirebaseAuth
 import FirebaseFirestore
 import UserNotifications
 
@@ -15,8 +16,10 @@ class ClubViewModel: ObservableObject {
         }
     }
     
-    func loadCurrentUser(completion: @escaping () -> Void){
-        firestore.getUserByID(id: User.getCurrentUserId()) { currentUser in
+    func loadCurrentUser(completion: @escaping () -> Void) {
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        
+        firestore.getUserByID(id: userId) { currentUser in
             DispatchQueue.main.async {
                 self.currentUser = currentUser
                 completion()
@@ -25,9 +28,23 @@ class ClubViewModel: ObservableObject {
     }
     
     func startListeningForUsersClubEvents() {
+        guard Auth.auth().currentUser != nil else { 
+            clubListener?.remove() // Remove any existing listener
+            clubListener = nil
+            return 
+        }
+        
         let eventsCollection = Firestore.firestore().collection("events")
         clubListener = eventsCollection.addSnapshotListener { [weak self] snapshot, error in
             guard let self = self else { return }
+            
+            // Check authentication status again in callback
+            guard Auth.auth().currentUser != nil else {
+                self.clubListener?.remove()
+                self.clubListener = nil
+                return
+            }
+            
             if let error = error {
                 print("Error fetching events: \(error.localizedDescription)")
                 return
@@ -36,6 +53,7 @@ class ClubViewModel: ObservableObject {
                 print("No event documents found")
                 return
             }
+            
             for document in documents {
                 if let event = try? document.data(as: Event.self) {
                     if let currentUser = currentUser, let clubIds = currentUser.clubIds {
@@ -48,18 +66,12 @@ class ClubViewModel: ObservableObject {
         }
     }
 
-    func checkIfNotification(event: Event) {
-        let notificationId = event.id ?? UUID().uuidString
-        UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
-            if !requests.contains(where: { $0.identifier == notificationId }) {
-                self.scheduleEventNotification(event: event)
-            } else {
-                print("Notification already scheduled for event: \(event.name)")
-            }
-        }
-    }
-    
     func getClubNameFromId(id: String, completion: @escaping (String?) -> Void) {
+        guard Auth.auth().currentUser != nil else {
+            completion(nil)
+            return
+        }
+        
         Firestore.firestore().collection("clubs").document(id)
             .getDocument { document, error in
                 if let error = error {
@@ -71,6 +83,24 @@ class ClubViewModel: ObservableObject {
                 }
             }
     }
+
+    
+    deinit {
+        clubListener?.remove()
+    }
+    
+
+    func checkIfNotification(event: Event) {
+        let notificationId = event.id ?? UUID().uuidString
+        UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
+            if !requests.contains(where: { $0.identifier == notificationId }) {
+                self.scheduleEventNotification(event: event)
+            } else {
+                print("Notification already scheduled for event: \(event.name)")
+            }
+        }
+    }
+
     
     func scheduleEventNotification(event: Event) {
         getClubNameFromId(id: event.clubId) { name in
@@ -109,8 +139,5 @@ class ClubViewModel: ObservableObject {
         
     }
     
-    deinit {
-        clubListener?.remove()
-    }
 }
 
