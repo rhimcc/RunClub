@@ -20,6 +20,7 @@
 		07668FFD2CD07280004FA7D1 /* MapSnapshotCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07668FFC2CD07280004FA7D1 /* MapSnapshotCache.swift */; };
 		07668FFF2CD072EE004FA7D1 /* MapSnapshotPrefetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07668FFE2CD072EE004FA7D1 /* MapSnapshotPrefetcher.swift */; };
 		076690032CD0955A004FA7D1 /* MapTrackingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076690022CD0955A004FA7D1 /* MapTrackingView.swift */; };
+		076690052CD09D96004FA7D1 /* StaticEventMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076690042CD09D96004FA7D1 /* StaticEventMapView.swift */; };
 		076D95032CCE683500E0D59C /* LocationPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076D95022CCE683500E0D59C /* LocationPickerView.swift */; };
 		076D95052CCE685400E0D59C /* MapPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076D95042CCE685400E0D59C /* MapPin.swift */; };
 		076D95072CCE69B400E0D59C /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076D95062CCE69B300E0D59C /* Coordinate.swift */; };
@@ -155,6 +156,7 @@
 		07668FFC2CD07280004FA7D1 /* MapSnapshotCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSnapshotCache.swift; sourceTree = "<group>"; };
 		07668FFE2CD072EE004FA7D1 /* MapSnapshotPrefetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSnapshotPrefetcher.swift; sourceTree = "<group>"; };
 		076690022CD0955A004FA7D1 /* MapTrackingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTrackingView.swift; sourceTree = "<group>"; };
+		076690042CD09D96004FA7D1 /* StaticEventMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticEventMapView.swift; sourceTree = "<group>"; };
 		076D95022CCE683500E0D59C /* LocationPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPickerView.swift; sourceTree = "<group>"; };
 		076D95042CCE685400E0D59C /* MapPin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPin.swift; sourceTree = "<group>"; };
 		076D95062CCE69B300E0D59C /* Coordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinate.swift; sourceTree = "<group>"; };
@@ -426,6 +428,7 @@
 				07668FFA2CD0706A004FA7D1 /* StaticMapView.swift */,
 				07668FFC2CD07280004FA7D1 /* MapSnapshotCache.swift */,
 				07668FFE2CD072EE004FA7D1 /* MapSnapshotPrefetcher.swift */,
+				076690042CD09D96004FA7D1 /* StaticEventMapView.swift */,
 				07668FF02CCFD2D3004FA7D1 /* StatCard.swift */,
 				99D564CF2CC9167A00EFD584 /* FriendRow.swift */,
 				07668FF22CCFD32F004FA7D1 /* StatBubble.swift */,
@@ -711,6 +714,7 @@
 				99DE587A2CBF2AC0003A615B /* RunCard.swift in Sources */,
 				99D564D02CC9167A00EFD584 /* FriendRow.swift in Sources */,
 				99F8DFB02CC4ED2E002FD982 /* ClubViewModel.swift in Sources */,
+				076690052CD09D96004FA7D1 /* StaticEventMapView.swift in Sources */,
 				999A4B7B2CCDE2840077C2C4 /* RunSummaryView.swift in Sources */,
 				07BD5ED72CC8C41E002914DF /* RunMetricsView.swift in Sources */,
 				07668FFD2CD07280004FA7D1 /* MapSnapshotCache.swift in Sources */,

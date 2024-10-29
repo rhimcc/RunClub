@@ -12,10 +12,6 @@ struct EventRow: View {
     let firestore = FirestoreService()
     let dateFormatter = DateFormatterService()
     var event: Event
-    @State private var region = MKCoordinateRegion(
-        center: CLLocationCoordinate2D(latitude: 0, longitude: 0),
-        span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
-    )
     @State private var isExpanded = false
     @State private var runs: [Run] = []
     @State private var runCount: Int = 0
@@ -23,7 +19,6 @@ struct EventRow: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack(alignment: .top, spacing: 16) {
-
                 VStack(alignment: .leading, spacing: 4) {
                     Text(event.name)
                         .font(.headline)
@@ -58,24 +53,10 @@ struct EventRow: View {
                 Spacer()
                 
                 if let startPoint = event.startPoint {
-                    Map(
-                        coordinateRegion: $region,
-                        interactionModes: [],
-                        annotationItems: [
-                            MapPin(coordinate: CLLocationCoordinate2D(
-                                latitude: startPoint.latitude,
-                                longitude: startPoint.longitude
-                            ))
-                        ]
-                    ) { point in
-                        MapAnnotation(coordinate: point.coordinate) {
-                            Circle()
-                                .fill(Color("MossGreen"))
-                                .frame(width: 10, height: 10)
-                        }
-                    }
-                    .frame(width: 180, height: 120)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    StaticEventMapView(coordinate: CLLocationCoordinate2D(
+                        latitude: startPoint.latitude,
+                        longitude: startPoint.longitude
+                    ))
                 }
             }
             
@@ -119,7 +100,6 @@ struct EventRow: View {
         )
         .padding(.horizontal)
         .onAppear {
-            updateRegion()
             loadRunsCount()
         }
     }
@@ -145,19 +125,6 @@ struct EventRow: View {
                     }
                 }
             }
-        }
-    }
-    
-    private func updateRegion() {
-        if let startPoint = event.startPoint {
-            let newRegion = MKCoordinateRegion(
-                center: CLLocationCoordinate2D(
-                    latitude: startPoint.latitude,
-                    longitude: startPoint.longitude
-                ),
-                span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
-            )
-            region = newRegion
         }
     }
 }

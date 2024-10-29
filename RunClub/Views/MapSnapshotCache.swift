@@ -32,4 +32,8 @@ class MapSnapshotCache {
               let last = locations.last else { return "" }
         return "\(first.coordinate.latitude),\(first.coordinate.longitude)-\(last.coordinate.latitude),\(last.coordinate.longitude)"
     }
+    
+    func generateEventCacheKey(for coordinate: CLLocationCoordinate2D) -> String {
+        return "event-\(coordinate.latitude),\(coordinate.longitude)"
+    }
 }
