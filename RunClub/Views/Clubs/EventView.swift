@@ -82,7 +82,7 @@ struct EventView: View {
     
     func dismissEventSheet() {
         fetchEvents() {}
-        eventViewModel.addEventSheet = false
+        
     }
     
     private func scrollToCurrentEvent(using proxy: ScrollViewProxy) {

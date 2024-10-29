@@ -148,7 +148,7 @@ struct AddEventView: View {
         )
 
         firestore.storeEvent(event: newEvent) {
-            eventViewModel.addEventSheet = false
+            eventViewModel.dismissSheet()
         }
     }
 }
