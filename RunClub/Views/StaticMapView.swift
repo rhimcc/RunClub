@@ -36,12 +36,12 @@ struct StaticMapView: View {
             loadSnapshot()
         }
     }
+    
     private func loadSnapshot() {
         if let cachedImage = MapSnapshotCache.shared.getImage(forKey: cacheKey) {
             self.snapshot = cachedImage
             return
         }
-        
         generateSnapshot()
     }
     
@@ -49,18 +49,40 @@ struct StaticMapView: View {
         guard !locations.isEmpty else { return }
         
         let coordinates = locations.map { $0.coordinate }
-        let polyline = MKPolyline(coordinates: coordinates, count: coordinates.count)
+        var minLat = coordinates[0].latitude
+        var maxLat = coordinates[0].latitude
+        var minLon = coordinates[0].longitude
+        var maxLon = coordinates[0].longitude
         
-        let rect = polyline.boundingMapRect
-        let region = MKCoordinateRegion(rect)
+        for coordinate in coordinates {
+            minLat = min(minLat, coordinate.latitude)
+            maxLat = max(maxLat, coordinate.latitude)
+            minLon = min(minLon, coordinate.longitude)
+            maxLon = max(maxLon, coordinate.longitude)
+        }
+        
+        let latPadding = (maxLat - minLat) * 0.15
+        let lonPadding = (maxLon - minLon) * 0.15
+        
+        let center = CLLocationCoordinate2D(
+            latitude: (minLat + maxLat) / 2,
+            longitude: (minLon + maxLon) / 2
+        )
+        
+        let span = MKCoordinateSpan(
+            latitudeDelta: (maxLat - minLat) + (latPadding * 2),
+            longitudeDelta: (maxLon - minLon) + (lonPadding * 2)
+        )
+        
+        let region = MKCoordinateRegion(center: center, span: span)
         
         let options = MKMapSnapshotter.Options()
         options.region = region
-        options.size = CGSize(width: UIScreen.main.bounds.width - 40, height: 180)
+        options.size = CGSize(width: UIScreen.main.bounds.width - 64, height: 180)
         options.scale = UIScreen.main.scale
+        options.mapType = .standard
         
         let snapshotter = MKMapSnapshotter(options: options)
-        
         snapshotter.start { snapshot, error in
             guard let snapshot = snapshot else {
                 print("Snapshot error: \(error?.localizedDescription ?? "unknown error")")
@@ -71,8 +93,8 @@ struct StaticMapView: View {
             snapshot.image.draw(at: .zero)
             
             if let context = UIGraphicsGetCurrentContext() {
-                context.setLineWidth(4)
-                context.setStrokeColor(UIColor.systemBlue.cgColor)
+                context.setLineWidth(3)
+                context.setStrokeColor(Color.mossGreen.cgColor ?? UIColor.systemBlue.cgColor)
                 
                 let points = coordinates.map { coordinate in
                     snapshot.point(for: coordinate)
@@ -91,7 +113,6 @@ struct StaticMapView: View {
             
             if let finalImage = finalImage {
                 MapSnapshotCache.shared.store(image: finalImage, forKey: cacheKey)
-                
                 DispatchQueue.main.async {
                     self.snapshot = finalImage
                 }
