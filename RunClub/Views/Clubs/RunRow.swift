@@ -10,7 +10,6 @@ import SwiftUI
 struct RunRow: View {
     let run: Run
     let dateFormatter = DateFormatterService()
-    let locationManager = LocationService()
     var onProfile: Bool
     
     var body: some View {
@@ -43,9 +42,7 @@ struct RunRow: View {
                 }
             }
             
-            RouteMapView(showUserLocation: false, locationManager: locationManager)
-                .frame(height: 180)
-                .cornerRadius(12)
+            StaticMapView(locations: run.locations)
         }
         .padding()
         .background(
@@ -54,9 +51,6 @@ struct RunRow: View {
                 .shadow(color: .black.opacity(0.05), radius: 5, x: 0, y: 2)
         )
         .padding(.horizontal)
-        .onAppear {
-            locationManager.locations = run.locations
-        }
     }
     
     private func calculateDistance() -> Double {

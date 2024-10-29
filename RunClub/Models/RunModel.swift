@@ -15,7 +15,7 @@ class Run: Identifiable, Codable {
     var locations: [CLLocation]
     var startTime: Date
     var elapsedTime: TimeInterval
-    var runnerId: String?
+    var runnerId: String
     
     init(id: String? = nil, eventId: String? = nil, locations: [CLLocation], startTime: Date, elapsedTime: TimeInterval, runnerId: String) {
         self.id = id
