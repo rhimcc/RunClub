@@ -941,6 +941,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RunClub/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Jog Jam";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "\"need your location\"";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"using location\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -974,6 +975,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RunClub/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Jog Jam";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "\"need your location\"";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"using location\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
