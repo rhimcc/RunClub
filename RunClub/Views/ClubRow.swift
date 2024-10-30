@@ -9,6 +9,13 @@ import SwiftUI
 
 struct ClubRow: View {
     let club: Club
+    let firestore = FirestoreService()
+    @State var member: Bool
+    
+    init(club: Club) {
+        self.club = club
+        self._member = State(initialValue: club.memberIds.contains(User.getCurrentUserId()))
+    }
     
     var body: some View {
         HStack(spacing: 12) {
@@ -36,6 +43,29 @@ struct ClubRow: View {
             }
             
             Spacer()
+            
+            // Join/Leave Button
+            if club.ownerId != User.getCurrentUserId() {
+                Button {
+                    if let id = club.id {
+                        if member {
+                            firestore.leaveClub(clubId: id)
+                            member = false
+                        } else {
+                            firestore.joinClub(clubId: id)
+                            member = true
+                        }
+                    }
+                } label: {
+                    Text(member ? "Leave" : "Join")
+                        .foregroundColor(.white)
+                        .font(.system(size: 14, weight: .medium))
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                        .background(member ? Color.red : Color("MossGreen"))
+                        .cornerRadius(8)
+                }
+            }
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 12)

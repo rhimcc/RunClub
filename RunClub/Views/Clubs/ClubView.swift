@@ -92,18 +92,24 @@ struct ClubView: View {
                     if isOwner {
                         Text("Owner")
                             .foregroundColor(Color("MossGreen"))
-                    } else if member {
-                        Text("Joined")
-                            .foregroundColor(Color("MossGreen"))
                     } else {
                         Button {
                             if let id = club.id {
-                                firestore.joinClub(clubId: id)
-                                member = true  // Update the member state after joining
+                                if member {
+                                    firestore.leaveClub(clubId: id)
+                                    member = false
+                                } else {
+                                    firestore.joinClub(clubId: id)
+                                    member = true
+                                }
                             }
-                        } label : {
-                            Text("Join")
-                                .foregroundColor(Color("MossGreen"))
+                        } label: {
+                            Text(member ? "Leave" : "Join")
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 8)
+                                .background(member ? Color.red : Color("MossGreen"))
+                                .cornerRadius(8)
                         }
                     }
                 }

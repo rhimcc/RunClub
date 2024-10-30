@@ -30,6 +30,7 @@ struct YourApp: App {
         UIApplication.shared.registerForRemoteNotifications()
     }
     
+    @MainActor
     var body: some Scene {
         WindowGroup {
             if (authViewModel.isSignedIn) {

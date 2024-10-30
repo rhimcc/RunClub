@@ -77,6 +77,7 @@ class AuthViewModel: ObservableObject {
         }
     }
     
+    @MainActor
     func signOut() {
         do {
             isSignedIn = false

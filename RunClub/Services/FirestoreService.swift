@@ -41,32 +41,61 @@ class FirestoreService {
     }
     
     func getUserByID(id: String, completion: @escaping (User?) -> Void) {
+        if (id == "") {
+            completion(nil)
+            return
+        }
         
-//        do {
-            let docRef = db.collection("users").document(id) // gets the document which has the userId, if it exists
-//        } catch {
-//            //catch
-//        }
-        docRef.getDocument { (document, error) in
-            if let error = error {
-                print("Error getting document: \(error)")
+        do {
+            let docRef = db.collection("users").document(id)
+            
+            // Check if ID is empty before proceeding
+            guard !id.isEmpty else {
+                print("Error: Document ID cannot be empty")
                 completion(nil)
                 return
             }
             
-            guard let document = document, document.exists else { // checks for errors with the document
-                print("Document does not exist")
-                completion(nil)
-                return
+            docRef.getDocument { (document, error) in
+                if let error = error {
+                    print("Error getting document: \(error)")
+                    completion(nil)
+                    //
+                    return
+                }
+                
+                guard let document = document, document.exists else {
+                    print("Document does not exist")
+                    completion(nil)
+                    return
+                }
+                
+                docRef.getDocument { (document, error) in
+                    if let error = error {
+                        print("Error getting document: \(error)")
+                        completion(nil)
+                        return
+                    }
+                    
+                    guard let document = document, document.exists else { // checks for errors with the document
+                        print("Document does not exist")
+                        completion(nil)
+                        return
+                    }
+                    do {
+                        let user = try document.data(as: User.self) // creates data from the document
+                        user.id = document.documentID
+                        completion(user)
+                    } catch {
+                        print("Failed to parse user data")
+                        completion(nil)
+                    }
+                }
             }
-            do {
-                let user = try document.data(as: User.self) // creates data from the document
-                user.id = document.documentID
-                completion(user)
-            } catch {
-                print("Failed to parse user data")
-                completion(nil)
-            }
+        } catch {
+            print("Error: \(error)")
+            completion(nil)
+            return
         }
     }
     
@@ -383,6 +412,11 @@ class FirestoreService {
         
     }
     func getFriendsOfUser(userId: String, completion: @escaping ([User]?, Error?) -> Void) {
+        if (userId == "") {
+            completion(nil, nil)
+            return
+        }
+        
         let userRef = db.collection("users").document(userId)
         
         
@@ -1001,6 +1035,12 @@ class FirestoreService {
     }
     
     func getClubsForUser(userId: String, completion: @escaping ([Club]?, Error?) -> Void) {
+        
+        if (userId == "") {
+            completion(nil, nil)
+            return
+        }
+        
         let userRef = db.collection("users").document(userId)
         
         userRef.getDocument { (document, error) in
