@@ -522,11 +522,11 @@ class FirestoreService {
         guard let currentUserId = Auth.auth().currentUser?.uid else {
             return
         }
-        // remove the id from the pending request from CURRENT USERS
+        // remove the id from the pending requests from CURRENT USER
         let userRef = db.collection("users").document(currentUserId)
         userRef.getDocument { (document, error) in
             if let error = error {
-                print("Error getting club document: \(error.localizedDescription)")
+                print("Error getting user document: \(error.localizedDescription)")
                 return
             }
             
@@ -534,28 +534,35 @@ class FirestoreService {
             if let index = self.getIndexOfId(id: userId, array: pendingFriendIds) {
                 pendingFriendIds.remove(at: index) // removes the id of the user which has just been accepted
             }
-            userRef.updateData(["pendingFriendIds" : pendingFriendIds]) // updates the data to the array after removing the id
-            
-            var friendIds = document?.data()?["friendIds"] as? [String] ?? [] // gets the current friend ids from the firestore
-            friendIds.append(userId)
-            userRef.updateData(["friendIds" : friendIds]) // updates the data to the array after adding the id
-            
-        }
-        
-        let otherUserRef = db.collection("users").document(userId)
-        otherUserRef.getDocument { (document, error) in
-            if let error = error {
-                print("Error getting club document: \(error.localizedDescription)")
-                return
+            userRef.updateData(["pendingFriendIds" : pendingFriendIds]) { error in
+                if let error = error {
+                    print("Error updating pending friends: \(error.localizedDescription)")
+                    return
+                }
+                
+                var friendIds = document?.data()?["friendIds"] as? [String] ?? [] // gets the current friend ids from the firestore
+                friendIds.append(userId)
+                userRef.updateData(["friendIds" : friendIds]) { error in
+                    if let error = error {
+                        print("Error updating friends: \(error.localizedDescription)")
+                        return
+                    }
+                    
+                    // Add current user to other user's friends list
+                    let otherUserRef = self.db.collection("users").document(userId)
+                    otherUserRef.getDocument { (document, error) in
+                        if let error = error {
+                            print("Error getting other user document: \(error.localizedDescription)")
+                            return
+                        }
+                        
+                        var friendIds = document?.data()?["friendIds"] as? [String] ?? []
+                        friendIds.append(currentUserId)
+                        otherUserRef.updateData(["friendIds" : friendIds])
+                    }
+                }
             }
-            
-            var friendIds = document?.data()?["friendIds"] as? [String] ?? [] // gets the current friend ids from the firestore
-            friendIds.append(currentUserId)
-            otherUserRef.updateData(["friendIds" : friendIds]) // updates the data to the array after adding the id
-            
-            
         }
-        
     }
     
     func getIndexOfId(id: String, array: [String]) -> Int? {
@@ -1025,11 +1032,27 @@ class FirestoreService {
             if let currentUser = currentUser {
                 if currentUser.friendIds?.contains(otherUserId) ?? false {
                     completion(.friends)
-                } else if currentUser.pendingFriendIds?.contains(otherUserId) ?? false {
-                    completion(.pending)
                 } else {
-                    completion(.notFriends)
+                    // Check if it's an incoming request (other user's ID is in our pending)
+                    if currentUser.pendingFriendIds?.contains(otherUserId) ?? false {
+                        completion(.pending)
+                    } else {
+                        // Check if it's an outgoing request (our ID is in their pending)
+                        self.getUserByID(id: otherUserId) { otherUser in
+                            if let otherUser = otherUser {
+                                if otherUser.pendingFriendIds?.contains(userId) ?? false {
+                                    completion(.pending)
+                                } else {
+                                    completion(.notFriends)
+                                }
+                            } else {
+                                completion(.notFriends)
+                            }
+                        }
+                    }
                 }
+            } else {
+                completion(.notFriends)
             }
         }
     }
@@ -1149,13 +1172,13 @@ class FirestoreService {
     }
     
     func sendFriendRequest(to user: User, completion: @escaping (Bool) -> Void = { _ in }) {
-        guard let userId = Auth.auth().currentUser?.uid,
+        guard let currentUserId = Auth.auth().currentUser?.uid,
               let targetUserId = user.id else {
             completion(false)
             return
         }
         
-        // Check if request already exists
+        // Get the target user's reference
         let userRef = db.collection("users").document(targetUserId)
         
         userRef.getDocument { (document, error) in
@@ -1175,14 +1198,14 @@ class FirestoreService {
             let pendingFriendIds = document.data()?["pendingFriendIds"] as? [String] ?? []
             
             // Check if request already exists
-            guard !pendingFriendIds.contains(userId) else {
+            guard !pendingFriendIds.contains(currentUserId) else {
                 completion(false)
                 return
             }
             
             // Add new request
             var updatedPendingFriendIds = pendingFriendIds
-            updatedPendingFriendIds.append(userId)
+            updatedPendingFriendIds.append(currentUserId)
             
             // Update the document
             userRef.updateData(["pendingFriendIds": updatedPendingFriendIds]) { error in
@@ -1232,4 +1255,29 @@ class FirestoreService {
                 }
             }
     }
+    
+    func rejectFriendRequest(from userId: String, completion: @escaping () -> Void = {}) {
+        guard let currentUserId = Auth.auth().currentUser?.uid else {
+            completion()
+            return
+        }
+        
+        // Get current user's reference
+        let userRef = db.collection("users").document(currentUserId)
+        
+        userRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                var pendingFriendIds = document.data()?["pendingFriendIds"] as? [String] ?? []
+                pendingFriendIds.removeAll { $0 == userId }
+                
+                userRef.updateData(["pendingFriendIds": pendingFriendIds]) { error in
+                    completion()
+                }
+            } else {
+                completion()
+            }
+        }
+    }
+    
+    
 }

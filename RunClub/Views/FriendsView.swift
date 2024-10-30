@@ -35,7 +35,7 @@ struct FriendsView: View {
                 // Pending Friends Section
                 if !friendViewModel.pending.isEmpty {
                     VStack(alignment: .leading, spacing: 12) {
-                        Text("Pending (\(friendViewModel.pending.count))")
+                        Text("Friend Requests (\(friendViewModel.pending.count))")
                             .font(.headline)
                             .foregroundColor(Color("MossGreen"))
                             .padding(.horizontal)
@@ -45,7 +45,18 @@ struct FriendsView: View {
                                 user: user,
                                 status: .pending,
                                 onAction: {
-                                    friendViewModel.handleFriendAction(for: user)
+                                    // Handle reject/cancel
+                                    firestore.rejectFriendRequest(from: user.id ?? "") {
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                            friendViewModel.loadFriends()
+                                        }
+                                    }
+                                },
+                                onAccept: {
+                                    firestore.acceptFriendRequest(from: user.id ?? "")
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                        friendViewModel.loadFriends()
+                                    }
                                 }
                             )
                             .padding(.horizontal)

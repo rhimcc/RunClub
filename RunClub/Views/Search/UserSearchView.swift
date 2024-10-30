@@ -26,12 +26,13 @@ struct UserSearchView: View {
                             
                             LazyVStack(spacing: 12) {
                                 ForEach(searchViewModel.searchQuery.isEmpty ? searchViewModel.suggestedUsers : searchViewModel.searchResults) { user in
-                                    // Check if user is in pending requests first
-                                    let actualStatus = user.pendingFriendIds?.contains(User.getCurrentUserId()) ?? false ? .pending : friendViewModel.getFriendshipStatus(for: user)
+                                    // Check if current user's ID is in the other user's pending requests
+                                    let isPending = friendViewModel.pending.contains(user)
+                                    let status = isPending ? .pending : friendViewModel.getFriendshipStatus(for: user)
                                     
                                     UserRow(
                                         user: user,
-                                        status: actualStatus,
+                                        status: status,
                                         onAction: {
                                             friendViewModel.handleFriendAction(for: user)
                                         }
