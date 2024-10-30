@@ -15,29 +15,38 @@ class FirestoreService {
     
     
     
-    func storeNewUser(user: User)  {
+    func storeNewUser(user: User, completion: @escaping (Error?) -> Void) {
         guard let userId = Auth.auth().currentUser?.uid else {
+            completion(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "No authenticated user"]))
             return
         }
         
         do {
-            let jsonData = try JSONEncoder().encode(user) // creates data from the user
-            let jsonDict = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] // creates a dict from the data
-            db.collection("users").document(userId).setData(jsonDict ?? [:]) { error in // sets the data for the user id with the dict
+            let jsonData = try JSONEncoder().encode(user)
+            let jsonDict = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any]
+            
+            db.collection("users").document(userId).setData(jsonDict ?? [:]) { error in
                 if let error = error {
                     print("Error adding user: \(error.localizedDescription)")
+                    completion(error)
                 } else {
                     print("User successfully added")
+                    completion(nil)
                 }
             }
         } catch {
             print("Error encoding user: \(error.localizedDescription)")
+            completion(error)
         }
     }
     
     func getUserByID(id: String, completion: @escaping (User?) -> Void) {
         
-        let docRef = db.collection("users").document(id) // gets the document which has the userId, if it exists
+//        do {
+            let docRef = db.collection("users").document(id) // gets the document which has the userId, if it exists
+//        } catch {
+//            //catch
+//        }
         docRef.getDocument { (document, error) in
             if let error = error {
                 print("Error getting document: \(error)")

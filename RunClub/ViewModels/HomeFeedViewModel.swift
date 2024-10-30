@@ -20,6 +20,7 @@ class HomeFeedViewModel: ObservableObject {
         }
         
         do {
+            AuthViewModel().checkSignIn()
             await loadCurrentUser()
             await loadFriends()
             await loadUserClubs()

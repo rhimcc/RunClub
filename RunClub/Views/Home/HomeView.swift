@@ -41,11 +41,11 @@ struct HomeView: View {
                             EmptyFeedView()
                         }
                         
-                        if let error = viewModel.error {
-                            Text(error)
-                                .foregroundColor(.red)
-                                .padding()
-                        }
+//                        if let error = viewModel.error {
+//                            Text(Stringerror)
+//                                .foregroundColor(.red)
+//                                .padding()
+//                        }
                     }
                     .padding(.vertical)
                 }

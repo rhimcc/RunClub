@@ -10,8 +10,6 @@ import SwiftUI
 struct SignInView: View {
     @State private var email: String = ""
     @State private var password: String = ""
-    @Environment(\.dismiss) var dismiss
-    @State private var showSignUp: Bool = false
     @StateObject var authViewModel: AuthViewModel
 
     var body: some View {
@@ -31,6 +29,7 @@ struct SignInView: View {
                             .foregroundColor(.gray)
                         TextField("Enter your email", text: $email)
                             .textFieldStyle(CustomTextFieldStyle())
+                            .autocapitalization(.none)
                     }
                     
                     VStack(alignment: .leading, spacing: 8) {
@@ -43,18 +42,37 @@ struct SignInView: View {
                 }
                 .padding(.top, 24)
                 
+                if let errorMessage = authViewModel.errorMessage {
+                    Text(errorMessage)
+                        .foregroundColor(.red)
+                        .font(.subheadline)
+                        .padding(.top, 8)
+                }
+                
                 Button {
                     authViewModel.signIn(withEmail: email, password: password)
                 } label: {
-                    Text("Sign In")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 16)
-                        .background(Color("MossGreen"))
-                        .cornerRadius(10)
+                    ZStack {
+                        Text("Sign In")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 16)
+                            .background(Color("MossGreen"))
+                            .cornerRadius(10)
+                            .opacity(authViewModel.isLoading ? 0 : 1)
+                        
+                        if authViewModel.isLoading {
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 16)
+                                .background(Color("MossGreen"))
+                                .cornerRadius(10)
+                        }
+                    }
                 }
-                .disabled(email.isEmpty || password.isEmpty)
+                .disabled(email.isEmpty || password.isEmpty || authViewModel.isLoading)
                 .padding(.top, 16)
                 
                 HStack {
@@ -75,7 +93,4 @@ struct SignInView: View {
             .background(Color.white)
         }
     }
-}
-#Preview {
-    SignInView(authViewModel: AuthViewModel())
 }

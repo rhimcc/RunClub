@@ -53,7 +53,7 @@ struct ProfileView: View {
                                 Text("\(user?.runIds?.count ?? 0)")
                                     .font(.system(size: 16, weight: .semibold))
                                 Text("Runs")
-                                    .font(.system(size: 13))
+                                    .font(.system(size: 12))
                                     .foregroundColor(.gray)
                             }
                             
@@ -61,15 +61,16 @@ struct ProfileView: View {
                                 Text("\(user?.friendIds?.count ?? 0)")
                                     .font(.system(size: 16, weight: .semibold))
                                 Text("Friends")
-                                    .font(.system(size: 13))
+                                    .font(.system(size: 12))
                                     .foregroundColor(.gray)
+                                    .lineLimit(1)
                             }
                             
                             VStack(spacing: 4) {
                                 Text("\(user?.clubIds?.count ?? 0)")
                                     .font(.system(size: 16, weight: .semibold))
                                 Text("Clubs")
-                                    .font(.system(size: 13))
+                                    .font(.system(size: 12))
                                     .foregroundColor(.gray)
                             }
                         }

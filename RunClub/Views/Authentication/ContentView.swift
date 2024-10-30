@@ -30,10 +30,11 @@ struct ContentView: View {
 //                Text("Run Club")
 //                    .font(.system(size: 40, weight: .bold))
 //                    .padding(.bottom, 40)
-                Image("AppIcon")
+                Image(uiImage: UIImage(named: "Logo") ?? UIImage())
                     .resizable()
                     .scaledToFit()
                     .frame(width: 200)
+                    .cornerRadius(20)
                     .padding(.bottom, 16)
 
                 Text("Run Club")

@@ -1,10 +1,4 @@
-//
-//  SignInView.swift
-//  RunClub
-//
-//  Created by Rhianna McCormack on 14/10/2024.
-//
-
+import Foundation
 import SwiftUI
 
 struct SignUpView: View {
@@ -37,6 +31,7 @@ struct SignUpView: View {
                                     .foregroundColor(.gray)
                                 TextField("First", text: $firstName)
                                     .textFieldStyle(CustomTextFieldStyle())
+                                    .autocapitalization(.words)
                             }
                             
                             VStack(alignment: .leading, spacing: 8) {
@@ -45,29 +40,106 @@ struct SignUpView: View {
                                     .foregroundColor(.gray)
                                 TextField("Last", text: $lastName)
                                     .textFieldStyle(CustomTextFieldStyle())
+                                    .autocapitalization(.words)
                             }
                         }
                         
-                        // Other fields
-                        FormField(title: "Username", placeholder: "Choose a username", text: $username)
-                        FormField(title: "Email", placeholder: "Enter your email", text: $email)
-                        FormField(title: "Phone", placeholder: "Enter your phone number", text: $phoneNumber)
-                        FormField(title: "Password", placeholder: "Create a password", text: $password, isSecure: true)
-                        FormField(title: "Confirm Password", placeholder: "Confirm your password", text: $confirmPassword, isSecure: true)
+                        // Username field
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("Username")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                            TextField("Choose a username", text: $username)
+                                .textFieldStyle(CustomTextFieldStyle())
+                                .autocapitalization(.none)
+                        }
+                        
+                        // Email field
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("Email")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                            TextField("Enter your email", text: $email)
+                                .textFieldStyle(CustomTextFieldStyle())
+                                .autocapitalization(.none)
+                                .keyboardType(.emailAddress)
+                        }
+                        
+                        // Phone field
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("Phone")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                            TextField("Enter your phone number", text: $phoneNumber)
+                                .textFieldStyle(CustomTextFieldStyle())
+                                .keyboardType(.phonePad)
+                        }
+                        
+                        // Password fields
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("Password")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                            SecureField("Create a password", text: $password)
+                                .textFieldStyle(CustomTextFieldStyle())
+                        }
+                        
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("Confirm Password")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                            SecureField("Confirm your password", text: $confirmPassword)
+                                .textFieldStyle(CustomTextFieldStyle())
+                        }
+                    }
+                    
+                    if let errorMessage = authViewModel.errorMessage {
+                        Text(errorMessage)
+                            .foregroundColor(.red)
+                            .font(.subheadline)
+                            .multilineTextAlignment(.center)
+                            .padding(.top, 8)
                     }
                     
                     Button {
-                        authViewModel.createAccount(withEmail: email, password: password, firstName: firstName, lastName: lastName, phoneNumber: phoneNumber, username: username)
+                        if password == confirmPassword {
+                            authViewModel.createAccount(withEmail: email, 
+                                                     password: password, 
+                                                     firstName: firstName, 
+                                                     lastName: lastName, 
+                                                     phoneNumber: phoneNumber, 
+                                                     username: username)
+                        } else {
+                            authViewModel.errorMessage = "Passwords do not match"
+                        }
                     } label: {
-                        Text("Create Account")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 16)
-                            .background(Color("MossGreen"))
-                            .cornerRadius(10)
+                        ZStack {
+                            Text("Create Account")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 16)
+                                .background(Color("MossGreen"))
+                                .cornerRadius(10)
+                                .opacity(authViewModel.isLoading ? 0 : 1)
+                            
+                            if authViewModel.isLoading {
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 16)
+                                    .background(Color("MossGreen"))
+                                    .cornerRadius(10)
+                            }
+                        }
                     }
-                    .disabled(firstName.isEmpty || lastName.isEmpty || email.isEmpty || password.isEmpty || confirmPassword.isEmpty)
+                    .disabled(firstName.isEmpty || 
+                             lastName.isEmpty || 
+                             email.isEmpty || 
+                             password.isEmpty || 
+                             confirmPassword.isEmpty || 
+                             username.isEmpty ||
+                             authViewModel.isLoading)
                     .padding(.top, 16)
                     
                     HStack {
@@ -87,8 +159,4 @@ struct SignUpView: View {
             .background(Color.white)
         }
     }
-}
-
-#Preview {
-    SignUpView(authViewModel: AuthViewModel())
 }
