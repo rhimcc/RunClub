@@ -615,29 +615,26 @@ class FirestoreService {
     }
     
     func getUsersClubs(userId: String, completion: @escaping ([Club]?, Error?) -> Void) {
-        let userRef = db.collection("users").document(userId)
+        let clubsRef = db.collection("clubs")
         
-        userRef.getDocument { (document, error) in
+        // Query clubs where the user's ID is in memberIds array
+        clubsRef.whereField("memberIds", arrayContains: userId).getDocuments { (snapshot, error) in
             if let error = error {
-                print("Error getting club document: \(error.localizedDescription)")
+                print("Error getting clubs: \(error.localizedDescription)")
+                completion(nil, error)
                 return
             }
-            let dispatchGroup = DispatchGroup()
-            var clubIds = document?.data()?["clubIds"] as? [String] ?? []
-            var clubs: [Club] = []
-            for clubId in clubIds {
-                dispatchGroup.enter() // Start async operation
-                
-                self.getClubById(id: clubId) { fetchedClub in
-                    DispatchQueue.main.async {
-                        if let fetchedClub = fetchedClub {
-                            clubs.append(fetchedClub)
-                        }
-                    }
-                    dispatchGroup.leave() // End async operation
-                }
+            
+            guard let documents = snapshot?.documents else {
+                completion([], nil)
+                return
             }
             
+            let clubs = documents.compactMap { document -> Club? in
+                try? document.data(as: Club.self)
+            }
+            
+            completion(clubs, nil)
         }
     }
     
@@ -826,7 +823,7 @@ class FirestoreService {
             }
         }
     }
-
+    
     func loadMessages(with friendId: String, completion: @escaping ([Chat]?, Error?) -> Void) {
         let currentUserId = User.getCurrentUserId()
         
@@ -874,7 +871,7 @@ class FirestoreService {
             }
         }
     }
-
+    
     
     func sendMessage(to friendId: String, message: Chat) {
         do {
@@ -1051,22 +1048,139 @@ class FirestoreService {
         }
     }
     
-}
     
-
-
-
-      
-            
+    func getMostFollowedUsers(completion: @escaping ([User]?, Error?) -> Void) {
+        db.collection("users")
+            .order(by: "friendIds", descending: true)
+            .limit(to: 20)
+            .getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    print("Error fetching most followed users: \(error)")
+                    completion(nil, error)
+                    return
+                }
+                
+                let users = querySnapshot?.documents.compactMap { document -> User? in
+                    do {
+                        var user = try document.data(as: User.self)
+                        user.id = document.documentID
+                        return user
+                    } catch {
+                        print("Error decoding user: \(error)")
+                        return nil
+                    }
+                } ?? []
+                
+                DispatchQueue.main.async {
+                    completion(users.filter { $0.id != User.getCurrentUserId() }, nil)
+                }
+            }
+    }
     
-
-
-
-
+    func cancelFriendRequest(to userId: String, completion: @escaping () -> Void) {
+        guard let currentUserId = Auth.auth().currentUser?.uid else {
+            completion()
+            return
+        }
         
+        let userRef = db.collection("users").document(userId)
+        
+        userRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                var pendingFriendIds = document.data()?["pendingFriendIds"] as? [String] ?? []
+                pendingFriendIds.removeAll { $0 == currentUserId }
+                
+                userRef.updateData(["pendingFriendIds": pendingFriendIds]) { error in
+                    completion()
+                }
+            } else {
+                completion()
+            }
+        }
+    }
     
+    func sendFriendRequest(to user: User, completion: @escaping (Bool) -> Void = { _ in }) {
+        guard let userId = Auth.auth().currentUser?.uid,
+              let targetUserId = user.id else {
+            completion(false)
+            return
+        }
+        
+        // Check if request already exists
+        let userRef = db.collection("users").document(targetUserId)
+        
+        userRef.getDocument { (document, error) in
+            if let error = error {
+                print("Error getting user document: \(error.localizedDescription)")
+                completion(false)
+                return
+            }
+            
+            guard let document = document, document.exists else {
+                print("User document does not exist")
+                completion(false)
+                return
+            }
+            
+            // Get current pending requests
+            let pendingFriendIds = document.data()?["pendingFriendIds"] as? [String] ?? []
+            
+            // Check if request already exists
+            guard !pendingFriendIds.contains(userId) else {
+                completion(false)
+                return
+            }
+            
+            // Add new request
+            var updatedPendingFriendIds = pendingFriendIds
+            updatedPendingFriendIds.append(userId)
+            
+            // Update the document
+            userRef.updateData(["pendingFriendIds": updatedPendingFriendIds]) { error in
+                if let error = error {
+                    print("Error updating pending friend ids: \(error.localizedDescription)")
+                    completion(false)
+                } else {
+                    print("Friend request successfully sent")
+                    completion(true)
+                }
+            }
+        }
+    }
     
-
-    
-    
-
+    func searchUsers(searchTerm: String, completion: @escaping ([User]?, Error?) -> Void) {
+        let searchTermLower = searchTerm.lowercased()
+        
+        if searchTermLower.isEmpty {
+            completion([], nil)
+            return
+        }
+        
+        db.collection("users")
+            .whereField("username", isGreaterThanOrEqualTo: searchTermLower)
+            .whereField("username", isLessThan: searchTermLower + "\u{f8ff}")
+            .limit(to: 20)
+            .getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    print("Error searching users: \(error)")
+                    completion(nil, error)
+                    return
+                }
+                
+                let fetchedUsers = querySnapshot?.documents.compactMap { document -> User? in
+                    do {
+                        var user = try document.data(as: User.self)
+                        user.id = document.documentID
+                        return user
+                    } catch {
+                        print("Error decoding user: \(error)")
+                        return nil
+                    }
+                } ?? []
+                
+                DispatchQueue.main.async {
+                    completion(fetchedUsers.filter { $0.id != User.getCurrentUserId() }, nil)
+                }
+            }
+    }
+}

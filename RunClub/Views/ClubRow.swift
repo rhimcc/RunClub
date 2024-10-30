@@ -8,40 +8,40 @@
 import SwiftUI
 
 struct ClubRow: View {
-    var club: Club
-    @State var member: Bool = false
-    let firestore = FirestoreService()
-    var body: some View {
-        HStack {
-            Circle()
-                .fill(.gray)
-                .frame(width: 60, height: 60)
-            VStack (alignment: .leading){
-                Text(club.name)
-                    .bold()
-                if (club.ownerId == User.getCurrentUserId()) {
-                    Text("Owner")
-                } else {
-                    Text(member ? "Member" : "Not a Member")
-                }
-                
-            }.foregroundStyle(.black)
-            Spacer()
-        }.onAppear {
-            getMemberStatus()
-        }
-        .padding()
-        .background (
-            RoundedRectangle(cornerRadius: 20)
-                .fill(.white)
-                .shadow(color: .black.opacity(0.2), radius: 5)
-        )
-
-    }
+    let club: Club
     
-    func getMemberStatus() {
-        member = club.memberIds.contains(User.getCurrentUserId())
+    var body: some View {
+        HStack(spacing: 12) {
+            // Club Avatar
+            Circle()
+                .fill(Color("MossGreen"))
+                .frame(width: 50, height: 50)
+                .overlay(
+                    Text(club.name.prefix(1).uppercased())
+                        .foregroundColor(.white)
+                        .font(.system(size: 20, weight: .medium))
+                )
             
+            // Club info
+            VStack(alignment: .leading, spacing: 4) {
+                Text(club.name)
+                    .font(.system(size: 16, weight: .semibold))
+                HStack(spacing: 4) {
+                    Image(systemName: "person.2")
+                        .foregroundColor(.gray)
+                    Text("\(club.memberIds.count) members")
+                        .font(.system(size: 14))
+                        .foregroundColor(.gray)
+                }
+            }
+            
+            Spacer()
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 12)
+        .background(Color.white)
+        .cornerRadius(12)
+        .shadow(color: Color.black.opacity(0.05), radius: 2, x: 0, y: 1)
     }
 }
 

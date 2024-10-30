@@ -8,39 +8,91 @@
 import SwiftUI
 
 struct FriendRow: View {
-    var user: User
-    var friends: Bool
+    let user: User
+    var status: FriendshipStatus
+    var onAction: (() -> Void)?
+    let showMessage: Bool
+    
     var body: some View {
-        HStack {
+        HStack(spacing: 12) {
+            // User Avatar
             Circle()
-                .fill(.gray)
-                .frame(width: 60, height: 60)
-            VStack {
-                Text(user.firstName ?? "" + " " + (user.lastName ?? ""))
-                    .bold()
+                .fill(Color("MossGreen"))
+                .frame(width: 50, height: 50)
+                .overlay(
+                    Text(user.username.prefix(1).uppercased())
+                        .foregroundColor(.white)
+                        .font(.system(size: 20, weight: .medium))
+                )
+            
+            // User Info
+            VStack(alignment: .leading, spacing: 4) {
                 Text(user.username)
-            }.foregroundStyle(.black)
+                    .font(.system(size: 16, weight: .semibold))
+
+            }
+            
             Spacer()
-            if (friends) {
-                NavigationLink {
-                    ChatView(friend: user)
-                } label: {
-                    Image(systemName: "message")
-                        .font(.system(size: 20))
-                        .bold()
-                        .padding(.trailing)
+            
+            Group {
+                switch status {
+                case .friends:
+                    if showMessage {
+                        NavigationLink {
+                            ChatView(friend: user)
+                        } label: {
+                            Image(systemName: "message.fill")
+                                .foregroundColor(Color("MossGreen"))
+                        }
+                    } else {
+                        Button {
+                            onAction?()
+                        } label: {
+                            Text("Unfollow")
+                                .font(.system(size: 14, weight: .medium))
+                                .foregroundColor(.gray)
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 6)
+                                .background(Color.gray.opacity(0.2))
+                                .cornerRadius(8)
+                        }
+                    }
+                case .pending:
+                    HStack(spacing: 8) {
+                        Button {
+                            onAction?()
+                        } label: {
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundColor(Color("MossGreen"))
+                                .font(.system(size: 24))
+                        }
+                        Button {
+                            // Handle reject
+                        } label: {
+                            Image(systemName: "x.circle.fill")
+                                .foregroundColor(.red.opacity(0.8))
+                                .font(.system(size: 24))
+                        }
+                    }
+                case .notFriends:
+                    Button {
+                        onAction?()
+                    } label: {
+                        Text("Follow")
+                            .font(.system(size: 14, weight: .medium))
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 6)
+                            .background(Color("MossGreen"))
+                            .cornerRadius(8)
+                    }
                 }
             }
-        }.padding()
-        .background (
-            RoundedRectangle(cornerRadius: 20)
-                .fill(.white)
-                .shadow(color: .black.opacity(0.2), radius: 5)
-        )
-
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 12)
+        .background(Color.white)
+        .cornerRadius(12)
+        .shadow(color: Color.black.opacity(0.05), radius: 2, x: 0, y: 1)
     }
 }
-
-//#Preview {
-//    FriendRow()
-//}

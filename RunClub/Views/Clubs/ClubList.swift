@@ -60,7 +60,8 @@ struct ClubList: View {
                             NavigationLink {
                                 ClubView(club: club, editMode: false)
                             } label: {
-                                Text("Club")
+                                ClubRow(club: club)
+                                    .padding(.horizontal, 10)
                             }
                         }
                     }

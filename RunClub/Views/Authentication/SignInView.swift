@@ -18,63 +18,64 @@ struct SignInView: View {
         if (authViewModel.isSignedIn) {
             MainView(authViewModel: authViewModel)
                 .navigationBarBackButtonHidden(true)
-
         } else {
-            VStack {
-                Spacer()
-                Text("Sign In")
-                    .font(.title)
-                    .bold()
-                Spacer()
-                VStack {
-                    HStack {
-                        VStack (alignment: .trailing){
-                            Text("Email")
-                                .bold()
-                                .padding(.bottom)
-                            Text("Password")
-                                .bold()
-                        }
-                        VStack {
-                            TextField("Email", text: $email)
-                                .textFieldStyle(.roundedBorder)
-                            SecureField("Password", text: $password)
-                                .textFieldStyle(.roundedBorder)
-                        }
+            VStack(spacing: 24) {
+                Text("Welcome Back")
+                    .font(.system(size: 28, weight: .bold))
+                    .padding(.top, 40)
+                
+                VStack(spacing: 16) {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Email")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                        TextField("Enter your email", text: $email)
+                            .textFieldStyle(CustomTextFieldStyle())
                     }
                     
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Password")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                        SecureField("Enter your password", text: $password)
+                            .textFieldStyle(CustomTextFieldStyle())
+                    }
                 }
+                .padding(.top, 24)
+                
                 Button {
                     authViewModel.signIn(withEmail: email, password: password)
-                } label : {
-                    Text("SIGN IN")
-                        .bold()
-                }.buttonStyle(.borderedProminent)
-                    .tint(.black)
-                    .padding(20)
-                    .disabled(email.isEmpty || password.isEmpty)
+                } label: {
+                    Text("Sign In")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 16)
+                        .background(Color("MossGreen"))
+                        .cornerRadius(10)
+                }
+                .disabled(email.isEmpty || password.isEmpty)
+                .padding(.top, 16)
                 
                 HStack {
-                    Text("Dont have an account?")
+                    Text("Don't have an account?")
+                        .foregroundColor(.gray)
                     NavigationLink {
                         SignUpView(authViewModel: authViewModel)
                     } label: {
-                        Text("Create an account")
-                            .underline()
-                            .foregroundStyle(.black)
+                        Text("Create one")
+                            .foregroundColor(Color("MossGreen"))
                     }
                 }
+                .font(.subheadline)
                 
                 Spacer()
-                Spacer()
-                
-                
-            }.padding(.horizontal, 20)
-            
+            }
+            .padding(.horizontal, 24)
+            .background(Color.white)
         }
     }
 }
-
 #Preview {
     SignInView(authViewModel: AuthViewModel())
 }

@@ -18,9 +18,11 @@ struct SearchResultsView: View {
                 NavigationLink {
                     ClubView(club: club, editMode: false)
                 } label: {
-                    ClubRow(club: club)
+                    ClubRow(
+                        club: club
+                        )
+                    }
                 }
-            }
         }
         .padding(.top, 20)
         .onAppear {

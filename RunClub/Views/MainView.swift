@@ -48,7 +48,7 @@ struct MainView: View {
                             Image(systemName: "shoe")
                             Text("Clubs")
                         }
-                    }.tag(2)
+                    }.tag(4)
                 
             }.tint(.mossGreen)
         }

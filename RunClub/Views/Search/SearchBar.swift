@@ -11,7 +11,7 @@ struct SearchBar: View {
     @ObservedObject var searchViewModel: SearchViewModel
     var body: some View {
         EmptyView()
-            .searchable(text: $searchViewModel.searchQuery, isPresented: $searchViewModel.isActive)
+            .searchable(text: $searchViewModel.searchQuery, isPresented: $searchViewModel.isSearching)
     }
 }
 

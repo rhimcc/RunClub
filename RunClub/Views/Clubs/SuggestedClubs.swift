@@ -17,7 +17,9 @@ struct SuggestedClubs: View {
                 NavigationLink {
                     ClubView(club: club, editMode: false)
                 } label : {
-                    ClubRow(club: club)
+                    ClubRow(
+                        club: club
+                    )
                 }
             }
         }.onAppear {

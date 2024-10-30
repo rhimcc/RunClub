@@ -9,31 +9,82 @@ import SwiftUI
 
 struct UserSearchResultsView: View {
     @ObservedObject var searchViewModel: SearchViewModel
-    let firestore = FirestoreService()
-    @State var users: [User] = []
-    @State var error: Error?
+    @ObservedObject var friendViewModel = FriendViewModel()
+    @State private var error: Error?
+    
     var body: some View {
-        ScrollView {
-            ForEach(users.filter {$0.username.contains(searchViewModel.searchQuery) && $0.id != User.getCurrentUserId()}) { user in
-                AddFriendRow(user: user)
-            }
-        }.padding(.top, 20)
-        .onAppear {
-            loadUsers()
-        }
-    }
-    func loadUsers() {
-        firestore.loadAllUsers() { users, error in
-            DispatchQueue.main.async {
-                if let users = users {
-                    self.users = users
-                    self.error = error
+        VStack(spacing: 0) {
+            if searchViewModel.searchQuery.isEmpty {
+                // Show suggested users when no search
+                VStack(alignment: .leading, spacing: 16) {
+                    Text("SUGGESTED USERS")
+                        .font(.system(size: 13, weight: .medium))
+                        .foregroundColor(.gray)
+                        .padding(.horizontal)
+                        .padding(.top, 8)
+                    
+                    if searchViewModel.isSearching {
+                        ProgressView()
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .padding()
+                    } else if searchViewModel.searchResults.isEmpty {
+                        Text("No users found")
+                            .foregroundColor(.gray)
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .padding()
+                    } else {
+                        ScrollView {
+                            LazyVStack(spacing: 12) {
+                                ForEach(searchViewModel.searchResults) { user in
+                                    UserRow(
+                                        user: user,
+                                        status: friendViewModel.getFriendshipStatus(for: user),
+                                        onAction: {
+                                            friendViewModel.handleFriendAction(for: user)
+                                        }
+                                    )
+                                    .padding(.horizontal)
+                                }
+                            }
+                        }
+                    }
                 }
+            } else {
+                // Show search results
+                ScrollView {
+                    LazyVStack(spacing: 12) {
+                        if searchViewModel.isSearching {
+                            ProgressView()
+                                .frame(maxWidth: .infinity, alignment: .center)
+                                .padding()
+                        } else if searchViewModel.searchResults.isEmpty {
+                            Text("No users found")
+                                .foregroundColor(.gray)
+                                .frame(maxWidth: .infinity, alignment: .center)
+                                .padding()
+                        } else {
+                            ForEach(searchViewModel.searchResults) { user in
+                                FriendRow(
+                                    user: user,
+                                    status: friendViewModel.getFriendshipStatus(for: user),
+                                    onAction: {
+                                        friendViewModel.handleFriendAction(for: user)
+                                    },
+                                    showMessage: false
+                                )
+                                .padding(.horizontal)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .padding(.top, 20)
+        .onChange(of: searchViewModel.searchQuery) { newValue in
+            if !newValue.isEmpty {
+                searchViewModel.searchUsers(searchText: newValue)
             }
         }
     }
 }
 
-#Preview {
-    UserSearchResultsView(searchViewModel: SearchViewModel())
-}

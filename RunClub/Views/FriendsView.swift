@@ -9,14 +9,15 @@ import SwiftUI
 
 struct FriendsView: View {
     @ObservedObject var friendViewModel: FriendViewModel = FriendViewModel()
+    @State private var showingAddFriends = false
     let firestore = FirestoreService()
+    
     var body: some View {
         ScrollView {
-            VStack (alignment: .leading){
-                Text("Friends")
-                    .font(.title)
-                NavigationLink {
-                    AddFriendView()
+            VStack(spacing: 20) {
+                // Add Friend Button
+                Button {
+                    showingAddFriends = true
                 } label: {
                     HStack {
                         Text("Add Friend")
@@ -27,33 +28,84 @@ struct FriendsView: View {
                     .foregroundColor(.white)
                     .padding()
                     .background(Color("MossGreen"))
-                    .cornerRadius(8)
+                    .cornerRadius(12)
                 }
-                  
-                if (!friendViewModel.pending.isEmpty) {
-                    Text("Pending (\(friendViewModel.pending.count))")
-                    ForEach(friendViewModel.pending) { pendingFriend in
-                        PendingFriendRow(user: pendingFriend, friendViewModel: friendViewModel)
-                    }
-                }
+                .padding(.horizontal)
                 
-                if !friendViewModel.friends.isEmpty {
-                    Text("Friends (\(friendViewModel.friends.count))")
-                    ForEach(friendViewModel.friends) { friend in
-                        NavigationLink {
-                            ProfileView(authViewModel: AuthViewModel(), user: friend)
-                        } label: {
-                            FriendRow(user: friend, friends: true)
+                // Pending Friends Section
+                if !friendViewModel.pending.isEmpty {
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Pending (\(friendViewModel.pending.count))")
+                            .font(.headline)
+                            .foregroundColor(Color("MossGreen"))
+                            .padding(.horizontal)
+                        
+                        ForEach(friendViewModel.pending) { user in
+                            UserRow(
+                                user: user,
+                                status: .pending,
+                                onAction: {
+                                    friendViewModel.handleFriendAction(for: user)
+                                }
+                            )
+                            .padding(.horizontal)
                         }
                     }
                 }
-            }.padding(.horizontal, 10)
-        }/*.frame(maxWidth: .infinity, alignment: .leading)*/
+                
+                // Friends Section
+                if !friendViewModel.friends.isEmpty {
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Friends (\(friendViewModel.friends.count))")
+                            .font(.headline)
+                            .foregroundColor(Color("MossGreen"))
+                            .padding(.horizontal)
+                        
+                        ForEach(friendViewModel.friends) { friend in
+                            NavigationLink {
+                                ProfileView(authViewModel: AuthViewModel(), user: friend)
+                            } label: {
+                                UserRow(
+                                    user: friend,
+                                    status: .friends,
+                                    onAction: {
+                                        friendViewModel.handleFriendAction(for: friend)
+                                    }
+                                )
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                            .padding(.horizontal)
+                        }
+                    }
+                }
+                
+                // Empty State
+                if friendViewModel.friends.isEmpty && friendViewModel.pending.isEmpty {
+                    VStack(spacing: 12) {
+                        Text("No Friends Yet")
+                            .font(.headline)
+                            .foregroundColor(.gray)
+                        Text("Start adding friends to connect with other runners!")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                            .multilineTextAlignment(.center)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.top, 40)
+                }
+            }
+            .padding(.vertical)
+        }
+        .navigationTitle("Friends")
+        .sheet(isPresented: $showingAddFriends) {
+            UserSearchView(
+                searchViewModel: SearchViewModel(),
+                friendViewModel: friendViewModel
+            )
+        }
+        .onAppear {
+            friendViewModel.loadFriends()
+        }
     }
-    
- 
 }
 
-#Preview {
-    FriendsView()
-}

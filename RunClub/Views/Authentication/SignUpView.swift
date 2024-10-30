@@ -21,87 +21,71 @@ struct SignUpView: View {
         if (authViewModel.isSignedIn) {
             MainView(authViewModel: authViewModel)
                 .navigationBarBackButtonHidden(true)
-
         } else {
-            VStack {
-                Spacer()
-                Text("Sign Up")
-                    .font(.title)
-                    .bold()
-                Spacer()
-                VStack {
-                    VStack (alignment: .leading){
-                        
-                        Text("Name")
-                            .bold()
-                        HStack {
-                            TextField("First", text: $firstName)
-                                .textFieldStyle(.roundedBorder)
+            ScrollView {
+                VStack(spacing: 24) {
+                    Text("Create Account")
+                        .font(.system(size: 28, weight: .bold))
+                        .padding(.top, 40)
+                    
+                    VStack(spacing: 16) {
+                        // Name Fields
+                        HStack(spacing: 12) {
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text("First Name")
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                                TextField("First", text: $firstName)
+                                    .textFieldStyle(CustomTextFieldStyle())
+                            }
                             
-                            TextField("Last", text: $lastName)
-                                .textFieldStyle(.roundedBorder)
-                            
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text("Last Name")
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                                TextField("Last", text: $lastName)
+                                    .textFieldStyle(CustomTextFieldStyle())
+                            }
                         }
-                        .padding(.bottom)
                         
-                        Text("Username")
-                        TextField("Username", text: $username)
-                            .textFieldStyle(.roundedBorder)
-                            .padding(.bottom)        
-                        
-                        Text("Email")
-                        TextField("Email", text: $email)
-                            .textFieldStyle(.roundedBorder)
-                            .padding(.bottom)
-                        Text("Phone Number")
-                        TextField("Phone Number", text: $phoneNumber)
-                            .textFieldStyle(.roundedBorder)
-                            .padding(.bottom)
-                        
-                        
-                        Text("Password")
-                            .bold()
-                        
-                        SecureField("Password", text: $password)
-                            .textFieldStyle(.roundedBorder)
-                            .padding(.bottom)
-                        
-                        Text("Confirm Password")
-                            .bold()
-                        SecureField("Confirm Password", text: $confirmPassword)
-                            .textFieldStyle(.roundedBorder)
-                        
+                        // Other fields
+                        FormField(title: "Username", placeholder: "Choose a username", text: $username)
+                        FormField(title: "Email", placeholder: "Enter your email", text: $email)
+                        FormField(title: "Phone", placeholder: "Enter your phone number", text: $phoneNumber)
+                        FormField(title: "Password", placeholder: "Create a password", text: $password, isSecure: true)
+                        FormField(title: "Confirm Password", placeholder: "Confirm your password", text: $confirmPassword, isSecure: true)
                     }
-                }
-                
-                Button {
-                    authViewModel.createAccount(withEmail: email, password: password, firstName: firstName, lastName: lastName, phoneNumber: phoneNumber, username: username)
-                  
-                } label : {
-                    Text("SIGN UP")
-                        .bold()
-                }.buttonStyle(.borderedProminent)
-                    .tint(.black)
-                    .padding(20)
+                    
+                    Button {
+                        authViewModel.createAccount(withEmail: email, password: password, firstName: firstName, lastName: lastName, phoneNumber: phoneNumber, username: username)
+                    } label: {
+                        Text("Create Account")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 16)
+                            .background(Color("MossGreen"))
+                            .cornerRadius(10)
+                    }
                     .disabled(firstName.isEmpty || lastName.isEmpty || email.isEmpty || password.isEmpty || confirmPassword.isEmpty)
-                
-                HStack {
-                    Text("Already have an account?")
-                    NavigationLink {
-                        SignInView(authViewModel: authViewModel)
-                    } label : {
-                        Text("Sign In")
-                            .underline()
-                            .foregroundStyle(.black)
+                    .padding(.top, 16)
+                    
+                    HStack {
+                        Text("Already have an account?")
+                            .foregroundColor(.gray)
+                        NavigationLink {
+                            SignInView(authViewModel: authViewModel)
+                        } label: {
+                            Text("Sign in")
+                                .foregroundColor(Color("MossGreen"))
+                        }
                     }
+                    .font(.subheadline)
                 }
-                Spacer()
-                Spacer()
-                
-                
-            }.padding(.horizontal, 20)
+                .padding(.horizontal, 24)
+            }
+            .background(Color.white)
         }
-        
     }
 }
 

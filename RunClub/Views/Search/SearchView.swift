@@ -14,7 +14,7 @@ struct SearchView: View {
     var body: some View {
         SearchBar(searchViewModel: searchViewModel)
         
-        if (searchViewModel.isActive) {
+        if (searchViewModel.isSearching) {
             if (searching == "users") {
                 UserSearchResultsView(searchViewModel: searchViewModel)
             } else if (searching == "clubs") {
